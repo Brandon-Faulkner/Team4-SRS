@@ -3,4 +3,23 @@
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
     <string name="title_notifications">Notifications</string>
+
+    <string name="appliance_title">Appliances</string>
+    <string name="appliance_description">Appliance Service</string>
+    <string name="electrical_title">Electrical</string>
+    <string name="electrical_description">Electrical Service</string>
+    <string name="plumbing_title">Plumbing</string>
+    <string name="plumbing_description">Plumbing Service</string>
+    <string name="home_cleaning_title">Home Cleaning</string>
+    <string name="home_cleaning_description">Home Cleaning Service</string>
+    <string name="tutoring_title">Tutoring</string>
+    <string name="tutoring_description">Tutoring Service</string>
+    <string name="moving_title">Packaging &amp; Moving</string>
+    <string name="moving_description">Packaging &amp; Moving Service</string>
+    <string name="computer_repair_title">Computer Repair</string>
+    <string name="computer_repair_description">Computer Repair Service</string>
+    <string name="home_repair_title">Home Repair &amp; Painting</string>
+    <string name="home_repair_description">Home Repair &amp; Painting Service</string>
+    <string name="pest_control_title">Pest Control</string>
+    <string name="pest_control_description">Pest Control Service</string>
 </resources>
