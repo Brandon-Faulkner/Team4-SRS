@@ -4,19 +4,353 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
     tools:context=".ui.home.HomeFragment">
 
-    <TextView
-        android:id="@+id/text_home"
-        android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        android:layout_marginStart="8dp"
-        android:layout_marginTop="8dp"
-        android:layout_marginEnd="8dp"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        app:layout_constraintBottom_toBottomOf="parent"
+    <ImageView
+        android:id="@+id/app_title_logo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:layout_marginBottom="10dp"
+        android:contentDescription="@string/app_name"
+        android:padding="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/service_request_logo_title"
+        app:layout_constraintBottom_toTopOf="@+id/search_for_service"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <SearchView
+        android:id="@+id/search_for_service"
+        android:layout_width="match_parent"
+        android:layout_height="40dp"
+        android:layout_marginStart="15dp"
+        android:layout_marginTop="75dp"
+        android:layout_marginEnd="15dp"
+        android:background="@drawable/search_bar_background"
+        android:iconifiedByDefault="false"
+        android:queryHint="Search for services..."
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <TableLayout
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/search_for_service">
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/appliance_btn_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/service_buttons_padding"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/appliance_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:backgroundTint="?attr/colorOnPrimary"
+                    android:contentDescription="@string/appliance_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/appliance_icon" />
+
+                <TextView
+                    android:id="@+id/appliance_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".75"
+                    android:clickable="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/appliance_title"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorForeground" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/electrical_btn_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/service_buttons_padding"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/electrical_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:backgroundTint="?attr/colorOnPrimary"
+                    android:contentDescription="@string/electrical_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/electrical_icon" />
+
+                <TextView
+                    android:id="@+id/electrical_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".75"
+                    android:clickable="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/electrical_title"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorForeground" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/plumbing_btn_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/service_buttons_padding"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/plumbing_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:backgroundTint="?attr/colorOnPrimary"
+                    android:contentDescription="@string/plumbing_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/plumbing_icon" />
+
+                <TextView
+                    android:id="@+id/plumbing_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".75"
+                    android:clickable="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/plumbing_title"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorForeground" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/home_cleaning_btn_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/service_buttons_padding"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/home_cleaning_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:backgroundTint="?attr/colorOnPrimary"
+                    android:contentDescription="@string/home_cleaning_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/home_cleaning_icon" />
+
+                <TextView
+                    android:id="@+id/home_cleaning_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".75"
+                    android:clickable="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/home_cleaning_title"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorForeground" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/tutoring_btn_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/service_buttons_padding"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/tutoring_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:backgroundTint="?attr/colorOnPrimary"
+                    android:contentDescription="@string/tutoring_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/tutoring_icon" />
+
+                <TextView
+                    android:id="@+id/tutoring_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".75"
+                    android:clickable="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/tutoring_title"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorForeground" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/moving_btn_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/service_buttons_padding"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/moving_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:backgroundTint="?attr/colorOnPrimary"
+                    android:contentDescription="@string/moving_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/moving_icon" />
+
+                <TextView
+                    android:id="@+id/moving_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".75"
+                    android:clickable="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/moving_title"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorForeground" />
+            </LinearLayout>
+        </TableRow>
+
+        <TableRow
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:layout_weight="1"
+            android:gravity="center">
+
+            <LinearLayout
+                android:id="@+id/computer_repair_btn_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/service_buttons_padding"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/computer_repair_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:backgroundTint="?attr/colorOnPrimary"
+                    android:contentDescription="@string/computer_repair_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/computer_repair_icon" />
+
+                <TextView
+                    android:id="@+id/computer_repair_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".75"
+                    android:clickable="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/computer_repair_title"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorForeground" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/home_repair_btn_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/service_buttons_padding"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/home_repair_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:backgroundTint="?attr/colorOnPrimary"
+                    android:contentDescription="@string/home_repair_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/home_repair_icon" />
+
+                <TextView
+                    android:id="@+id/home_repair_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".75"
+                    android:clickable="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/home_repair_title"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorForeground" />
+            </LinearLayout>
+
+            <LinearLayout
+                android:id="@+id/pest_control_btn_layout"
+                android:layout_width="0dp"
+                android:layout_height="match_parent"
+                android:layout_weight="1"
+                android:gravity="center"
+                android:orientation="vertical"
+                android:padding="@dimen/service_buttons_padding"
+                android:weightSum="1">
+
+                <ImageButton
+                    android:id="@+id/pest_control_btn"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".25"
+                    android:backgroundTint="?attr/colorOnPrimary"
+                    android:contentDescription="@string/pest_control_description"
+                    android:scaleType="fitCenter"
+                    android:src="@drawable/pest_control_icon" />
+
+                <TextView
+                    android:id="@+id/pest_control_txt"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_weight=".75"
+                    android:clickable="false"
+                    android:fontFamily="sans-serif-medium"
+                    android:text="@string/pest_control_title"
+                    android:textAlignment="center"
+                    android:textColor="?android:attr/colorForeground" />
+            </LinearLayout>
+        </TableRow>
+    </TableLayout>
+
 </androidx.constraintlayout.widget.ConstraintLayout>
