@@ -361,7 +361,7 @@
                     android:fontFamily="sans-serif-medium"
                     android:text="@string/home_repair_title"
                     android:textAlignment="center"
-                    android:textColor="?android:attr/colorForeground" />
+                    android:textColor="#000000" />
             </LinearLayout>
 
             <LinearLayout
