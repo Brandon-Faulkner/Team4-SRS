@@ -12,15 +12,55 @@
         android:layout_width="0dp"
         android:layout_height="50dp"
         android:layout_marginTop="10dp"
-        android:layout_marginBottom="10dp"
         android:contentDescription="@string/app_name"
         android:padding="50dp"
         android:scaleType="centerCrop"
         android:src="@drawable/service_request_logo_title"
-        app:layout_constraintBottom_toTopOf="@+id/search_for_service"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
+
+    <LinearLayout
+        android:id="@+id/login_and_registration"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/user_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="250dp"
+            android:text="@string/user_login_button"
+            android:textSize="16sp" />
+
+        <Button
+            android:id="@+id/user_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:minWidth="250dp"
+            android:text="@string/user_register_button"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/continue_guest"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:gravity="center"
+            android:minWidth="250dp"
+            android:minHeight="48dp"
+            android:text="@string/guest_button"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="16sp" />
+    </LinearLayout>
 
     <SearchView
         android:id="@+id/search_for_service"
@@ -28,22 +68,25 @@
         android:layout_height="40dp"
         android:layout_marginStart="15dp"
         android:layout_marginTop="75dp"
-        android:layout_marginEnd="15dp"
         android:background="@drawable/search_bar_background"
         android:iconifiedByDefault="false"
         android:queryHint="Search for services..."
+        android:visibility="gone"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
 
     <TableLayout
+        android:id="@+id/service_categories_table"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/search_for_service">
 
         <TableRow
+            android:id="@+id/service_caegories_row_one"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -147,6 +190,7 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/service_categories_row_two"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
@@ -250,6 +294,7 @@
         </TableRow>
 
         <TableRow
+            android:id="@+id/service_categories_row_three"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_weight="1"
