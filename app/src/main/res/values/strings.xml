@@ -37,4 +37,6 @@
     <string name="cancel_request">Cancel Request</string>
     <string name="logout">Logout</string>
     <string name="user_profile_pic">Profile Pic</string>
+    <string name="map_view">Map View</string>
+    <string name="order_history">Order History</string>
 </resources>

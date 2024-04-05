@@ -117,6 +117,38 @@
             android:drawableTop="@drawable/change_req"
             android:drawablePadding="8dp"
             android:padding="16dp" />
+        <!-- Order History Button -->
+        <Button
+            android:id="@+id/btnOrderHistory"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:text="@string/order_history"
+            android:textColor="?android:attr/colorForeground"
+            android:drawableTop="@drawable/order_history"
+            android:drawablePadding="8dp"
+            android:padding="16dp"
+            android:backgroundTint="?attr/colorOnPrimary"
+            android:gravity="center"
+            android:textAllCaps="false"/>
+        <!-- Map View Button -->
+        <Button
+            android:id="@+id/btnMapView"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:text="@string/map_view"
+            android:textColor="?android:attr/colorForeground"
+            android:drawableTop="@drawable/map_view"
+            android:drawablePadding="8dp"
+            android:padding="16dp"
+            android:backgroundTint="?attr/colorOnPrimary"
+            android:gravity="center"
+            android:textAllCaps="false"/>
     </GridLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
