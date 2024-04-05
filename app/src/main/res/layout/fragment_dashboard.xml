@@ -4,4 +4,119 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.dashboard.DashboardFragment"/>
+    tools:context=".ui.dashboard.DashboardFragment">
+
+    <ImageView
+        android:id="@+id/app_title_logo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:padding="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/service_request_logo_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+    <!-- Logout Button -->
+    <Button
+        android:id="@+id/btnLogout"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginEnd="16dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/logout"
+        android:visibility="visible"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent" />
+
+    <!-- User Information Section -->
+    <LinearLayout
+        android:id="@+id/userInfoSection"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:padding="16dp"
+        app:layout_constraintTop_toBottomOf="@id/app_title_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent">
+
+        <!-- Replace with a CircleImageView or similar library for circular images -->
+        <ImageView
+            android:id="@+id/user_profile_image"
+            android:layout_width="100dp"
+            android:layout_height="100dp"
+            android:layout_gravity="center"
+            android:contentDescription="@string/user_profile_pic"
+            android:src="@drawable/user" />
+
+        <TextView
+            android:id="@+id/user_full_name"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Firstname Lastname"
+            android:layout_gravity="center"
+            android:textAppearance="?android:attr/textAppearanceLarge" />
+    </LinearLayout>
+
+    <!-- Dashboard Grid Options -->
+    <GridLayout
+        android:id="@+id/dashboard_grid"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:padding="25dp"
+        android:alignmentMode="alignMargins"
+        android:columnCount="2"
+        android:rowCount="4"
+        android:columnOrderPreserved="false"
+        app:layout_constraintTop_toBottomOf="@id/userInfoSection"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintBottom_toBottomOf="parent">
+
+        <!-- Define buttons for grid items -->
+        <!-- Make Payment Button -->
+        <Button
+            android:id="@+id/btnMakePayment"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:backgroundTint="?attr/colorOnPrimary"
+            android:text="@string/make_payment"
+            android:textColor="?android:attr/colorForeground"
+            android:drawableTop="@drawable/payment"
+            android:drawablePadding="8dp"
+            android:padding="16dp" />
+        <Button
+            android:id="@+id/btnCancelRequest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:backgroundTint="?attr/colorOnPrimary"
+            android:text="@string/cancel_request"
+            android:textColor="?android:attr/colorForeground"
+            android:drawableTop="@drawable/cancel_req"
+            android:drawablePadding="8dp"
+            android:padding="16dp" />
+
+        <!-- Change Request Button -->
+        <Button
+            android:id="@+id/btnChangeRequest"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_margin="4dp"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:backgroundTint="?attr/colorOnPrimary"
+            android:text="@string/change_request"
+            android:textColor="?android:attr/colorForeground"
+            android:drawableTop="@drawable/change_req"
+            android:drawablePadding="8dp"
+            android:padding="16dp" />
+    </GridLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

@@ -32,4 +32,9 @@
     <string name="home_repair_description">Home Repair &amp; Painting Service</string>
     <string name="pest_control_title">Pest Control</string>
     <string name="pest_control_description">Pest Control Service</string>
+    <string name="make_payment">Make Payment</string>
+    <string name="change_request">Change Request</string>
+    <string name="cancel_request">Cancel Request</string>
+    <string name="logout">Logout</string>
+    <string name="user_profile_pic">Profile Pic</string>
 </resources>
