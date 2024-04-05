@@ -4,4 +4,128 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".ui.settings.SettingsFragment"/>
+    tools:context=".ui.settings.SettingsFragment">
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        tools:layout_editor_absoluteX="25dp"
+        tools:layout_editor_absoluteY="103dp" />
+
+    <EditText
+        android:id="@+id/editTextText2"
+        android:layout_width="389dp"
+        android:layout_height="53dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Use your points to receive exclusive discounts and rewards"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="11dp"
+        tools:layout_editor_absoluteY="562dp" />
+
+    <ImageView
+        android:id="@+id/app_title_logo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:padding="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/service_request_logo_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent" />
+
+    <EditText
+        android:id="@+id/editTextText"
+        android:layout_width="212dp"
+        android:layout_height="45dp"
+        android:layout_marginTop="58dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Settings"
+        android:textAlignment="center"
+        android:textSize="20sp"
+        android:textStyle="bold"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="99dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="387dp"
+        android:layout_height="64dp"
+        android:text="Sound"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="103dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="387dp"
+        android:layout_height="64dp"
+        android:text="Notifications"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="178dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="387dp"
+        android:layout_height="64dp"
+        android:text="Location"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="253dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="387dp"
+        android:layout_height="64dp"
+        android:text="Dark Mode"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="333dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="387dp"
+        android:layout_height="64dp"
+        android:text="Sign up for texts/emails"
+        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
+        android:textSize="16sp"
+        tools:layout_editor_absoluteX="16dp"
+        tools:layout_editor_absoluteY="408dp" />
+
+    <View
+        android:id="@+id/divider2"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:background="?android:attr/listDivider"
+        tools:layout_editor_absoluteX="0dp"
+        tools:layout_editor_absoluteY="397dp" />
+
+    <EditText
+        android:id="@+id/editTextText2"
+        android:layout_width="389dp"
+        android:layout_height="53dp"
+        android:ems="10"
+        android:inputType="text"
+        android:text="Sign up for texts, emails for exciting offers and latest updates"
+        android:textSize="14sp"
+        tools:layout_editor_absoluteX="14dp"
+        tools:layout_editor_absoluteY="452dp" />
+
+    <Switch
+        android:id="@+id/switch1"
+        android:layout_width="387dp"
+        android:layout_height="64dp"
+        android:layout_marginTop="520dp"
+        android:text="Redeem Points"
+        android:textSize="16sp"
+        app:layout_constraintTop_toTopOf="parent"
+        tools:layout_editor_absoluteX="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
