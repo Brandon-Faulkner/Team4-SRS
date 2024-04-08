@@ -1,0 +1,182 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
+    tools:context=".ui.login.LoginFragment">
+
+    <ImageView
+        android:id="@+id/app_title_logo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:padding="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/service_request_logo_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="@dimen/field_max_width"
+        app:layout_constraintWidth_percent="1" />
+
+    <LinearLayout
+        android:id="@+id/login_and_registration_buttons"
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent">
+
+        <Button
+            android:id="@+id/user_login"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:minWidth="250dp"
+            android:text="@string/user_login_button"
+            android:textSize="16sp"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/user_registration"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:minWidth="250dp"
+            android:text="@string/user_register_button"
+            android:textSize="16sp"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/continue_guest"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:minWidth="250dp"
+            android:minHeight="48dp"
+            android:text="@string/guest_button"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="16sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/login_steps"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_title_logo">
+
+        <TextView
+            android:id="@+id/login_id_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginEnd="10dp"
+            android:minWidth="350dp"
+            android:text="@string/login_id_title"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/login_id_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:autofillHints="emailAddress"
+            android:background="@drawable/search_bar_background"
+            android:ems="10"
+            android:hint="@string/login_id_hint"
+            android:inputType="text|textAutoComplete"
+            android:minWidth="350dp"
+            android:minHeight="50dp"
+            android:paddingStart="@dimen/general_padding"
+            android:paddingEnd="@dimen/general_padding"
+            android:textColor="?android:attr/colorForeground"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/login_password_label"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:minWidth="350dp"
+            android:text="@string/login_password_title"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="20sp" />
+
+        <EditText
+            android:id="@+id/login_password_input"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="10dp"
+            android:autofillHints="password"
+            android:background="@drawable/search_bar_background"
+            android:ems="10"
+            android:hint="@string/login_password_hint"
+            android:inputType="textPassword"
+            android:minWidth="350dp"
+            android:minHeight="50dp"
+            android:paddingStart="@dimen/general_padding"
+            android:paddingEnd="@dimen/general_padding"
+            android:textColor="?android:attr/colorForeground"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/login_steps_login_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="20dp"
+            android:minWidth="250dp"
+            android:text="@string/user_login_button"
+            android:textSize="16sp"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/login_steps_cancel_btn"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginTop="10dp"
+            android:layout_marginBottom="10dp"
+            android:minWidth="250dp"
+            android:text="@string/general_cancel_title"
+            android:textSize="16sp"
+            tools:ignore="TextContrastCheck" />
+
+        <Button
+            android:id="@+id/forgot_password"
+            style="?android:attr/buttonBarButtonStyle"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:clickable="true"
+            android:focusable="true"
+            android:gravity="center"
+            android:minWidth="250dp"
+            android:minHeight="48dp"
+            android:text="@string/login_forgot_password_title"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="14sp" />
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>

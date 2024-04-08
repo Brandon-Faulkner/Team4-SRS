@@ -1,0 +1,449 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
+    tools:context=".ui.registration.RegistrationFragment">
+
+    <ImageView
+        android:id="@+id/app_title_logo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:padding="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/service_request_logo_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="@dimen/field_max_width"
+        app:layout_constraintWidth_percent="1" />
+
+    <LinearLayout
+        android:id="@+id/register_steps"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="start"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_title_logo">
+
+        <com.google.android.material.tabs.TabLayout
+            android:id="@+id/user_or_vender_reg_tabs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            app:tabGravity="center"
+            app:tabIndicatorGravity="bottom">
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/user_reg_title" />
+
+            <com.google.android.material.tabs.TabItem
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:text="@string/vendor_reg_title" />
+
+        </com.google.android.material.tabs.TabLayout>
+
+        <ScrollView
+            android:id="@+id/user_reg_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent"
+            android:visibility="gone">
+
+            <LinearLayout
+                android:id="@+id/user_reg_steps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/user_reg_fname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="name"
+                    android:ems="10"
+                    android:hint="@string/reg_fname_title"
+                    android:inputType="text|textPersonName|textAutoComplete|textAutoCorrect|textCapWords"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/user_reg_lname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="name"
+                    android:ems="10"
+                    android:hint="@string/reg_lname_title"
+                    android:inputType="text|textPersonName|textAutoComplete|textAutoCorrect|textCapWords"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/user_reg_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="emailAddress"
+                    android:ems="10"
+                    android:hint="@string/reg_email_title"
+                    android:inputType="text|textEmailAddress|textAutoComplete"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/user_reg_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="phone"
+                    android:ems="10"
+                    android:hint="@string/reg_phone_title"
+                    android:inputType="phone"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/user_reg_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="postalAddress"
+                    android:ems="10"
+                    android:hint="@string/reg_address_title"
+                    android:inputType="text|textPostalAddress|textAutoComplete"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/user_reg_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="username"
+                    android:ems="10"
+                    android:hint="@string/reg_id_title"
+                    android:inputType="text"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/user_reg_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="name"
+                    android:ems="10"
+                    android:hint="@string/reg_password_title"
+                    android:inputType="textPassword"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <LinearLayout
+                    android:id="@+id/user_reg_buttons"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="25dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/user_reg_cancel_btn"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/general_cancel_title"
+                        tools:ignore="TextContrastCheck" />
+
+                    <Button
+                        android:id="@+id/user_reg_submit_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/general_submit_title"
+                        tools:ignore="ButtonStyle,TextContrastCheck" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+        <ScrollView
+            android:id="@+id/vendor_reg_scrollview"
+            android:layout_width="match_parent"
+            android:layout_height="match_parent">
+
+            <LinearLayout
+                android:id="@+id/vendor_reg_steps"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_marginTop="10dp"
+                android:orientation="vertical">
+
+                <EditText
+                    android:id="@+id/vendor_reg_fname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="name"
+                    android:ems="10"
+                    android:hint="@string/reg_fname_title"
+                    android:inputType="text|textPersonName|textAutoComplete|textAutoCorrect|textCapWords"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/vendor_reg_lname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="name"
+                    android:ems="10"
+                    android:hint="@string/reg_lname_title"
+                    android:inputType="text|textPersonName|textAutoComplete|textAutoCorrect|textCapWords"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/vendor_reg_email"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="emailAddress"
+                    android:ems="10"
+                    android:hint="@string/reg_email_title"
+                    android:inputType="text|textEmailAddress|textAutoComplete"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/vendor_reg_phone"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="phone"
+                    android:ems="10"
+                    android:hint="@string/reg_phone_title"
+                    android:inputType="phone"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/vendor_reg_address"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="postalAddress"
+                    android:ems="10"
+                    android:hint="@string/reg_address_title"
+                    android:inputType="text|textPostalAddress|textAutoComplete"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/vendor_reg_id"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="username"
+                    android:ems="10"
+                    android:hint="@string/reg_id_title"
+                    android:inputType="text"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/vendor_reg_password"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="name"
+                    android:ems="10"
+                    android:hint="@string/reg_password_title"
+                    android:inputType="textPassword"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <EditText
+                    android:id="@+id/vendor_reg_comp_name"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:autofillHints="name"
+                    android:ems="10"
+                    android:hint="@string/reg_compName_title"
+                    android:inputType="text|textAutoComplete|textCapWords"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:textColor="?android:attr/colorForeground" />
+
+                <TextView
+                    android:id="@+id/vendor_reg_services"
+                    android:layout_width="wrap_content"
+                    android:layout_height="match_parent"
+                    android:layout_gravity="center"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="5dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="5dp"
+                    android:background="@drawable/search_bar_background"
+                    android:gravity="center|start"
+                    android:hint="@string/reg_services_title"
+                    android:maxWidth="@dimen/field_max_width"
+                    android:minWidth="@dimen/field_max_width"
+                    android:minHeight="50dp"
+                    android:paddingStart="5dp"
+                    android:paddingEnd="5dp"
+                    android:textAlignment="viewStart"
+                    android:textColor="?android:attr/colorForeground"
+                    android:textSize="18sp"
+                    app:drawableRightCompat="@android:drawable/arrow_down_float"
+                    tools:ignore="TextContrastCheck" />
+
+                <LinearLayout
+                    android:id="@+id/vendor_reg_buttons"
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:layout_marginStart="10dp"
+                    android:layout_marginTop="10dp"
+                    android:layout_marginEnd="10dp"
+                    android:layout_marginBottom="25dp"
+                    android:gravity="center"
+                    android:orientation="horizontal">
+
+                    <Button
+                        android:id="@+id/vendor_reg_cancel_btn"
+                        style="?android:attr/buttonBarButtonStyle"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/general_cancel_title"
+                        tools:ignore="TextContrastCheck" />
+
+                    <Button
+                        android:id="@+id/vendor_reg_submit_btn"
+                        android:layout_width="wrap_content"
+                        android:layout_height="wrap_content"
+                        android:layout_gravity="center"
+                        android:layout_marginStart="10dp"
+                        android:layout_marginEnd="10dp"
+                        android:text="@string/general_submit_title"
+                        tools:ignore="ButtonStyle,TextContrastCheck" />
+
+                </LinearLayout>
+
+            </LinearLayout>
+        </ScrollView>
+
+    </LinearLayout>
+
+</androidx.constraintlayout.widget.ConstraintLayout>
