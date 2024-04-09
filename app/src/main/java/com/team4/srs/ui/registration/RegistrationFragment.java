@@ -34,7 +34,7 @@ public class RegistrationFragment extends Fragment
     //Main layouts and tabs
     private TabLayout userVendorRegTabs;
     private ScrollView userRegScrollView;
-    private CardView userVendorCard;
+    private CardView userProfileCard, userLoginCard, userVendorCard;
 
     //Main inputs and buttons
     private EditText userName, userEmail, userPhone, userAddress, userCity, userState, userZip, userID, userPassword, vendorCompName, vendorCompEmail, vendorCompPhone, vendorCompAddress, vendorCompState, vendorCompCity, vendorCompZip, vendorChargeAmount;
@@ -68,6 +68,8 @@ public class RegistrationFragment extends Fragment
         //Connect variables to appropriate view elements
         userVendorRegTabs = requireView().findViewById(R.id.user_or_vendor_reg_tabs);
         userRegScrollView = requireView().findViewById(R.id.user_reg_scrollview);
+        userProfileCard = requireView().findViewById(R.id.user_reg_profile_card_view);
+        userLoginCard = requireView().findViewById(R.id.user_reg_login_card_view);
         userVendorCard = requireView().findViewById(R.id.user_reg_vendor_card_view);
 
         userName = requireView().findViewById(R.id.user_reg_name_input);
@@ -93,6 +95,8 @@ public class RegistrationFragment extends Fragment
         userSubmit = requireView().findViewById(R.id.user_reg_submit_btn);
 
         //Initially show Profile and Login cards, not vendor cards
+        userProfileCard.setVisibility(View.VISIBLE);
+        userLoginCard.setVisibility(View.VISIBLE);
         userVendorCard.setVisibility(View.GONE);
 
         //Setup vendor services multi-value dropdown
@@ -132,7 +136,7 @@ public class RegistrationFragment extends Fragment
         userSubmit.setOnClickListener(v ->
         {
             //Head to home fragment
-            mainActivity.switchFragment(R.id.navigation_home,null, true);
+            mainActivity.switchFragment(R.id.navigation_home,null);
         });
     }
 

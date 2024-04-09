@@ -33,11 +33,11 @@ public class LoginFragment extends Fragment
 
     private MainActivity mainActivity;
 
-    //Main login/registration page buttons ---------
+    //Main login/registration page buttons
     private LinearLayout logRegBtnLayout;
     private Button userLoginBtn, userRegBtn, userGuestBtn;
 
-    //Login steps page buttons ----------
+    //Login steps page buttons
     private LinearLayout loginStepsLayout;
     private EditText loginIDText, loginPassText;
     private Button loginSubmitBtn, loginCancelBtn, loginForgPassBtn;
@@ -89,19 +89,19 @@ public class LoginFragment extends Fragment
         userRegBtn.setOnClickListener(v ->
         {
             //Head to RegistrationFragment
-            mainActivity.switchFragment(R.id.navigation_registration, null, false);
+            mainActivity.switchFragment(R.id.navigation_registration, null);
         });
 
         userGuestBtn.setOnClickListener(v ->
         {
            //Head to home page
-            mainActivity.switchFragment(R.id.navigation_home, null, true);
+            mainActivity.switchFragment(R.id.navigation_home, null);
         });
 
         loginSubmitBtn.setOnClickListener(v ->
         {
             //Head to home page
-            mainActivity.switchFragment(R.id.navigation_home,null, true);
+            mainActivity.switchFragment(R.id.navigation_home,null);
         });
 
         loginCancelBtn.setOnClickListener(v ->

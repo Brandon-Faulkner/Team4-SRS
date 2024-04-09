@@ -68,55 +68,55 @@ public class HomeFragment extends Fragment {
         applianceBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putString("service", "appliances");
-            mainActivity.switchFragment(R.id.navigation_services, args, false);
+            mainActivity.switchFragment(R.id.navigation_services, args);
         });
 
         electricalBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putString("service", "electrical");
-            mainActivity.switchFragment(R.id.navigation_services, args, false);
+            mainActivity.switchFragment(R.id.navigation_services, args);
         });
 
         plumbingBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putString("service", "plumbing");
-            mainActivity.switchFragment(R.id.navigation_services, args, false);
+            mainActivity.switchFragment(R.id.navigation_services, args);
         });
 
         homeCleanBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putString("service", "home_clean");
-            mainActivity.switchFragment(R.id.navigation_services, args, false);
+            mainActivity.switchFragment(R.id.navigation_services, args);
         });
 
         tutoringBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putString("service", "tutoring");
-            mainActivity.switchFragment(R.id.navigation_services, args, false);
+            mainActivity.switchFragment(R.id.navigation_services, args);
         });
 
         movingBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putString("service", "moving");
-            mainActivity.switchFragment(R.id.navigation_services, args, false);
+            mainActivity.switchFragment(R.id.navigation_services, args);
         });
 
         compRepairBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putString("service", "computer_repair");
-            mainActivity.switchFragment(R.id.navigation_services, args, false);
+            mainActivity.switchFragment(R.id.navigation_services, args);
         });
 
         homeRepairBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putString("service", "home_repair");
-            mainActivity.switchFragment(R.id.navigation_services, args, false);
+            mainActivity.switchFragment(R.id.navigation_services, args);
         });
 
         pestControlBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
             args.putString("service", "pest_control");
-            mainActivity.switchFragment(R.id.navigation_services, args, false);
+            mainActivity.switchFragment(R.id.navigation_services, args);
         });
     }
 

@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
     tools:context=".ui.settings.SettingsFragment">
 
     <ImageView
@@ -40,9 +41,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="10dp"
+            android:checked="true"
             android:text="@string/settings_sound"
-            android:textSize="16sp"
-            android:checked="true"/>
+            android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_notifs"
@@ -52,9 +53,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="10dp"
+            android:checked="true"
             android:text="@string/settings_notifs"
-            android:textSize="16sp"
-            android:checked="true"/>
+            android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_location"
@@ -64,9 +65,9 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="10dp"
+            android:checked="true"
             android:text="@string/settings_location"
-            android:textSize="16sp"
-            android:checked="true"/>
+            android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_dark_mode"
@@ -92,9 +93,9 @@
             android:layout_marginStart="25dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
+            android:checked="true"
             android:text="@string/settings_texts_emails"
-            android:textSize="16sp"
-            android:checked="true" />
+            android:textSize="16sp" />
 
         <TextView
             android:id="@+id/settings_text_emails_desc"
