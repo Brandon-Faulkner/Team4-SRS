@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:background="?attr/colorOnPrimary"
     tools:context=".ui.dashboard.DashboardFragment">
 
     <ImageView
@@ -17,7 +18,9 @@
         android:src="@drawable/service_request_logo_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="@dimen/field_max_width"
+        app:layout_constraintWidth_percent="1" />
 
     <!-- User Information Section -->
     <LinearLayout
@@ -58,7 +61,6 @@
         android:columnOrderPreserved="false"
         android:padding="25dp"
         android:rowCount="4"
-        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -79,8 +81,8 @@
             android:drawablePadding="8dp"
             android:padding="16dp"
             android:text="@string/make_payment"
-            android:textColor="?android:attr/colorForeground"
-            android:visibility="visible" />
+            android:textAllCaps="false"
+            android:textColor="?android:attr/colorForeground" />
 
         <!-- Cancel Request Button -->
         <Button
@@ -95,8 +97,8 @@
             android:drawablePadding="8dp"
             android:padding="16dp"
             android:text="@string/cancel_request"
-            android:textColor="?android:attr/colorForeground"
-            android:visibility="visible" />
+            android:textAllCaps="false"
+            android:textColor="?android:attr/colorForeground" />
 
         <!-- Change Request Button -->
         <Button
@@ -111,8 +113,8 @@
             android:drawablePadding="8dp"
             android:padding="16dp"
             android:text="@string/change_request"
-            android:textColor="?android:attr/colorForeground"
-            android:visibility="visible" />
+            android:textAllCaps="false"
+            android:textColor="?android:attr/colorForeground" />
 
         <!-- Order History Button -->
         <Button
@@ -129,8 +131,7 @@
             android:padding="16dp"
             android:text="@string/order_history"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground"
-            android:visibility="visible" />
+            android:textColor="?android:attr/colorForeground" />
         <!-- Map View Button -->
         <Button
             android:id="@+id/btnMapView"
@@ -146,8 +147,7 @@
             android:padding="16dp"
             android:text="@string/map_view"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground"
-            android:visibility="visible" />
+            android:textColor="?android:attr/colorForeground" />
         <!-- Rewards Button -->
         <Button
             android:id="@+id/btnRewards"
@@ -161,6 +161,7 @@
             android:drawablePadding="8dp"
             android:padding="16dp"
             android:text="@string/rewards"
+            android:textAllCaps="false"
             android:textColor="?android:attr/colorForeground" />
 
     </GridLayout>
@@ -175,7 +176,7 @@
         android:columnOrderPreserved="false"
         android:padding="25dp"
         android:rowCount="4"
-        android:visibility="visible"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -196,8 +197,7 @@
             android:drawablePadding="8dp"
             android:padding="16dp"
             android:text="@string/view_service_requests"
-            android:textColor="?android:attr/colorForeground"
-            android:visibility="visible" />
+            android:textColor="?android:attr/colorForeground" />
 
         <!-- Manage Appointments Button -->
         <Button
@@ -211,9 +211,8 @@
             android:drawableTop="@drawable/manage_req"
             android:drawablePadding="8dp"
             android:padding="16dp"
-            android:text="@string/manage_service_request"
-            android:textColor="?android:attr/colorForeground"
-            android:visibility="visible" />
+            android:text="@string/manage_service_requests"
+            android:textColor="?android:attr/colorForeground" />
 
     </GridLayout>
 

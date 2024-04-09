@@ -6,25 +6,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.settings.SettingsFragment">
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        tools:layout_editor_absoluteX="25dp"
-        tools:layout_editor_absoluteY="103dp" />
-
-    <EditText
-        android:id="@+id/editTextText2"
-        android:layout_width="389dp"
-        android:layout_height="53dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Use your points to receive exclusive discounts and rewards"
-        android:textSize="14sp"
-        tools:layout_editor_absoluteX="11dp"
-        tools:layout_editor_absoluteY="562dp" />
-
     <ImageView
         android:id="@+id/app_title_logo"
         android:layout_width="0dp"
@@ -36,96 +17,115 @@
         android:src="@drawable/service_request_logo_title"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
-
-    <EditText
-        android:id="@+id/editTextText"
-        android:layout_width="212dp"
-        android:layout_height="45dp"
-        android:layout_marginTop="58dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Settings"
-        android:textAlignment="center"
-        android:textSize="20sp"
-        android:textStyle="bold"
         app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="99dp" />
+        app:layout_constraintWidth_max="@dimen/field_max_width"
+        app:layout_constraintWidth_percent="1" />
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="387dp"
-        android:layout_height="64dp"
-        android:text="Sound"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="16sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="103dp" />
+    <LinearLayout
+        android:id="@+id/settings_layout"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:orientation="vertical"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_title_logo"
+        app:layout_constraintWidth_max="@dimen/field_max_width">
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="387dp"
-        android:layout_height="64dp"
-        android:text="Notifications"
-        android:textSize="16sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="178dp" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_sound"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/settings_sound"
+            android:textSize="16sp"
+            android:checked="true"/>
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="387dp"
-        android:layout_height="64dp"
-        android:text="Location"
-        android:textSize="16sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="253dp" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_notifs"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/settings_notifs"
+            android:textSize="16sp"
+            android:checked="true"/>
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="387dp"
-        android:layout_height="64dp"
-        android:text="Dark Mode"
-        android:textSize="16sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="333dp" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_location"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/settings_location"
+            android:textSize="16sp"
+            android:checked="true"/>
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="387dp"
-        android:layout_height="64dp"
-        android:text="Sign up for texts/emails"
-        android:textAppearance="@style/TextAppearance.AppCompat.Body1"
-        android:textSize="16sp"
-        tools:layout_editor_absoluteX="16dp"
-        tools:layout_editor_absoluteY="408dp" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_dark_mode"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="10dp"
+            android:text="@string/settings_dark_mode"
+            android:textSize="16sp" />
 
-    <View
-        android:id="@+id/divider2"
-        android:layout_width="match_parent"
-        android:layout_height="1dp"
-        android:background="?android:attr/listDivider"
-        tools:layout_editor_absoluteX="0dp"
-        tools:layout_editor_absoluteY="397dp" />
+        <View
+            android:id="@+id/settings_divider"
+            android:layout_width="match_parent"
+            android:layout_height="1dp"
+            android:background="?android:attr/listDivider" />
 
-    <EditText
-        android:id="@+id/editTextText2"
-        android:layout_width="389dp"
-        android:layout_height="53dp"
-        android:ems="10"
-        android:inputType="text"
-        android:text="Sign up for texts, emails for exciting offers and latest updates"
-        android:textSize="14sp"
-        tools:layout_editor_absoluteX="14dp"
-        tools:layout_editor_absoluteY="452dp" />
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_texts_emails"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:text="@string/settings_texts_emails"
+            android:textSize="16sp"
+            android:checked="true" />
 
-    <Switch
-        android:id="@+id/switch1"
-        android:layout_width="387dp"
-        android:layout_height="64dp"
-        android:layout_marginTop="520dp"
-        android:text="Redeem Points"
-        android:textSize="16sp"
-        app:layout_constraintTop_toTopOf="parent"
-        tools:layout_editor_absoluteX="16dp" />
+        <TextView
+            android:id="@+id/settings_text_emails_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:ems="10"
+            android:text="@string/settings_texts_emails_desc"
+            android:textSize="14sp" />
+
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/settings_redeem"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="25dp"
+            android:text="@string/settings_redeem"
+            android:textSize="16sp" />
+
+        <TextView
+            android:id="@+id/settings_redeem_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:ems="10"
+            android:text="@string/settings_redeem_desc"
+            android:textSize="14sp" />
+
+    </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

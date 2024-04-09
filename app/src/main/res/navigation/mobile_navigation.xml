@@ -32,4 +32,9 @@
         android:name="com.team4.srs.ui.registration.RegistrationFragment"
         android:label="fragment_registration"
         tools:layout="@layout/fragment_registration" />
+    <fragment
+        android:id="@+id/navigation_services"
+        android:name="com.team4.srs.ui.services.ServicesFragment"
+        android:label="fragment_services"
+        tools:layout="@layout/fragment_services" />
 </navigation>

@@ -89,21 +89,19 @@ public class LoginFragment extends Fragment
         userRegBtn.setOnClickListener(v ->
         {
             //Head to RegistrationFragment
-            mainActivity.switchFragment(R.id.navigation_registration);
+            mainActivity.switchFragment(R.id.navigation_registration, null, false);
         });
 
         userGuestBtn.setOnClickListener(v ->
         {
            //Head to home page
-            mainActivity.switchFragment(R.id.navigation_home);
-            mainActivity.showHideNav(View.VISIBLE);
+            mainActivity.switchFragment(R.id.navigation_home, null, true);
         });
 
         loginSubmitBtn.setOnClickListener(v ->
         {
             //Head to home page
-            mainActivity.switchFragment(R.id.navigation_home);
-            mainActivity.showHideNav(View.VISIBLE);
+            mainActivity.switchFragment(R.id.navigation_home,null, true);
         });
 
         loginCancelBtn.setOnClickListener(v ->

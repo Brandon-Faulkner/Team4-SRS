@@ -80,68 +80,57 @@
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_title_logo">
 
-        <TextView
-            android:id="@+id/login_id_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginEnd="10dp"
-            android:minWidth="350dp"
-            android:text="@string/login_id_title"
-            android:textColor="?android:attr/colorForeground"
-            android:textSize="20sp" />
-
-        <EditText
-            android:id="@+id/login_id_input"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_id_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:autofillHints="emailAddress"
-            android:background="@drawable/search_bar_background"
-            android:ems="10"
             android:hint="@string/login_id_hint"
-            android:inputType="text|textAutoComplete"
             android:minWidth="350dp"
-            android:minHeight="50dp"
-            android:paddingStart="@dimen/general_padding"
-            android:paddingEnd="@dimen/general_padding"
-            android:textColor="?android:attr/colorForeground"
-            tools:ignore="TextContrastCheck" />
+            android:minHeight="50dp">
 
-        <TextView
-            android:id="@+id/login_password_label"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="10dp"
-            android:layout_marginEnd="10dp"
-            android:minWidth="350dp"
-            android:text="@string/login_password_title"
-            android:textColor="?android:attr/colorForeground"
-            android:textSize="20sp" />
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_id_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="username"
+                android:ems="10"
+                android:inputType="text|textAutoComplete"
+                android:paddingStart="@dimen/general_padding"
+                android:paddingEnd="@dimen/general_padding"
+                android:textColor="?android:attr/colorForeground"
+                tools:ignore="TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
 
-        <EditText
-            android:id="@+id/login_password_input"
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_password_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="10dp"
             android:layout_marginTop="10dp"
             android:layout_marginEnd="10dp"
             android:layout_marginBottom="10dp"
-            android:autofillHints="password"
-            android:background="@drawable/search_bar_background"
-            android:ems="10"
             android:hint="@string/login_password_hint"
-            android:inputType="textPassword"
             android:minWidth="350dp"
-            android:minHeight="50dp"
-            android:paddingStart="@dimen/general_padding"
-            android:paddingEnd="@dimen/general_padding"
-            android:textColor="?android:attr/colorForeground"
-            tools:ignore="TextContrastCheck" />
+            android:minHeight="50dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:ems="10"
+                android:inputType="textPassword"
+                android:paddingStart="@dimen/general_padding"
+                android:paddingEnd="@dimen/general_padding"
+                android:textColor="?android:attr/colorForeground"
+                tools:ignore="TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
 
         <Button
             android:id="@+id/login_steps_login_btn"
