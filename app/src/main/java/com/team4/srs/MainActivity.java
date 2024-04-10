@@ -7,9 +7,6 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 
-import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.team4.srs.databinding.ActivityMainBinding;
-
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
@@ -17,10 +14,14 @@ import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.team4.srs.databinding.ActivityMainBinding;
+
 public class MainActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "srs_settings";
 
+    public SQLiteHandler sqLiteHandler;
     private ActivityMainBinding binding;
     private BottomNavigationView navView;
 
@@ -33,6 +34,9 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        //Get our database setup
+        sqLiteHandler = new SQLiteHandler(MainActivity.this);
 
         //Bind the bottom nav view
         navView = findViewById(R.id.nav_view);

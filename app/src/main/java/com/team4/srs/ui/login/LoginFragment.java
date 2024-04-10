@@ -1,18 +1,6 @@
 package com.team4.srs.ui.login;
 
-import androidx.fragment.app.FragmentManager;
-import androidx.fragment.app.FragmentTransaction;
-import androidx.lifecycle.ViewModelProvider;
-
-import android.animation.Animator;
-import android.animation.AnimatorListenerAdapter;
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -20,12 +8,13 @@ import android.widget.Button;
 import android.widget.EditText;
 import android.widget.LinearLayout;
 
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.fragment.app.Fragment;
+import androidx.lifecycle.ViewModelProvider;
+
 import com.team4.srs.MainActivity;
 import com.team4.srs.R;
-import com.team4.srs.ui.home.HomeFragment;
-import com.team4.srs.ui.registration.RegistrationFragment;
-
-import java.util.Objects;
 
 public class LoginFragment extends Fragment
 {
@@ -100,6 +89,14 @@ public class LoginFragment extends Fragment
 
         loginSubmitBtn.setOnClickListener(v ->
         {
+            if (loginIDText.length() == 0) {
+                loginIDText.setError("Please enter User ID");
+                return;
+            }
+            if (loginPassText.length() == 0) {
+                loginPassText.setError("Please enter Password");
+                return;
+            }
             //Head to home page
             mainActivity.switchFragment(R.id.navigation_home,null);
         });
