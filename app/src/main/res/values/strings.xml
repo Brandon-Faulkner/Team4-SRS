@@ -14,9 +14,18 @@
     <string name="guest_button"><u>Continue as Guest</u></string>
 
     <!-- Login Screen Login -->
+    <string name="login_welcome_title">Welcome Back!</string>
     <string name="login_id_hint">User ID</string>
     <string name="login_password_hint">Password</string>
     <string name="login_forgot_password_title"><u>Forgot Password</u></string>
+
+    <!-- Login Screen Forgot Password -->
+    <string name="login_forgot_pass_title">Forgot Password</string>
+    <string name="login_forgot_pass_desc">Enter in the information below along with your new password in order to verify your account. If the information is correct, we will reset your password and take you back to the login screen.</string>
+    <string name="login_forgot_pass_id_title">Account UserID</string>
+    <string name="login_forgot_pass_email_title">Account Email</string>
+    <string name="login_forgot_pass_phone_title">Account Phone</string>
+    <string name="login_forgot_pass_password_title">New Password</string>
 
     <!-- User and Vendor Registration -->
     <string name="user_reg_title">User Registration</string>

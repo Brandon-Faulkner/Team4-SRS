@@ -37,7 +37,7 @@
             android:id="@+id/user_login"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:minWidth="250dp"
+            android:minWidth="150dp"
             android:text="@string/user_login_button"
             android:textSize="16sp"
             tools:ignore="TextContrastCheck" />
@@ -48,7 +48,7 @@
             android:layout_height="wrap_content"
             android:layout_marginTop="10dp"
             android:layout_marginBottom="10dp"
-            android:minWidth="250dp"
+            android:minWidth="175dp"
             android:text="@string/user_register_button"
             android:textSize="16sp"
             tools:ignore="TextContrastCheck" />
@@ -79,6 +79,20 @@
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@+id/app_title_logo">
+
+        <TextView
+            android:id="@+id/login_welcome_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="25dp"
+            android:maxWidth="@dimen/field_max_width"
+            android:minWidth="@dimen/field_max_width"
+            android:text="@string/login_welcome_title"
+            android:textAlignment="center"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="28sp"
+            android:textStyle="bold|italic"
+            tools:ignore="TextContrastCheck" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/login_id_layout"
@@ -132,26 +146,39 @@
                 tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/login_steps_login_btn"
-            android:layout_width="wrap_content"
+        <LinearLayout
+            android:id="@+id/login_steps_buttons"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_marginTop="20dp"
-            android:minWidth="250dp"
-            android:text="@string/user_login_button"
-            android:textSize="16sp"
-            tools:ignore="TextContrastCheck" />
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="25dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-        <Button
-            android:id="@+id/login_steps_cancel_btn"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_marginBottom="10dp"
-            android:minWidth="250dp"
-            android:text="@string/general_cancel_title"
-            android:textSize="16sp"
-            tools:ignore="TextContrastCheck" />
+            <Button
+                android:id="@+id/login_steps_cancel_btn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/general_cancel_title"
+                tools:ignore="TextContrastCheck" />
+
+            <Button
+                android:id="@+id/login_steps_login_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/user_login_button"
+                tools:ignore="ButtonStyle,TextContrastCheck" />
+
+        </LinearLayout>
 
         <Button
             android:id="@+id/forgot_password"
@@ -166,6 +193,183 @@
             android:text="@string/login_forgot_password_title"
             android:textColor="?android:attr/colorForeground"
             android:textSize="14sp" />
+    </LinearLayout>
+
+    <LinearLayout
+        android:id="@+id/login_forgot_pass_steps"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:gravity="center"
+        android:orientation="vertical"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_title_logo">
+
+        <TextView
+            android:id="@+id/login_forgot_pass_title"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginBottom="10dp"
+            android:maxWidth="@dimen/field_max_width"
+            android:minWidth="@dimen/field_max_width"
+            android:text="@string/login_forgot_pass_title"
+            android:textAlignment="center"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="28sp"
+            android:textStyle="bold"
+            tools:ignore="TextContrastCheck" />
+
+        <TextView
+            android:id="@+id/login_forgot_pass_desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="25dp"
+            android:layout_marginEnd="25dp"
+            android:layout_marginBottom="10dp"
+            android:maxWidth="@dimen/field_max_width"
+            android:minWidth="@dimen/field_max_width"
+            android:text="@string/login_forgot_pass_desc"
+            android:textAlignment="center"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="12sp"
+            tools:ignore="TextContrastCheck" />
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_forgot_pass_id_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="@string/login_forgot_pass_id_title"
+            android:minWidth="350dp"
+            android:minHeight="50dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_forgot_pass_id_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="username"
+                android:ems="10"
+                android:inputType="text|textAutoComplete"
+                android:paddingStart="@dimen/general_padding"
+                android:paddingEnd="@dimen/general_padding"
+                android:textColor="?android:attr/colorForeground"
+                tools:ignore="TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_forgot_pass_email_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="@string/login_forgot_pass_email_title"
+            android:minWidth="350dp"
+            android:minHeight="50dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_forgot_pass_email_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="emailAddress"
+                android:ems="10"
+                android:inputType="text|textEmailAddress|textAutoComplete"
+                android:paddingStart="@dimen/general_padding"
+                android:paddingEnd="@dimen/general_padding"
+                android:textColor="?android:attr/colorForeground"
+                tools:ignore="TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_forgot_pass_phone_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="@string/login_forgot_pass_phone_title"
+            android:minWidth="350dp"
+            android:minHeight="50dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_forgot_pass_phone_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="phone"
+                android:ems="10"
+                android:inputType="phone"
+                android:paddingStart="@dimen/general_padding"
+                android:paddingEnd="@dimen/general_padding"
+                android:textColor="?android:attr/colorForeground"
+                tools:ignore="TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <com.google.android.material.textfield.TextInputLayout
+            android:id="@+id/login_forgot_pass_password_layout"
+            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="10dp"
+            android:layout_marginEnd="10dp"
+            android:hint="@string/login_forgot_pass_password_title"
+            android:minWidth="350dp"
+            android:minHeight="50dp">
+
+            <com.google.android.material.textfield.TextInputEditText
+                android:id="@+id/login_forgot_pass_password_input"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:autofillHints="password"
+                android:ems="10"
+                android:inputType="textVisiblePassword"
+                android:paddingStart="@dimen/general_padding"
+                android:paddingEnd="@dimen/general_padding"
+                android:textColor="?android:attr/colorForeground"
+                tools:ignore="TextContrastCheck" />
+        </com.google.android.material.textfield.TextInputLayout>
+
+        <LinearLayout
+            android:id="@+id/login_forgot_pass_buttons"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_marginStart="10dp"
+            android:layout_marginTop="25dp"
+            android:layout_marginEnd="10dp"
+            android:layout_marginBottom="25dp"
+            android:gravity="center"
+            android:orientation="horizontal">
+
+            <Button
+                android:id="@+id/login_forgot_pass_cancel_btn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/general_cancel_title"
+                tools:ignore="TextContrastCheck" />
+
+            <Button
+                android:id="@+id/login_forgot_pass_submit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/general_submit_title"
+                tools:ignore="ButtonStyle,TextContrastCheck" />
+
+        </LinearLayout>
+
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>

@@ -23,6 +23,8 @@ import com.team4.srs.R;
 
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 public class RegistrationFragment extends Fragment
 {
@@ -35,13 +37,17 @@ public class RegistrationFragment extends Fragment
     private CardView userProfileCard, userLoginCard, userVendorCard;
 
     //Main inputs and buttons
-    private EditText userName, userEmail, userPhone, userAddress, userCity, userState, userZip, userID, userPassword, vendorCompName, vendorCompEmail, vendorCompPhone, vendorCompAddress, vendorCompState, vendorCompCity, vendorCompZip, vendorChargeAmount;
+    private EditText userName, userEmail, userPhone, userAddress, userCity, userState, userZip, userID, userPassword;
+    private EditText vendorCompName, vendorCompEmail, vendorCompPhone, vendorCompAddress, vendorCompState, vendorCompCity, vendorCompZip, vendorChargeAmount;
     private CheckBox vendorFee;
     private Button userCancel, userSubmit;
     private TextView vendorServices;
     private boolean[] selectedServices;
     private final ArrayList<Integer> serviceList = new ArrayList<>();
     private final String[] serviceArray = {"Appliances", "Electrical", "Plumbing", "Home Cleaning", "Tutoring", "Packaging and Moving", "Computer Repair", "Home Repair and Painting", "Pest Control"};
+
+    //Regex strings for testing input
+    private static final String userIDRegex = "^[a-zA-Z0-9]{8,}$";
 
     public static RegistrationFragment newInstance()
     {
@@ -104,6 +110,12 @@ public class RegistrationFragment extends Fragment
         setupRegistrationListeners();
     }
 
+    private boolean testInputWithRegex(String input, String regex) {
+        Pattern pattern = Pattern.compile(regex);
+        Matcher matcher = pattern.matcher(input);
+        return matcher.matches();
+    }
+
     private void setupRegistrationListeners()
     {
         userVendorRegTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
@@ -128,7 +140,7 @@ public class RegistrationFragment extends Fragment
         userCancel.setOnClickListener(v ->
         {
             //Head to back to previous fragment
-            mainActivity.popFragmentStack(false);
+            mainActivity.popFragmentStack();
         });
 
         userSubmit.setOnClickListener(v ->

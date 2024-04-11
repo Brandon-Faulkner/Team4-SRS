@@ -5,6 +5,7 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 
 import androidx.appcompat.app.AppCompatActivity;
@@ -20,13 +21,13 @@ import com.team4.srs.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "srs_settings";
+    public boolean isLoggedIn = false;
 
-    public SQLiteHandler sqLiteHandler;
+    public SQLiteHandler sqLiteHandler; //USE THIS HANDLER FOR ALL FRAGMENTS. DO NOT CREATE A NEW ONE!
     private ActivityMainBinding binding;
     private BottomNavigationView navView;
 
     private NavController navController;
-    private NavOptions.Builder navBuilder;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -43,35 +44,36 @@ public class MainActivity extends AppCompatActivity {
 
         //Bind nav controller for setup and switching fragments
         navController = Navigation.findNavController(this, R.id.nav_frag_view);
-        navBuilder = new NavOptions.Builder().setEnterAnim(R.anim.slide_left_enter).setExitAnim(R.anim.slide_left_exit).setPopEnterAnim(R.anim.slide_right_enter).setPopExitAnim(R.anim.slide_right_exit);
         NavigationUI.setupWithNavController(binding.navView, navController);
 
         //Listener to show/hide nav bar based on current fragment
         navController.addOnDestinationChangedListener((controller, destination, arguments) -> {
-            if (destination.getId() == R.id.navigation_home || destination.getId() == R.id.navigation_dashboard ||
-            destination.getId() == R.id.navigation_settings) {
+            if (destination.getId() == R.id.navigation_home || destination.getId() == R.id.navigation_dashboard || destination.getId() == R.id.navigation_settings) {
                 navView.setVisibility(View.VISIBLE);
             } else {
-                navView.setVisibility(View.GONE);
+                if (destination.getId() == R.id.navigation_login && isLoggedIn) {
+                    //Don't let user go to login page if they are logged in
+                    popFragmentStack();
+                } else navView.setVisibility(View.GONE);
             }
         });
 
-        //Restore preferences for settings
+        //Restore preferences for settings and isLoggedIn
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean isSettingsSetup = settings.getBoolean("isSetup", false);
+        boolean isLoggedIn = settings.getBoolean("isLoggedIn", false);
 
-        if (isSettingsSetup) {
-            loadAppSettings();
-        } else {
-            setDefaultSettings();
-        }
+        if (isSettingsSetup) loadAppSettings(); else setDefaultSettings();
+
+        //Head to Login fragment on startup if not logged in
+        if (!isLoggedIn) switchFragment(R.id.navigation_login, null);
     }
 
     public void switchFragment(int fragmentID, Bundle args) {
-        navController.navigate(fragmentID, args, navBuilder.build());
+        navController.navigate(fragmentID, args);
     }
 
-    public void popFragmentStack(boolean showNavBar) {
+    public void popFragmentStack() {
         navController.popBackStack();
     }
 
