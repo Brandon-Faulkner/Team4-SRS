@@ -37,4 +37,8 @@
         android:name="com.team4.srs.ui.services.ServicesFragment"
         android:label="fragment_services"
         tools:layout="@layout/fragment_services" />
+    <fragment
+        android:id="@+id/navigation_payment"
+        android:name="com.team4.srs.ui.payment.PaymentFragment"
+        android:label="PaymentFragment" />
 </navigation>
