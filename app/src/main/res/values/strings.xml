@@ -1,5 +1,4 @@
 <resources>
-    <!-- General Usage -->
     <string name="app_name">Service Request System</string>
     <string name="title_home">Home</string>
     <string name="title_dashboard">Dashboard</string>
@@ -8,41 +7,28 @@
     <string name="general_submit_title">Submit</string>
     <string name="default_service_title">Vendors</string>
 
-    <!-- Login Screen Main Buttons -->
     <string name="user_login_button">Login</string>
     <string name="user_register_button">Register</string>
     <string name="guest_button"><u>Continue as Guest</u></string>
 
-    <!-- Login Screen Login -->
-    <string name="login_id_hint">User ID</string>
-    <string name="login_password_hint">Password</string>
+    <string name="login_id_title">User ID</string>
+    <string name="login_id_hint">user1234</string>
+    <string name="login_password_title">Password</string>
+    <string name="login_password_hint">************</string>
     <string name="login_forgot_password_title"><u>Forgot Password</u></string>
 
-    <!-- User and Vendor Registration -->
     <string name="user_reg_title">User Registration</string>
     <string name="vendor_reg_title">Vendor Registration</string>
-    <string name="reg_profile_section_title">Profile Information</string>
-    <string name="reg_name_title">First &amp; Last Name</string>
+    <string name="reg_fname_title">First Name</string>
+    <string name="reg_lname_title">Last Name</string>
     <string name="reg_email_title">Email Address</string>
     <string name="reg_phone_title">Phone Number</string>
     <string name="reg_address_title">Home Address</string>
-    <string name="reg_city_title">City</string>
-    <string name="reg_state_title">State</string>
-    <string name="reg_zipcode_title">Zipcode</string>
-    <string name="reg_login_section_title">Login Information</string>
     <string name="reg_id_title">User ID</string>
     <string name="reg_password_title">Password</string>
-    <string name="reg_vendor_section_title">Vendor Information</string>
     <string name="reg_compName_title">Company Name</string>
-    <string name="reg_compEmail_title">Company Email</string>
-    <string name="reg_compPhone_title">Company Phone</string>
-    <string name="reg_compAddress_title">Company Address</string>
-    <string name="reg_services_title">Select Services Provided</string>
-    <string name="reg_services_charge_title">General Charge per Hour</string>
-    <string name="reg_vendor_fee_desc">I agree to pay a 20% fee from money received to the app owners.</string>
+    <string name="reg_services_title">Select Services</string>
 
-    <!-- Home Page Service Icons -->
-    <string name="search_title">Search for Services…</string>
     <string name="appliance_title">Appliances</string>
     <string name="appliance_description">Appliance Service</string>
     <string name="electrical_title">Electrical</string>
@@ -61,8 +47,6 @@
     <string name="home_repair_description">Home Repair &amp; Painting Service</string>
     <string name="pest_control_title">Pest Control</string>
     <string name="pest_control_description">Pest Control Service</string>
-
-    <!-- Dashboard Icons and Buttons -->
     <string name="make_payment">Make Payment</string>
     <string name="change_request">Change Request</string>
     <string name="cancel_request">Cancel Request</string>
@@ -73,14 +57,8 @@
     <string name="rewards">Rewards</string>
     <string name="view_service_requests">View Service Requests</string>
     <string name="manage_service_requests">Manage Service Requests</string>
-
-    <!-- Settings Switches and Descriptions -->
-    <string name="settings_sound">Sound</string>
-    <string name="settings_notifs">Notifications</string>
-    <string name="settings_location">Location</string>
-    <string name="settings_dark_mode">Dark Mode</string>
-    <string name="settings_texts_emails">Sign up for texts/emails</string>
-    <string name="settings_texts_emails_desc">Sign up for texts and emails about exciting offers and the latest updates.</string>
-    <string name="settings_redeem">Redeem Points</string>
-    <string name="settings_redeem_desc">Use your reward points to receive exclusive discounts and rewards.</string>
+    <string name="card_number_title">Card Number</string>
+    <string name="expiry_date_title">Expiry Date</string>
+    <string name="cvv_title">CVV</string>
+    <string name="submit_payment">Submit Payment</string>
 </resources>
