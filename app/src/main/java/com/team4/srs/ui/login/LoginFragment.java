@@ -103,7 +103,7 @@ public class LoginFragment extends Fragment
         userRegBtn.setOnClickListener(v ->
         {
             //Head to RegistrationFragment
-            mainActivity.switchFragment(R.id.action_navigation_login_to_navigation_registration, null);
+            mainActivity.switchFragment(R.id.navigation_registration, null);
         });
 
         userGuestBtn.setOnClickListener(v ->
