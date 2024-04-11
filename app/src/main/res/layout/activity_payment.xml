@@ -1,0 +1,108 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".PaymentActivity">
+
+    <ImageView
+        android:id="@+id/app_title_logo"
+        android:layout_width="0dp"
+        android:layout_height="50dp"
+        android:layout_marginTop="10dp"
+        android:contentDescription="@string/app_name"
+        android:padding="50dp"
+        android:scaleType="centerCrop"
+        android:src="@drawable/service_request_logo_title"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintWidth_max="@dimen/field_max_width"
+        app:layout_constraintWidth_percent="1" />
+
+
+
+    <!-- Add more UI elements like EditText for card number, Expiry date, CVV, etc. -->
+    <!-- Card Number Title -->
+    <TextView
+        android:id="@+id/textViewCardNumberTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/card_number_title"
+        app:layout_constraintTop_toBottomOf="@id/app_title_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+
+    <EditText
+        android:id="@+id/editTextCardNumber"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/card_number"
+        android:inputType="number"
+        app:layout_constraintTop_toBottomOf="@id/app_title_logo"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_max="@dimen/field_max_width"
+        app:layout_constraintWidth_percent="1"
+        android:layout_marginTop="16dp" />
+
+    <!-- Expiry Date Title -->
+    <TextView
+        android:id="@+id/textViewExpiryDateTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/expiry_date_title"
+        app:layout_constraintTop_toBottomOf="@id/editTextCardNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+    <EditText
+        android:id="@+id/editTextExpiryDate"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/expiry_date"
+        android:inputType="text"
+        app:layout_constraintTop_toBottomOf="@id/editTextCardNumber"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_max="@dimen/field_max_width"
+        app:layout_constraintWidth_percent="1"
+        android:layout_marginTop="8dp" />\
+
+    <!-- CVV Title -->
+    <TextView
+        android:id="@+id/textViewCVVTitle"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/cvv_title"
+        app:layout_constraintTop_toBottomOf="@id/editTextExpiryDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        android:layout_marginTop="16dp" />
+    <EditText
+        android:id="@+id/editTextCVV"
+        android:layout_width="0dp"
+        android:layout_height="wrap_content"
+        android:hint="@string/cvv"
+        android:inputType="numberPassword"
+        app:layout_constraintTop_toBottomOf="@id/editTextExpiryDate"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_max="@dimen/field_max_width"
+        app:layout_constraintWidth_percent="1"
+        android:layout_marginTop="8dp" />
+    <Button
+        android:id="@+id/buttonSubmitPayment"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:text="@string/submit_payment"
+        app:layout_constraintTop_toBottomOf="@id/editTextCVV"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintWidth_max="@dimen/field_max_width"
+        app:layout_constraintWidth_percent="1"
+        android:layout_marginTop="16dp" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
