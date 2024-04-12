@@ -39,15 +39,18 @@
     <string name="reg_state_title">State</string>
     <string name="reg_zipcode_title">Zipcode</string>
     <string name="reg_login_section_title">Login Information</string>
-    <string name="reg_id_title">User ID</string>
-    <string name="reg_password_title">Password</string>
+    <string name="reg_id_title">User ID*</string>
+    <string name="reg_id_hint">*ID must be at least 8 characters, alphanumeric, with no special characters.</string>
+    <string name="reg_password_title">Password*</string>
+    <string name="reg_password_hint">*Password must be at least 6 characters, with letters, and at least one digit, capital letter, and special character.</string>
     <string name="reg_vendor_section_title">Vendor Information</string>
     <string name="reg_compName_title">Company Name</string>
     <string name="reg_compEmail_title">Company Email</string>
     <string name="reg_compPhone_title">Company Phone</string>
     <string name="reg_compAddress_title">Company Address</string>
     <string name="reg_services_title">Select Services Provided</string>
-    <string name="reg_services_charge_title">General Charge per Hour</string>
+    <string name="reg_services_charge_title">Charges per Hour*</string>
+    <string name="reg_services_charge_hint">*For each service selected, enter your rate per hour, comma separated, in the same order your selected services are.</string>
     <string name="reg_vendor_fee_desc">I agree to pay a 20% fee from money received to the app owners.</string>
 
     <!-- Home Page Service Icons -->

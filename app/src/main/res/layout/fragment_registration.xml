@@ -73,7 +73,6 @@
                     android:layout_marginTop="15dp"
                     android:layout_marginEnd="8dp"
                     android:layout_marginBottom="8dp"
-                    android:visibility="gone"
                     app:cardBackgroundColor="?attr/colorOnPrimary"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp"
@@ -326,7 +325,6 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
-                    android:visibility="gone"
                     app:cardBackgroundColor="?attr/colorOnPrimary"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp"
@@ -382,6 +380,22 @@
                                 tools:ignore="TextContrastCheck" />
                         </com.google.android.material.textfield.TextInputLayout>
 
+                        <TextView
+                            android:id="@+id/user_reg_id_hint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:maxWidth="@dimen/field_max_width"
+                            android:minWidth="@dimen/field_max_width"
+                            android:text="@string/reg_id_hint"
+                            android:textColor="?android:attr/colorForeground"
+                            android:textSize="12sp"
+                            tools:ignore="TextContrastCheck" />
+
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/user_reg_password_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
@@ -409,6 +423,22 @@
                                 android:textColor="?android:attr/colorForeground"
                                 tools:ignore="TextContrastCheck" />
                         </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:id="@+id/user_reg_password_hint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:maxWidth="@dimen/field_max_width"
+                            android:minWidth="@dimen/field_max_width"
+                            android:text="@string/reg_password_hint"
+                            android:textColor="?android:attr/colorForeground"
+                            android:textSize="12sp"
+                            tools:ignore="TextContrastCheck" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
 
@@ -417,6 +447,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
+                    android:visibility="gone"
                     app:cardBackgroundColor="?attr/colorOnPrimary"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp"
@@ -522,6 +553,7 @@
                                 android:autofillHints="phone"
                                 android:ems="10"
                                 android:inputType="phone"
+                                android:maxLength="10"
                                 android:paddingStart="@dimen/general_padding"
                                 android:paddingEnd="@dimen/general_padding"
                                 android:textColor="?android:attr/colorForeground"
@@ -702,13 +734,30 @@
                                 android:id="@+id/vendor_reg_comp_charge_input"
                                 android:layout_width="match_parent"
                                 android:layout_height="wrap_content"
+                                android:digits="0123456789.,"
                                 android:ems="10"
-                                android:inputType="number|numberDecimal"
+                                android:inputType="number"
                                 android:paddingStart="@dimen/general_padding"
                                 android:paddingEnd="@dimen/general_padding"
                                 android:textColor="?android:attr/colorForeground"
                                 tools:ignore="TextContrastCheck" />
                         </com.google.android.material.textfield.TextInputLayout>
+
+                        <TextView
+                            android:id="@+id/vendor_reg_comp_charge_hint"
+                            android:layout_width="wrap_content"
+                            android:layout_height="match_parent"
+                            android:layout_gravity="center"
+                            android:layout_marginStart="10dp"
+                            android:layout_marginTop="5dp"
+                            android:layout_marginEnd="10dp"
+                            android:layout_marginBottom="5dp"
+                            android:maxWidth="@dimen/field_max_width"
+                            android:minWidth="@dimen/field_max_width"
+                            android:text="@string/reg_services_charge_hint"
+                            android:textColor="?android:attr/colorForeground"
+                            android:textSize="12sp"
+                            tools:ignore="TextContrastCheck" />
 
                         <CheckBox
                             android:id="@+id/vendor_reg_fee_check"

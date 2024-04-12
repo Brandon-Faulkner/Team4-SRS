@@ -8,8 +8,8 @@ import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.CheckBox;
 import android.widget.EditText;
-import android.widget.ScrollView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -28,12 +28,10 @@ import java.util.regex.Pattern;
 
 public class RegistrationFragment extends Fragment
 {
-    private RegistrationViewModel mViewModel;
     private MainActivity mainActivity;
 
     //Main layouts and tabs
     private TabLayout userVendorRegTabs;
-    private ScrollView userRegScrollView;
     private CardView userProfileCard, userLoginCard, userVendorCard;
 
     //Main inputs and buttons
@@ -48,6 +46,10 @@ public class RegistrationFragment extends Fragment
 
     //Regex strings for testing input
     private static final String userIDRegex = "^[a-zA-Z0-9]{8,}$";
+    private static final String userPassRegex = "^(?=.*[A-Z])(?=.*[a-z])(?=.*\\d)(?=.*[@#$%^&+=!])(?!.*\\s).{6,}$";
+    private static final String emailRegex = "^[\\w-\\.]+@([\\w-]+\\.)+[\\w-]{2,4}$";
+    private static final String phoneRegex = "^[0-9]{10}$";
+    private static final String stateRegex = "\\b(?!HI|AK)(AL|AZ|AR|CA|CO|CT|DE|FL|GA|ID|IL|IN|IA|KS|KY|LA|ME|MD|MA|MI|MN|MS|MO|MT|NE|NV|NH|NJ|NM|NY|NC|ND|OH|OK|OR|PA|RI|SC|SD|TN|TX|UT|VT|VA|WA|WV|WI|WY)\\b";
 
     public static RegistrationFragment newInstance()
     {
@@ -61,17 +63,17 @@ public class RegistrationFragment extends Fragment
         return inflater.inflate(R.layout.fragment_registration, container, false);
     }
 
+    /** @noinspection deprecation*/
     @Override
     public void onActivityCreated(@Nullable Bundle savedInstanceState)
     {
         super.onActivityCreated(savedInstanceState);
-        mViewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
+        RegistrationViewModel mViewModel = new ViewModelProvider(this).get(RegistrationViewModel.class);
 
         mainActivity = ((MainActivity)requireActivity());
 
         //Connect variables to appropriate view elements
         userVendorRegTabs = requireView().findViewById(R.id.user_or_vendor_reg_tabs);
-        userRegScrollView = requireView().findViewById(R.id.user_reg_scrollview);
         userProfileCard = requireView().findViewById(R.id.user_reg_profile_card_view);
         userLoginCard = requireView().findViewById(R.id.user_reg_login_card_view);
         userVendorCard = requireView().findViewById(R.id.user_reg_vendor_card_view);
@@ -110,6 +112,7 @@ public class RegistrationFragment extends Fragment
         setupRegistrationListeners();
     }
 
+    /** @noinspection BooleanMethodIsAlwaysInverted*/
     private boolean testInputWithRegex(String input, String regex) {
         Pattern pattern = Pattern.compile(regex);
         Matcher matcher = pattern.matcher(input);
@@ -145,9 +148,166 @@ public class RegistrationFragment extends Fragment
 
         userSubmit.setOnClickListener(v ->
         {
-            //Head to home fragment
-            mainActivity.switchFragment(R.id.navigation_home,null);
+            //Check which tab we are on. 0 = User, 1 = Vendor
+            int selectedTab = userVendorRegTabs.getSelectedTabPosition();
+
+            if (selectedTab == 0 && checkUserInfo()) {
+                //Proceed with registration
+                if (submitUserInfo()) {
+                    //Customer registration complete, head to home page with user ID
+                    Bundle args = new Bundle();
+                    args.putString("userID", userID.getText().toString().trim());
+                    mainActivity.isLoggedIn = true;
+                    mainActivity.switchFragment(R.id.navigation_home, args);
+                    Toast.makeText(getContext(), "Registration complete! Welcome to Service Request System!", Toast.LENGTH_LONG).show();
+                }
+            }
+            else if (selectedTab == 1 && checkUserInfo()) {
+                //Safe to move on to checking vendor input
+                if (checkVendorInfo()) {
+                    //Proceed with registration for both
+                    if (submitUserInfo()) {
+                        if (submitVendorInfo()) {
+                            //User and Vendor registration complete, head to home page with user ID
+                            Bundle args = new Bundle();
+                            args.putString("userID", userID.getText().toString().trim());
+                            mainActivity.isLoggedIn = true;
+                            mainActivity.switchFragment(R.id.navigation_home, args);
+                            Toast.makeText(getContext(), "Registration complete! Welcome to Service Request System!", Toast.LENGTH_LONG).show();
+                        }
+                    }
+                }
+            }
         });
+    }
+
+    private boolean checkUserInfo()
+    {
+        //Reset error states on inputs first
+        userName.setError(null); userEmail.setError(null); userPhone.setError(null);
+        userAddress.setError(null); userCity.setError(null); userState.setError(null);
+        userZip.setError(null); userID.setError(null); userPassword.setError(null);
+
+        //Get text from input we check
+        String userEmailText = userEmail.getText().toString().trim();
+        String userPhoneText = userPhone.getText().toString().trim();
+        String userStateText = userState.getText().toString().trim().toUpperCase();
+        String userIDText = userID.getText().toString().trim();
+        String userPasswordText = userPassword.getText().toString().trim();
+
+        //Start checking if input is empty
+        if (!mainActivity.isInputEmpty(userName, "Please enter your name")) return false;
+        if (!mainActivity.isInputEmpty(userEmail, "Please enter your email")) return false;
+        if (!mainActivity.isInputEmpty(userPhone, "Please enter your phone number")) return false;
+        if (!mainActivity.isInputEmpty(userAddress, "Please enter your address")) return false;
+        if (!mainActivity.isInputEmpty(userCity, "Please enter your city")) return false;
+        if (!mainActivity.isInputEmpty(userState, "Please enter your state")) return false;
+        if (!mainActivity.isInputEmpty(userZip, "Please enter your zip code")) return false;
+        if (!mainActivity.isInputEmpty(userID, "Please enter your user ID")) return false;
+        if (!mainActivity.isInputEmpty(userPassword, "Please enter your password")) return false;
+
+        //Check if input is valid information for certain inputs
+        if (!testInputWithRegex(userEmailText, emailRegex)) {userEmail.setError("Invalid email"); return false;}
+        if (!testInputWithRegex(userPhoneText, phoneRegex)) {userPhone.setError("Invalid phone number"); return false;}
+        if (!testInputWithRegex(userStateText, stateRegex)) {userState.setError("Invalid U.S. State (excluding AK and HI)"); return false;}
+        if (!testInputWithRegex(userIDText, userIDRegex)) {userID.setError("Invalid user ID"); return false;}
+        if (!testInputWithRegex(userPasswordText, userPassRegex)) {userPassword.setError("Invalid password"); return false;}
+
+        //Finally, check if user ID already exists
+        if (mainActivity.sqLiteHandler.checkUserIDExists(userIDText)) {userID.setError("User ID already exists"); return false;}
+
+        //Input is verified
+        return true;
+    }
+
+    private boolean submitUserInfo()
+    {
+        //Get all text from inputs
+        String userNameText = userName.getText().toString().trim();
+        String userEmailText = userEmail.getText().toString().trim();
+        String userPhoneText = userPhone.getText().toString().trim();
+        String userAddressText = userAddress.getText().toString().trim();
+        String userCityText = userCity.getText().toString().trim();
+        String userStateText = userState.getText().toString().trim().toUpperCase();
+        String userZipText = userZip.getText().toString().trim();
+        String userIDText = userID.getText().toString().trim();
+        String userPasswordText = userPassword.getText().toString().trim();
+
+        //All is well, complete registration
+        String fullAddress = userAddressText + ", " + userCityText + ", " + userStateText + ", " + userZipText;
+        if(mainActivity.sqLiteHandler.insertUsers(userIDText, userPasswordText, userNameText, userEmailText, userPhoneText, fullAddress)) {
+            if (mainActivity.sqLiteHandler.insertCustomers(userIDText, "0", null)) {
+                //Successfully inserted user and customer
+                return true;
+            } else {
+                //Need to remove user from users table to avoid conflicts when trying again
+                mainActivity.sqLiteHandler.deleteUser(userIDText, false, false);
+                Toast.makeText(getContext(), "Error completing registration. Please try again.", Toast.LENGTH_LONG).show();
+                return false;
+            }
+        } else {
+            Toast.makeText(getContext(), "Error completing registration. Please try again.", Toast.LENGTH_LONG).show();
+            return false;
+        }
+    }
+
+    private boolean checkVendorInfo()
+    {
+        //Reset error states on inputs first
+        vendorCompName.setError(null); vendorCompEmail.setError(null); vendorCompPhone.setError(null);
+        vendorCompAddress.setError(null); vendorCompState.setError(null); vendorCompCity.setError(null);
+        vendorCompZip.setError(null); vendorChargeAmount.setError(null); vendorFee.setError(null);
+        vendorServices.setError(null); vendorFee.setError(null);
+
+        //Get text from input we check
+        String emailText = vendorCompEmail.getText().toString().trim();
+        String phoneText = vendorCompPhone.getText().toString().trim();
+        String stateText = vendorCompState.getText().toString().trim().toUpperCase();
+
+        //Start checking if input is empty
+        if (!mainActivity.isInputEmpty(vendorCompName, "Please enter companies name")) return false;
+        if (!mainActivity.isInputEmpty(vendorCompEmail, "Please enter companies email")) return false;
+        if (!mainActivity.isInputEmpty(vendorCompPhone, "Please enter companies phone number")) return false;
+        if (!mainActivity.isInputEmpty(vendorCompAddress, "Please enter companies address")) return false;
+        if (!mainActivity.isInputEmpty(vendorCompCity, "Please enter companies city")) return false;
+        if (!mainActivity.isInputEmpty(vendorCompState, "Please enter companies state")) return false;
+        if (!mainActivity.isInputEmpty(vendorCompZip, "Please enter companies zip code")) return false;
+        if (!mainActivity.isInputEmpty(vendorServices, "Please select companies services")) return false;
+        if (!mainActivity.isInputEmpty(vendorChargeAmount, "Please enter hourly rates for companies services")) return false;
+
+        //Check if input is valid information for certain inputs
+        if (!testInputWithRegex(emailText, emailRegex)) {userEmail.setError("Invalid email"); return false;}
+        if (!testInputWithRegex(phoneText, phoneRegex)) {userPhone.setError("Invalid phone number"); return false;}
+        if (!testInputWithRegex(stateText, stateRegex)) {userState.setError("Invalid U.S. State (excluding AK and HI)"); return false;}
+        if (!vendorFee.isChecked()) {vendorFee.setError("You must agree to this in order to register"); return false;}
+
+        //Input is verified
+        return true;
+    }
+
+    private boolean submitVendorInfo()
+    {
+        //Get all text from inputs
+        String userIDText = userID.getText().toString().trim();
+        String nameText = vendorCompName.getText().toString().trim();
+        String emailText = vendorCompEmail.getText().toString().trim();
+        String phoneText = vendorCompPhone.getText().toString().trim();
+        String addressText = vendorCompAddress.getText().toString().trim();
+        String cityText = vendorCompCity.getText().toString().trim();
+        String stateText = vendorCompState.getText().toString().trim().toUpperCase();
+        String zipText = vendorCompZip.getText().toString().trim();
+        String chargeText = vendorChargeAmount.getText().toString().trim();
+        String servicesText = vendorServices.getText().toString().trim();
+
+        //All is well, complete registration
+        String fullAddress = addressText + ", " + cityText + ", " + stateText + ", " + zipText;
+        if(mainActivity.sqLiteHandler.insertVendors(userIDText, nameText, emailText, phoneText, fullAddress, servicesText, chargeText)) {
+            //Successfully inserted vendor
+            return true;
+        } else {
+            Toast.makeText(getContext(), "Error completing registration. Please try again.", Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 
     private void setupServicesDropdown()
@@ -188,9 +348,7 @@ public class RegistrationFragment extends Fragment
             });
 
             builder.setNegativeButton("Cancel", (dialog, which) ->
-            {
-                dialog.dismiss();
-            });
+                    dialog.dismiss());
 
             builder.setNeutralButton("Clear All", (dialog, which) ->
             {
@@ -199,7 +357,7 @@ public class RegistrationFragment extends Fragment
                     //Remove all selections, clear list, update textview
                     selectedServices[i] = false;
                     serviceList.clear();
-                    vendorServices.setText(R.string.reg_services_title);
+                    vendorServices.setText("");
                 }
             });
 

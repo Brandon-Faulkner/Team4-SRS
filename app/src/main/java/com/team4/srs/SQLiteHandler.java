@@ -3,13 +3,11 @@ package com.team4.srs;
 import android.content.ContentValues;
 import android.content.Context;
 import android.content.SharedPreferences;
-import android.content.res.Configuration;
 import android.database.Cursor;
+import android.database.SQLException;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
-
-import androidx.annotation.Nullable;
 
 public class SQLiteHandler extends SQLiteOpenHelper
 {
@@ -27,14 +25,19 @@ public class SQLiteHandler extends SQLiteOpenHelper
     public SQLiteHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
         this.context = context;
+    }
 
-        //Check if db needs to be setup
+    public void initializeDB() {
         SharedPreferences dbPrefs = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
-        if (dbPrefs.getBoolean("isDBSetup", false)) {
-            SQLiteDatabase db = this.getWritableDatabase();
-            onCreate(db);
-            db.close();
+
+        if (!dbPrefs.getBoolean("isDBSetup", false)) {
+            insertUsers("user1234", "Passw1rd!", "John Doe", "johndoe@gmail.com", "8188888888", "123 Bob St, Burleson, TX, 76028");
+            insertCustomers("user1234", "0", null);
         }
+
+        SharedPreferences.Editor editor = dbPrefs.edit();
+        editor.putBoolean("isDBSetup", true);
+        editor.apply();
     }
 
     @Override
@@ -43,12 +46,6 @@ public class SQLiteHandler extends SQLiteOpenHelper
         createTable(db, USERS_TABLE, "userID TEXT", new String[]{"password TEXT", "name TEXT", "email TEXT", "phone TEXT", "address TEXT"});
         createTable(db, CUSTOMER_TABLE, "userID TEXT", new String[]{"points TEXT", "discounts TEXT", "FOREIGN KEY (userID) REFERENCES Users (userID)"});
         createTable(db, VENDORS_TABLE, "userID TEXT", new String[]{"name TEXT", "email TEXT", "phone TEXT", "address TEXT", "services TEXT", "rates TEXT", "FOREIGN KEY (userID) REFERENCES Users (userID)"});
-        insertUsers("user1234", "password", "John Doe", "johndoe@gmail.com", "8188888888", "123 Bob St, Burleson, TX, 76028");
-
-        SharedPreferences dbPrefs = context.getSharedPreferences(MainActivity.PREFS_NAME, 0);
-        SharedPreferences.Editor editor = dbPrefs.edit();
-        editor.putBoolean("isDBSetup", true);
-        editor.apply();
     }
 
     public void createTable(SQLiteDatabase db, String tableName, String primaryKey, String[] columns) {
@@ -62,99 +59,160 @@ public class SQLiteHandler extends SQLiteOpenHelper
         db.execSQL(query.toString());
     }
 
-    public void insertUsers(String userID, String password, String name, String email, String phone, String address) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+    public boolean insertUsers(String userID, String password, String name, String email, String phone, String address) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
 
-        values.put("userID", userID);
-        values.put("password", password);
-        values.put("name", name);
-        values.put("email", email);
-        values.put("phone", phone);
-        values.put("address", address);
+            values.put("userID", userID);
+            values.put("password", password);
+            values.put("name", name);
+            values.put("email", email);
+            values.put("phone", phone);
+            values.put("address", address);
 
-        db.insert(USERS_TABLE, null, values);
-        db.close();
+            db.insert(USERS_TABLE, null, values);
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "insertUsers: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean deleteUser(String userID, boolean isCustomer, boolean isVendor) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            if (isCustomer) db.delete(CUSTOMER_TABLE, "userID=?", new String[]{userID});
+            if (isVendor) db.delete(VENDORS_TABLE, "userID=?", new String[]{userID});
+            db.delete(USERS_TABLE, "userID=?", new String[]{userID} );
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "deleteUser: " + e.getMessage());
+            return false;
+        }
     }
 
     public boolean checkUserIDExists(String userID) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + USERS_TABLE + " WHERE userID = '" + userID + "' LIMIT 1;";
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.getCount() <= 0) {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT * FROM " + USERS_TABLE + " WHERE userID = '" + userID + "' LIMIT 1;";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.getCount() <= 0) {
+                cursor.close();
+                db.close();
+                return false;
+            }
             cursor.close();
             db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "checkUserIDExists: " + e.getMessage());
             return false;
         }
-        cursor.close();
-        db.close();
-        return true;
     }
 
     public boolean checkLoginUser(String userID, String password) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + USERS_TABLE + " WHERE userID = '" + userID + "' AND password = '" + password + "' LIMIT 1;";
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.getCount() <= 0) {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT * FROM " + USERS_TABLE + " WHERE userID = '" + userID + "' AND password = '" + password + "' LIMIT 1;";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.getCount() <= 0) {
+                cursor.close();
+                db.close();
+                return false;
+            }
             cursor.close();
             db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "checkLoginUser: " + e.getMessage());
             return false;
         }
-        cursor.close();
-        db.close();
-        return true;
     }
 
     public boolean checkForgotPassUser(String userID, String email, String phone) {
-        SQLiteDatabase db = this.getReadableDatabase();
-        String query = "SELECT * FROM " + USERS_TABLE + " WHERE userID = '" + userID + "' AND email = '" + email + "' AND phone = '" + phone + "' LIMIT 1;";
-        Cursor cursor = db.rawQuery(query, null);
-        if (cursor.getCount() <= 0) {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT * FROM " + USERS_TABLE + " WHERE userID = '" + userID + "' AND email = '" + email + "' AND phone = '" + phone + "' LIMIT 1;";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.getCount() <= 0) {
+                cursor.close();
+                db.close();
+                return false;
+            }
             cursor.close();
             db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "checkForgotPassUser: " + e.getMessage());
             return false;
         }
-        cursor.close();
-        db.close();
-        return true;
     }
 
-    public void changePasswordUser(String userID, String newPassword) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+    public boolean changePasswordUser(String userID, String newPassword) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
 
-        values.put("password", newPassword);
+            values.put("password", newPassword);
 
-        db.update(USERS_TABLE, values, "userID=?", new String[]{userID});
-        db.close();
+            db.update(USERS_TABLE, values, "userID=?", new String[]{userID});
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "changePasswordUser: " + e.getMessage());
+            return false;
+        }
     }
 
-    public void insertCustomers(String userID, String points, String discounts) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+    public boolean insertCustomers(String userID, String points, String discounts) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
 
-        values.put("userID", userID);
-        values.put("points", points);
-        values.put("discounts", discounts);
+            values.put("userID", userID);
+            values.put("points", points);
+            values.put("discounts", discounts);
 
-        db.insert(CUSTOMER_TABLE, null, values);
-        db.close();
+            db.insert(CUSTOMER_TABLE, null, values);
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "insertCustomers: " + e.getMessage());
+            return false;
+        }
     }
 
-    public void insertVendors(String userID, String name, String email, String phone, String address, String services, String rates) {
-        SQLiteDatabase db = this.getWritableDatabase();
-        ContentValues values = new ContentValues();
+    public boolean insertVendors(String userID, String name, String email, String phone, String address, String services, String rates) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
 
-        values.put("userID", userID);
-        values.put("name", name);
-        values.put("email", email);
-        values.put("phone", phone);
-        values.put("address", address);
-        values.put("services", services);
-        values.put("rates", rates);
+            values.put("userID", userID);
+            values.put("name", name);
+            values.put("email", email);
+            values.put("phone", phone);
+            values.put("address", address);
+            values.put("services", services);
+            values.put("rates", rates);
 
-        db.insert(USERS_TABLE, null, values);
-        db.close();
+            db.insert(VENDORS_TABLE, null, values);
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "insertVendors: " + e.getMessage());
+            return false;
+        }
     }
 
     @Override

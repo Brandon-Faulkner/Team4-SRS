@@ -5,13 +5,12 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
 import android.os.Bundle;
-import android.util.Log;
 import android.view.View;
+import android.widget.TextView;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
-import androidx.navigation.NavOptions;
 import androidx.navigation.Navigation;
 import androidx.navigation.ui.NavigationUI;
 
@@ -38,6 +37,7 @@ public class MainActivity extends AppCompatActivity {
 
         //Get our database setup
         sqLiteHandler = new SQLiteHandler(MainActivity.this);
+        sqLiteHandler.initializeDB();
 
         //Bind the bottom nav view
         navView = findViewById(R.id.nav_view);
@@ -51,8 +51,8 @@ public class MainActivity extends AppCompatActivity {
             if (destination.getId() == R.id.navigation_home || destination.getId() == R.id.navigation_dashboard || destination.getId() == R.id.navigation_settings) {
                 navView.setVisibility(View.VISIBLE);
             } else {
-                if (destination.getId() == R.id.navigation_login && isLoggedIn) {
-                    //Don't let user go to login page if they are logged in
+                if ((destination.getId() == R.id.navigation_login || destination.getId() == R.id.navigation_registration) && isLoggedIn) {
+                    //Don't let user go to login/registration page if they are logged in
                     popFragmentStack();
                 } else navView.setVisibility(View.GONE);
             }
@@ -75,6 +75,14 @@ public class MainActivity extends AppCompatActivity {
 
     public void popFragmentStack() {
         navController.popBackStack();
+    }
+
+    public boolean isInputEmpty(TextView input, String errorMsg) {
+        if (input.getText().toString().trim().isEmpty()) {
+            input.setError(errorMsg);
+            return false;
+        }
+        return true;
     }
 
     public void crossfadeViews(View targView, View currView, int duration) {

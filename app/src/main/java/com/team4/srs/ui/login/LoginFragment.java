@@ -17,9 +17,6 @@ import androidx.lifecycle.ViewModelProvider;
 import com.team4.srs.MainActivity;
 import com.team4.srs.R;
 
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-
 public class LoginFragment extends Fragment
 {
     private LoginViewModel mViewModel;
@@ -118,18 +115,18 @@ public class LoginFragment extends Fragment
             loginIDText.setError(null);
             loginPassText.setError(null);
 
-            if (loginIDText.length() == 0) { loginIDText.setError("Please enter your user ID"); return; }
-            if (loginPassText.length() == 0) { loginPassText.setError("Please enter your password"); return; }
+            if (!mainActivity.isInputEmpty(loginIDText, "Please enter your user ID")) return;
+            if (!mainActivity.isInputEmpty(loginPassText, "Please enter your password")) return;
 
             //Attempt to login
-            if (mainActivity.sqLiteHandler.checkLoginUser(loginIDText.getText().toString(), loginPassText.getText().toString())) {
+            if (mainActivity.sqLiteHandler.checkLoginUser(loginIDText.getText().toString().trim(), loginPassText.getText().toString().trim())) {
                 //Successful login, head to home page
                 mainActivity.switchFragment(R.id.navigation_home, null);
                 mainActivity.isLoggedIn = true;
             } else {
                 //Invalid login combo, show both errors
-                loginIDText.setError("User ID or password is incorrect");
-                loginPassText.setError("User ID or password is incorrect");
+                loginIDText.setError("Invalid login attempt. Please try again.");
+                loginPassText.setError("Invalid login attempt. Please try again.");
             }
         });
 
@@ -155,20 +152,20 @@ public class LoginFragment extends Fragment
             forgPassIDText.setError(null); forgPassEmailText.setError(null);
             forgPassPhoneText.setError(null); forgPassPassText.setError(null);
 
-            if (forgPassIDText.length() == 0) { forgPassIDText.setError("Please enter userID"); return; }
-
-            if (forgPassEmailText.length() == 0) { forgPassEmailText.setError("Please enter email"); return; }
-
-            if (forgPassPhoneText.length() == 0) { forgPassPhoneText.setError("Please enter phone number"); return; }
-
-            if (forgPassPassText.length() == 0) { forgPassPassText.setError("Please enter new password"); return; }
+            if (!mainActivity.isInputEmpty(forgPassIDText, "Please enter user ID")) return;
+            if (!mainActivity.isInputEmpty(forgPassEmailText, "Please enter email")) return;
+            if (!mainActivity.isInputEmpty(forgPassPhoneText, "Please enter phone number")) return;
+            if (!mainActivity.isInputEmpty(forgPassPassText, "Please enter new password")) return;
 
             // First verify account information
-            if (mainActivity.sqLiteHandler.checkForgotPassUser(forgPassIDText.getText().toString(), forgPassEmailText.getText().toString(), forgPassPhoneText.getText().toString())) {
+            if (mainActivity.sqLiteHandler.checkForgotPassUser(forgPassIDText.getText().toString().trim(), forgPassEmailText.getText().toString().trim(), forgPassPhoneText.getText().toString().trim())) {
                 // User verified, reset password then head to login screen
-                mainActivity.sqLiteHandler.changePasswordUser(forgPassIDText.getText().toString(), forgPassPassText.getText().toString());
-                mainActivity.crossfadeViews(loginStepsLayout, forgPassLayout, 250);
-                Toast.makeText(getContext(), "Password successfully updated!", Toast.LENGTH_LONG).show();
+                if (mainActivity.sqLiteHandler.changePasswordUser(forgPassIDText.getText().toString().trim(), forgPassPassText.getText().toString().trim())) {
+                    mainActivity.crossfadeViews(loginStepsLayout, forgPassLayout, 250);
+                    Toast.makeText(getContext(), "Password successfully updated!", Toast.LENGTH_LONG).show();
+                } else {
+                    Toast.makeText(getContext(), "Error updating password. Please try again.", Toast.LENGTH_LONG).show();
+                }
             } else {
                 // User not verified, show toast
                 Toast.makeText(getContext(), "Unable to find account. Please verify your info and try again.", Toast.LENGTH_LONG).show();
