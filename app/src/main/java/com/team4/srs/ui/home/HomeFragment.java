@@ -66,7 +66,7 @@ public class HomeFragment extends Fragment {
 
         applianceBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
-            args.putString("service", "Appliance");
+            args.putString("service", "Appliances");
             mainActivity.switchFragment(R.id.navigation_services, args);
         });
 

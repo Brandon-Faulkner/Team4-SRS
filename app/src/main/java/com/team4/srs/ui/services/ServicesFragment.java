@@ -164,7 +164,7 @@ public class ServicesFragment extends Fragment
         Drawable drawable = null;
         switch (service)
         {
-            case "Appliance":
+            case "Appliances":
                 drawable = AppCompatResources.getDrawable(requireContext(), R.drawable.appliance_icon);
                 break;
             case "Electrical":
@@ -199,7 +199,7 @@ public class ServicesFragment extends Fragment
         String desc = null;
         switch (service)
         {
-            case "Appliance":
+            case "Appliances":
                 desc = "Microwave not cooking properly or fridge not staying cold? Submit a request below and let a vendor take care of it!";
                 break;
             case "Electrical":

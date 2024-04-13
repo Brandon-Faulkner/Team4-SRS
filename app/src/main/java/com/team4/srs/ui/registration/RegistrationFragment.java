@@ -167,14 +167,12 @@ public class RegistrationFragment extends Fragment
             else if (selectedTab == 1 && checkUserInfo()) {
                 //Safe to move on to checking vendor input
                 if (checkVendorInfo()) {
-                    //Proceed with registration for both
-                    if (submitUserInfo()) {
-                        if (submitVendorInfo()) {
-                            //User and Vendor registration complete, head to home page with user ID
-                            mainActivity.loggedInUser = userID.getText().toString().trim();
-                            mainActivity.switchFragment(R.id.navigation_home, null);
-                            Toast.makeText(getContext(), "Registration complete! Welcome to Service Request System!", Toast.LENGTH_LONG).show();
-                        }
+                    //Proceed with registration
+                    if (submitVendorInfo()) {
+                        //Vendor registration complete, head to home page with user ID
+                        mainActivity.loggedInUser = userID.getText().toString().trim();
+                        mainActivity.switchFragment(R.id.navigation_home, null);
+                        Toast.makeText(getContext(), "Registration complete! Welcome to Service Request System!", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -284,7 +282,17 @@ public class RegistrationFragment extends Fragment
     private boolean submitVendorInfo()
     {
         //Get all text from inputs
+        String userNameText = userName.getText().toString().trim();
+        String userEmailText = userEmail.getText().toString().trim();
+        String userPhoneText = userPhone.getText().toString().trim();
+        String userAddressText = userAddress.getText().toString().trim();
+        String userCityText = userCity.getText().toString().trim();
+        String userStateText = userState.getText().toString().trim().toUpperCase();
+        String userZipText = userZip.getText().toString().trim();
+
         String userIDText = userID.getText().toString().trim();
+        String userPasswordText = userPassword.getText().toString().trim();
+
         String nameText = vendorCompName.getText().toString().trim();
         String emailText = vendorCompEmail.getText().toString().trim();
         String phoneText = vendorCompPhone.getText().toString().trim();
@@ -296,10 +304,18 @@ public class RegistrationFragment extends Fragment
         String servicesText = vendorServices.getText().toString().trim();
 
         //All is well, complete registration
-        String fullAddress = addressText + ", " + cityText + ", " + stateText + ", " + zipText;
-        if(mainActivity.sqLiteHandler.insertVendors(userIDText, nameText, emailText, phoneText, fullAddress, servicesText, chargeText)) {
-            //Successfully inserted vendor
-            return true;
+        String fullUserAddress = userAddressText + ", " + userCityText + ", " + userStateText + ", " + userZipText;
+        String fullVendorAddress = addressText + ", " + cityText + ", " + stateText + ", " + zipText;
+        if(mainActivity.sqLiteHandler.insertUsers(userIDText, userPasswordText, userNameText, userEmailText, userPhoneText, fullUserAddress)) {
+            if (mainActivity.sqLiteHandler.insertVendors(userIDText, nameText, emailText, phoneText, fullVendorAddress, servicesText, chargeText)) {
+                //Successfully inserted user and vendor
+                return true;
+            } else {
+                //Need to remove user from users table to avoid conflicts when trying again
+                boolean deleteSuccess = mainActivity.sqLiteHandler.deleteUser(userIDText, false, false);
+                Toast.makeText(getContext(), "Error completing registration. Please try again.", Toast.LENGTH_LONG).show();
+                return false;
+            }
         } else {
             Toast.makeText(getContext(), "Error completing registration. Please try again.", Toast.LENGTH_LONG).show();
             return false;
