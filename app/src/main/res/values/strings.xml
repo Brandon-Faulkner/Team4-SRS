@@ -19,6 +19,12 @@
     <string name="login_password_hint">Password</string>
     <string name="login_forgot_password_title"><u>Forgot Password</u></string>
 
+    <!-- Login Page-->
+    <string name="login_email_title">Email</string>
+    <string name="login_email_hint">Email</string>
+    <string name="login_password_title">Password</string>
+    
+
     <!-- Login Screen Forgot Password -->
     <string name="login_forgot_pass_title">Forgot Password</string>
     <string name="login_forgot_pass_desc">Enter in the information below along with your new password in order to verify your account. If the information is correct, we will reset your password and take you back to the login screen.</string>
@@ -85,6 +91,8 @@
     <string name="rewards">Rewards</string>
     <string name="view_service_requests">View Service Requests</string>
     <string name="manage_service_requests">Manage Service Requests</string>
+    <string name="review_and_rating">Review and Rating</string>
+    <string name="view_reviews">View Reviews</string>
 
     <!-- Settings Switches and Descriptions -->
     <string name="settings_sound">Sound</string>

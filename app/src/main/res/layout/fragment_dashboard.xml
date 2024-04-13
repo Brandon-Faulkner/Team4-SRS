@@ -61,6 +61,7 @@
         android:columnOrderPreserved="false"
         android:padding="25dp"
         android:rowCount="4"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -163,6 +164,21 @@
             android:text="@string/rewards"
             android:textAllCaps="false"
             android:textColor="?android:attr/colorForeground" />
+        <!-- Review and Rating Button -->
+        <Button
+            android:id="@+id/btnReviewAndRating"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:backgroundTint="?attr/colorOnPrimary"
+            android:drawableTop="@drawable/reviews"
+            android:drawablePadding="8dp"
+            android:padding="16dp"
+            android:text="@string/review_and_rating"
+            android:textAllCaps="false"
+            android:textColor="?android:attr/colorForeground" />
 
     </GridLayout>
 
@@ -176,7 +192,7 @@
         android:columnOrderPreserved="false"
         android:padding="25dp"
         android:rowCount="4"
-        android:visibility="gone"
+        android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
@@ -213,6 +229,21 @@
             android:padding="16dp"
             android:text="@string/manage_service_requests"
             android:textColor="?android:attr/colorForeground" />
+        <!-- View Reviews and Ratings Button -->
+        <Button
+            android:id="@+id/btnViewReviews"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:backgroundTint="?attr/colorOnPrimary"
+            android:drawableTop="@drawable/view_review"
+            android:drawablePadding="8dp"
+            android:padding="16dp"
+            android:text="@string/view_reviews"
+            android:textColor="?android:attr/colorForeground" />
+
 
     </GridLayout>
 

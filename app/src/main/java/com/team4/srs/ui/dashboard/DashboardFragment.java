@@ -22,6 +22,31 @@ public class DashboardFragment extends Fragment {
 
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
 
+        boolean isServiceProvider = dashboardViewModel.isServiceProvider();
+        View root = binding.getRoot();
+
+        if (isServiceProvider) {
+            // Set up the dashboard for the service provider
+            binding.userFullName.setText("Service Provider Name");
+            binding.btnMakePayment.setText(R.string.manage_appointments);
+            binding.btnCancelRequest.setText(R.string.view_service_requests);
+
+            // Hide buttons that are not relevant for service providers
+            binding.btnChangeRequest.setVisibility(View.GONE);
+            binding.btnOrderHistory.setVisibility(View.GONE);
+            binding.btnMapView.setVisibility(View.GONE);
+        } else {
+            // Set up the dashboard for the regular user
+            binding.userFullName.setText("Firstname Lastname");
+            binding.btnMakePayment.setText(R.string.make_payment);
+            binding.btnCancelRequest.setText(R.string.cancel_request);
+
+            // Show all buttons for regular users
+            binding.btnChangeRequest.setVisibility(View.VISIBLE);
+            binding.btnOrderHistory.setVisibility(View.VISIBLE);
+            binding.btnMapView.setVisibility(View.VISIBLE);
+        }
+
         return binding.getRoot();
     }
 
