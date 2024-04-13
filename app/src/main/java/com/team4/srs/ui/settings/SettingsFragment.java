@@ -5,6 +5,7 @@ import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -24,6 +25,7 @@ public class SettingsFragment extends Fragment {
     private MainActivity mainActivity;
 
     private SwitchCompat soundTog, notifsTog, locationTog, darkModeTog, textsEmailsTog, redeemTog;
+    private Button goBack;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
@@ -48,6 +50,7 @@ public class SettingsFragment extends Fragment {
         darkModeTog = requireView().findViewById(R.id.settings_dark_mode);
         textsEmailsTog = requireView().findViewById(R.id.settings_texts_emails);
         redeemTog = requireView().findViewById(R.id.settings_redeem);
+        goBack = requireView().findViewById(R.id.settings_go_back);
 
         //Set listeners for the switches
         setSwitchListeners();
@@ -71,6 +74,7 @@ public class SettingsFragment extends Fragment {
 
         darkModeTog.setOnClickListener(v -> {
             saveSettings("dark_mode", darkModeTog.isChecked());
+            saveSettings("isChangingTheme", true);
             if (darkModeTog.isChecked()) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
             else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
         });
@@ -81,6 +85,10 @@ public class SettingsFragment extends Fragment {
 
         redeemTog.setOnClickListener(v -> {
             saveSettings("redeem_points", redeemTog.isChecked());
+        });
+
+        goBack.setOnClickListener(v -> {
+            mainActivity.switchFragment(R.id.navigation_home, null);
         });
     }
 

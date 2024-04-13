@@ -39,7 +39,7 @@
             android:layout_height="wrap_content"
             android:minWidth="150dp"
             android:text="@string/user_login_button"
-            android:textSize="16sp"
+            android:textSize="20sp"
             tools:ignore="TextContrastCheck" />
 
         <Button
@@ -50,7 +50,7 @@
             android:layout_marginBottom="10dp"
             android:minWidth="175dp"
             android:text="@string/user_register_button"
-            android:textSize="16sp"
+            android:textSize="20sp"
             tools:ignore="TextContrastCheck" />
 
         <Button
@@ -223,13 +223,12 @@
 
         <TextView
             android:id="@+id/login_forgot_pass_desc"
-            android:layout_width="match_parent"
+            android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginStart="25dp"
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="10dp"
-            android:maxWidth="@dimen/field_max_width"
-            android:minWidth="@dimen/field_max_width"
+            android:width="350dp"
             android:text="@string/login_forgot_pass_desc"
             android:textAlignment="center"
             android:textColor="?android:attr/colorForeground"

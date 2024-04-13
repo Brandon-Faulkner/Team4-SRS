@@ -63,6 +63,7 @@
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_marginTop="10dp"
+                android:gravity="center"
                 android:orientation="vertical">
 
                 <androidx.cardview.widget.CardView
@@ -86,7 +87,7 @@
 
                         <TextView
                             android:id="@+id/user_reg_profile_title"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -97,13 +98,13 @@
                             android:minWidth="@dimen/field_max_width"
                             android:text="@string/reg_profile_section_title"
                             android:textColor="?android:attr/colorForeground"
-                            android:textSize="16sp"
+                            android:textSize="20sp"
                             tools:ignore="TextContrastCheck" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/user_reg_name_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -131,7 +132,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/user_reg_email_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -159,7 +160,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/user_reg_phone_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -196,7 +197,7 @@
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/user_reg_address_layout"
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_marginStart="10dp"
@@ -338,7 +339,7 @@
 
                         <TextView
                             android:id="@+id/user_reg_login_title"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -349,13 +350,13 @@
                             android:minWidth="@dimen/field_max_width"
                             android:text="@string/reg_login_section_title"
                             android:textColor="?android:attr/colorForeground"
-                            android:textSize="16sp"
+                            android:textSize="20sp"
                             tools:ignore="TextContrastCheck" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/user_reg_id_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -382,7 +383,7 @@
 
                         <TextView
                             android:id="@+id/user_reg_id_hint"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -393,13 +394,13 @@
                             android:minWidth="@dimen/field_max_width"
                             android:text="@string/reg_id_hint"
                             android:textColor="?android:attr/colorForeground"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             tools:ignore="TextContrastCheck" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/user_reg_password_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -426,7 +427,7 @@
 
                         <TextView
                             android:id="@+id/user_reg_password_hint"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -437,7 +438,7 @@
                             android:minWidth="@dimen/field_max_width"
                             android:text="@string/reg_password_hint"
                             android:textColor="?android:attr/colorForeground"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             tools:ignore="TextContrastCheck" />
                     </LinearLayout>
                 </androidx.cardview.widget.CardView>
@@ -447,6 +448,7 @@
                     android:layout_width="match_parent"
                     android:layout_height="wrap_content"
                     android:layout_margin="8dp"
+                    android:visibility="gone"
                     app:cardBackgroundColor="?attr/colorOnPrimary"
                     app:cardCornerRadius="5dp"
                     app:cardElevation="10dp"
@@ -460,7 +462,7 @@
 
                         <TextView
                             android:id="@+id/user_reg_vendor_title"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -471,13 +473,13 @@
                             android:minWidth="@dimen/field_max_width"
                             android:text="@string/reg_vendor_section_title"
                             android:textColor="?android:attr/colorForeground"
-                            android:textSize="16sp"
+                            android:textSize="20sp"
                             tools:ignore="TextContrastCheck" />
 
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/vendor_reg_comp_name_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -505,7 +507,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/vendor_reg_comp_email_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -533,7 +535,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/vendor_reg_comp_phone_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -570,7 +572,7 @@
                             <com.google.android.material.textfield.TextInputLayout
                                 android:id="@+id/vendor_reg_comp_address_layout"
                                 style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                                android:layout_width="wrap_content"
+                                android:layout_width="match_parent"
                                 android:layout_height="match_parent"
                                 android:layout_gravity="center"
                                 android:layout_marginStart="10dp"
@@ -693,7 +695,7 @@
 
                         <TextView
                             android:id="@+id/vendor_reg_services"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -717,7 +719,7 @@
                         <com.google.android.material.textfield.TextInputLayout
                             android:id="@+id/vendor_reg_comp_charge_layout"
                             style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -744,7 +746,7 @@
 
                         <TextView
                             android:id="@+id/vendor_reg_comp_charge_hint"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -755,12 +757,12 @@
                             android:minWidth="@dimen/field_max_width"
                             android:text="@string/reg_services_charge_hint"
                             android:textColor="?android:attr/colorForeground"
-                            android:textSize="12sp"
+                            android:textSize="14sp"
                             tools:ignore="TextContrastCheck" />
 
                         <CheckBox
                             android:id="@+id/vendor_reg_fee_check"
-                            android:layout_width="wrap_content"
+                            android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
                             android:layout_marginStart="10dp"
@@ -796,6 +798,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:text="@string/general_cancel_title"
+                        android:textSize="16sp"
                         tools:ignore="TextContrastCheck" />
 
                     <Button
@@ -806,6 +809,7 @@
                         android:layout_marginStart="10dp"
                         android:layout_marginEnd="10dp"
                         android:text="@string/general_submit_title"
+                        android:textSize="16sp"
                         tools:ignore="ButtonStyle,TextContrastCheck" />
 
                 </LinearLayout>

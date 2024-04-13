@@ -67,8 +67,16 @@ public class MainActivity extends AppCompatActivity {
 
         if (isSettingsSetup) loadAppSettings(); else setDefaultSettings();
 
-        //Head to Login fragment on startup if not logged in
-        if (loggedInUser == null) switchFragment(R.id.navigation_login, null);
+        //Check if user is coming from switching themes
+        //If so, head to settings, otherwise proceed normally
+        if (settings.getBoolean("isChangingTheme", false)) {
+            SharedPreferences.Editor editor = settings.edit();
+            editor.remove("isChangingTheme"); editor.apply();
+            switchFragment(R.id.navigation_settings, null);
+        } else if (loggedInUser == null) {
+            //Head to Login fragment on startup if not logged in
+            switchFragment(R.id.navigation_login, null);
+        }
     }
 
     public void switchFragment(int fragmentID, Bundle args) {

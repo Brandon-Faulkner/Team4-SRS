@@ -36,7 +36,7 @@
         android:paddingStart="5dp"
         android:paddingEnd="5dp"
         android:text="@string/search_title"
-        android:textSize="16sp"
+        android:textSize="20sp"
         app:drawableStartCompat="?android:attr/actionModeWebSearchDrawable"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toTopOf="parent" />
@@ -44,13 +44,12 @@
     <GridLayout
         android:id="@+id/service_categories_grid"
         android:layout_width="0dp"
-        android:layout_height="0dp"
+        android:layout_height="wrap_content"
         android:alignmentMode="alignMargins"
         android:columnCount="3"
         android:columnOrderPreserved="false"
         android:padding="15dp"
         android:rowCount="3"
-        app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
         app:layout_constraintTop_toBottomOf="@id/search_for_service"
@@ -62,7 +61,6 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
             android:drawableTop="@drawable/appliance_icon"
@@ -70,7 +68,8 @@
             android:padding="10dp"
             android:text="@string/appliance_title"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/electrical_button"
@@ -78,7 +77,6 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
             android:drawableTop="@drawable/electrical_icon"
@@ -86,7 +84,8 @@
             android:padding="10dp"
             android:text="@string/electrical_title"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/plumbing_button"
@@ -94,7 +93,6 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
             android:drawableTop="@drawable/plumbing_icon"
@@ -102,7 +100,8 @@
             android:padding="10dp"
             android:text="@string/plumbing_title"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/home_cleaning_button"
@@ -110,7 +109,6 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
             android:drawableTop="@drawable/home_cleaning_icon"
@@ -118,7 +116,8 @@
             android:padding="10dp"
             android:text="@string/home_cleaning_title"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/tutoring_button"
@@ -126,7 +125,6 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
             android:drawableTop="@drawable/tutoring_icon"
@@ -134,7 +132,8 @@
             android:padding="10dp"
             android:text="@string/tutoring_title"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/moving_button"
@@ -142,7 +141,6 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
             android:drawableTop="@drawable/moving_icon"
@@ -150,7 +148,8 @@
             android:padding="10dp"
             android:text="@string/moving_title"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/computer_repair_button"
@@ -158,7 +157,6 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
             android:drawableTop="@drawable/computer_repair_icon"
@@ -166,7 +164,8 @@
             android:padding="10dp"
             android:text="@string/computer_repair_title"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/home_repair_button"
@@ -174,7 +173,6 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
             android:drawableTop="@drawable/home_repair_icon"
@@ -182,7 +180,8 @@
             android:padding="10dp"
             android:text="@string/home_repair_title"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
         <Button
             android:id="@+id/pest_control_button"
@@ -190,7 +189,6 @@
             android:layout_height="wrap_content"
             android:layout_rowWeight="1"
             android:layout_columnWeight="1"
-            android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
             android:drawableTop="@drawable/pest_control_icon"
@@ -198,7 +196,8 @@
             android:padding="10dp"
             android:text="@string/pest_control_title"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
     </GridLayout>
 

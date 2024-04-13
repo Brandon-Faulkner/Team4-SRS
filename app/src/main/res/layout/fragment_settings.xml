@@ -26,12 +26,12 @@
         android:id="@+id/settings_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="15dp"
         android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_title_logo"
-        app:layout_constraintWidth_max="@dimen/field_max_width">
+        app:layout_constraintTop_toBottomOf="@+id/app_title_logo">
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_sound"
@@ -43,7 +43,7 @@
             android:layout_marginBottom="10dp"
             android:checked="true"
             android:text="@string/settings_sound"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_notifs"
@@ -55,7 +55,7 @@
             android:layout_marginBottom="10dp"
             android:checked="true"
             android:text="@string/settings_notifs"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_location"
@@ -67,7 +67,7 @@
             android:layout_marginBottom="10dp"
             android:checked="true"
             android:text="@string/settings_location"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_dark_mode"
@@ -78,7 +78,7 @@
             android:layout_marginEnd="25dp"
             android:layout_marginBottom="10dp"
             android:text="@string/settings_dark_mode"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <View
             android:id="@+id/settings_divider"
@@ -95,7 +95,7 @@
             android:layout_marginEnd="25dp"
             android:checked="true"
             android:text="@string/settings_texts_emails"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/settings_text_emails_desc"
@@ -105,7 +105,7 @@
             android:layout_marginEnd="25dp"
             android:ems="10"
             android:text="@string/settings_texts_emails_desc"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <androidx.appcompat.widget.SwitchCompat
             android:id="@+id/settings_redeem"
@@ -115,7 +115,7 @@
             android:layout_marginTop="10dp"
             android:layout_marginEnd="25dp"
             android:text="@string/settings_redeem"
-            android:textSize="16sp" />
+            android:textSize="20sp" />
 
         <TextView
             android:id="@+id/settings_redeem_desc"
@@ -125,14 +125,18 @@
             android:layout_marginEnd="25dp"
             android:ems="10"
             android:text="@string/settings_redeem_desc"
-            android:textSize="14sp" />
+            android:textSize="16sp" />
 
         <Button
             android:id="@+id/settings_go_back"
             android:layout_width="wrap_content"
-            android:layout_height="46dp"
-            android:text="Go Back"
-            android:textAlignment="center" />
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="50dp"
+            android:text="@string/general_back_title"
+            android:textAlignment="center"
+            android:textSize="16sp"
+            tools:ignore="TextContrastCheck" />
 
     </LinearLayout>
 
