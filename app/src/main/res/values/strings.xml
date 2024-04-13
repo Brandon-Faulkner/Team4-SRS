@@ -7,6 +7,8 @@
     <string name="general_cancel_title">Cancel</string>
     <string name="general_submit_title">Submit</string>
     <string name="default_service_title">Vendors</string>
+    <string name="general_back_title">Go Back</string>
+    <string name="default_service_rate_title">Charge Per Hour: $</string>
 
     <!-- Login Screen Main Buttons -->
     <string name="user_login_button">Login</string>
@@ -18,12 +20,6 @@
     <string name="login_id_hint">User ID</string>
     <string name="login_password_hint">Password</string>
     <string name="login_forgot_password_title"><u>Forgot Password</u></string>
-
-    <!-- Login Page-->
-    <string name="login_email_title">Email</string>
-    <string name="login_email_hint">Email</string>
-    <string name="login_password_title">Password</string>
-    
 
     <!-- Login Screen Forgot Password -->
     <string name="login_forgot_pass_title">Forgot Password</string>
@@ -79,6 +75,16 @@
     <string name="home_repair_description">Home Repair &amp; Painting Service</string>
     <string name="pest_control_title">Pest Control</string>
     <string name="pest_control_description">Pest Control Service</string>
+
+    <!-- Service Request Page -->
+    <string name="default_service_desc">This is a default description of a certain category of a service. This is used to test layouts and to visualize how it will look for the users. </string>
+    <string name="service_request_instructions">To receive service, complete the form below. Vendors will review your request and offer their services.</string>
+    <string name="service_estimated_price">Estimated Price: N/A</string>
+    <string name="service_request_form_title">Service Request Form</string>
+    <string name="service_request_form_input_desc_title">Description of Service Needed</string>
+    <string name="service_request_form_input_time_title">Preferred Time</string>
+    <string name="service_request_form_input_date_title">Preferred Date</string>
+    <string name="service_request_form_input_other_title">Any Other Information</string>
 
     <!-- Dashboard Icons and Buttons -->
     <string name="make_payment">Make Payment</string>

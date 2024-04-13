@@ -96,7 +96,7 @@ public class HomeFragment extends Fragment {
 
         movingBtn.setOnClickListener(v -> {
             Bundle args = new Bundle();
-            args.putString("service", "Packaging and Moving");
+            args.putString("service", "Packaging & Moving");
             mainActivity.switchFragment(R.id.navigation_services, args);
         });
 

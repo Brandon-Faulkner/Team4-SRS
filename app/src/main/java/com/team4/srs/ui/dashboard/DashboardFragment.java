@@ -9,6 +9,7 @@ import androidx.annotation.NonNull;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
 
+import com.team4.srs.R;
 import com.team4.srs.databinding.FragmentDashboardBinding;
 
 public class DashboardFragment extends Fragment {
@@ -28,7 +29,7 @@ public class DashboardFragment extends Fragment {
         if (isServiceProvider) {
             // Set up the dashboard for the service provider
             binding.userFullName.setText("Service Provider Name");
-            binding.btnMakePayment.setText(R.string.manage_appointments);
+            binding.btnMakePayment.setText(R.string.make_payment);
             binding.btnCancelRequest.setText(R.string.view_service_requests);
 
             // Hide buttons that are not relevant for service providers

@@ -7,6 +7,7 @@ import android.content.res.Configuration;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
@@ -20,7 +21,8 @@ import com.team4.srs.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "srs_settings";
-    public boolean isLoggedIn = false;
+    public String loggedInUser = null;
+    public static final String GUEST_ID = "guestUserID";
 
     public SQLiteHandler sqLiteHandler; //USE THIS HANDLER FOR ALL FRAGMENTS. DO NOT CREATE A NEW ONE!
     private ActivityMainBinding binding;
@@ -51,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             if (destination.getId() == R.id.navigation_home || destination.getId() == R.id.navigation_dashboard || destination.getId() == R.id.navigation_settings) {
                 navView.setVisibility(View.VISIBLE);
             } else {
-                if ((destination.getId() == R.id.navigation_login || destination.getId() == R.id.navigation_registration) && isLoggedIn) {
+                if ((destination.getId() == R.id.navigation_login || destination.getId() == R.id.navigation_registration) && loggedInUser != null) {
                     //Don't let user go to login/registration page if they are logged in
                     popFragmentStack();
                 } else navView.setVisibility(View.GONE);
@@ -61,12 +63,12 @@ public class MainActivity extends AppCompatActivity {
         //Restore preferences for settings and isLoggedIn
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean isSettingsSetup = settings.getBoolean("isSetup", false);
-        boolean isLoggedIn = settings.getBoolean("isLoggedIn", false);
+        loggedInUser = settings.getString("loggedInUser", null);
 
         if (isSettingsSetup) loadAppSettings(); else setDefaultSettings();
 
         //Head to Login fragment on startup if not logged in
-        if (!isLoggedIn) switchFragment(R.id.navigation_login, null);
+        if (loggedInUser == null) switchFragment(R.id.navigation_login, null);
     }
 
     public void switchFragment(int fragmentID, Bundle args) {
@@ -80,6 +82,7 @@ public class MainActivity extends AppCompatActivity {
     public boolean isInputEmpty(TextView input, String errorMsg) {
         if (input.getText().toString().trim().isEmpty()) {
             input.setError(errorMsg);
+            Toast.makeText(this, errorMsg, Toast.LENGTH_SHORT).show();
             return false;
         }
         return true;

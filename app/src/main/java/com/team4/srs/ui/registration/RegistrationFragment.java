@@ -42,7 +42,7 @@ public class RegistrationFragment extends Fragment
     private TextView vendorServices;
     private boolean[] selectedServices;
     private final ArrayList<Integer> serviceList = new ArrayList<>();
-    private final String[] serviceArray = {"Appliances", "Electrical", "Plumbing", "Home Cleaning", "Tutoring", "Packaging and Moving", "Computer Repair", "Home Repair and Painting", "Pest Control"};
+    private final String[] serviceArray = {"Appliances", "Electrical", "Plumbing", "Home Cleaning", "Tutoring", "Packaging & Moving", "Computer Repair", "Home Repair & Painting", "Pest Control"};
 
     //Regex strings for testing input
     private static final String userIDRegex = "^[a-zA-Z0-9]{8,}$";
@@ -97,8 +97,8 @@ public class RegistrationFragment extends Fragment
         vendorServices = requireView().findViewById(R.id.vendor_reg_services);
         vendorChargeAmount = requireView().findViewById(R.id.vendor_reg_comp_charge_input);
         vendorFee = requireView().findViewById(R.id.vendor_reg_fee_check);
-        userCancel = requireView().findViewById(R.id.user_reg_cancel_btn);
-        userSubmit = requireView().findViewById(R.id.user_reg_submit_btn);
+        userCancel = requireView().findViewById(R.id.service_request_cancel_btn);
+        userSubmit = requireView().findViewById(R.id.service_request_submit_btn);
 
         //Initially show Profile and Login cards, not vendor cards
         userProfileCard.setVisibility(View.VISIBLE);
@@ -113,10 +113,14 @@ public class RegistrationFragment extends Fragment
     }
 
     /** @noinspection BooleanMethodIsAlwaysInverted*/
-    private boolean testInputWithRegex(String input, String regex) {
+    private boolean testInputWithRegex(TextView input, String regex, String errMsg) {
         Pattern pattern = Pattern.compile(regex);
-        Matcher matcher = pattern.matcher(input);
-        return matcher.matches();
+        Matcher matcher = pattern.matcher(input.getText().toString().trim());
+        if (matcher.matches()) return true;
+        else {
+            Toast.makeText(getContext(), errMsg, Toast.LENGTH_LONG).show();
+            return false;
+        }
     }
 
     private void setupRegistrationListeners()
@@ -155,10 +159,8 @@ public class RegistrationFragment extends Fragment
                 //Proceed with registration
                 if (submitUserInfo()) {
                     //Customer registration complete, head to home page with user ID
-                    Bundle args = new Bundle();
-                    args.putString("userID", userID.getText().toString().trim());
-                    mainActivity.isLoggedIn = true;
-                    mainActivity.switchFragment(R.id.navigation_home, args);
+                    mainActivity.loggedInUser = userID.getText().toString().trim();
+                    mainActivity.switchFragment(R.id.navigation_home, null);
                     Toast.makeText(getContext(), "Registration complete! Welcome to Service Request System!", Toast.LENGTH_LONG).show();
                 }
             }
@@ -169,10 +171,8 @@ public class RegistrationFragment extends Fragment
                     if (submitUserInfo()) {
                         if (submitVendorInfo()) {
                             //User and Vendor registration complete, head to home page with user ID
-                            Bundle args = new Bundle();
-                            args.putString("userID", userID.getText().toString().trim());
-                            mainActivity.isLoggedIn = true;
-                            mainActivity.switchFragment(R.id.navigation_home, args);
+                            mainActivity.loggedInUser = userID.getText().toString().trim();
+                            mainActivity.switchFragment(R.id.navigation_home, null);
                             Toast.makeText(getContext(), "Registration complete! Welcome to Service Request System!", Toast.LENGTH_LONG).show();
                         }
                     }
@@ -188,13 +188,6 @@ public class RegistrationFragment extends Fragment
         userAddress.setError(null); userCity.setError(null); userState.setError(null);
         userZip.setError(null); userID.setError(null); userPassword.setError(null);
 
-        //Get text from input we check
-        String userEmailText = userEmail.getText().toString().trim();
-        String userPhoneText = userPhone.getText().toString().trim();
-        String userStateText = userState.getText().toString().trim().toUpperCase();
-        String userIDText = userID.getText().toString().trim();
-        String userPasswordText = userPassword.getText().toString().trim();
-
         //Start checking if input is empty
         if (!mainActivity.isInputEmpty(userName, "Please enter your name")) return false;
         if (!mainActivity.isInputEmpty(userEmail, "Please enter your email")) return false;
@@ -207,14 +200,18 @@ public class RegistrationFragment extends Fragment
         if (!mainActivity.isInputEmpty(userPassword, "Please enter your password")) return false;
 
         //Check if input is valid information for certain inputs
-        if (!testInputWithRegex(userEmailText, emailRegex)) {userEmail.setError("Invalid email"); return false;}
-        if (!testInputWithRegex(userPhoneText, phoneRegex)) {userPhone.setError("Invalid phone number"); return false;}
-        if (!testInputWithRegex(userStateText, stateRegex)) {userState.setError("Invalid U.S. State (excluding AK and HI)"); return false;}
-        if (!testInputWithRegex(userIDText, userIDRegex)) {userID.setError("Invalid user ID"); return false;}
-        if (!testInputWithRegex(userPasswordText, userPassRegex)) {userPassword.setError("Invalid password"); return false;}
+        if (!testInputWithRegex(userEmail, emailRegex, "Invalid email")) return false;
+        if (!testInputWithRegex(userPhone, phoneRegex, "Invalid phone number")) return false;
+        if (!testInputWithRegex(userState, stateRegex, "Invalid U.S. State (excluding AK and HI")) return false;
+        if (!testInputWithRegex(userID, userIDRegex, "Invalid user ID")) return false;
+        if (!testInputWithRegex(userPassword, userPassRegex, "Invalid password")) return false;
 
         //Finally, check if user ID already exists
-        if (mainActivity.sqLiteHandler.checkUserIDExists(userIDText)) {userID.setError("User ID already exists"); return false;}
+        if (mainActivity.sqLiteHandler.checkUserIDExists(userID.getText().toString().trim())) {
+            userID.setError("User ID already exists");
+            Toast.makeText(getContext(), "User ID already exists", Toast.LENGTH_LONG).show();
+            return false;
+        }
 
         //Input is verified
         return true;
@@ -241,7 +238,7 @@ public class RegistrationFragment extends Fragment
                 return true;
             } else {
                 //Need to remove user from users table to avoid conflicts when trying again
-                mainActivity.sqLiteHandler.deleteUser(userIDText, false, false);
+                boolean deleteSuccess = mainActivity.sqLiteHandler.deleteUser(userIDText, false, false);
                 Toast.makeText(getContext(), "Error completing registration. Please try again.", Toast.LENGTH_LONG).show();
                 return false;
             }
@@ -259,11 +256,6 @@ public class RegistrationFragment extends Fragment
         vendorCompZip.setError(null); vendorChargeAmount.setError(null); vendorFee.setError(null);
         vendorServices.setError(null); vendorFee.setError(null);
 
-        //Get text from input we check
-        String emailText = vendorCompEmail.getText().toString().trim();
-        String phoneText = vendorCompPhone.getText().toString().trim();
-        String stateText = vendorCompState.getText().toString().trim().toUpperCase();
-
         //Start checking if input is empty
         if (!mainActivity.isInputEmpty(vendorCompName, "Please enter companies name")) return false;
         if (!mainActivity.isInputEmpty(vendorCompEmail, "Please enter companies email")) return false;
@@ -276,10 +268,14 @@ public class RegistrationFragment extends Fragment
         if (!mainActivity.isInputEmpty(vendorChargeAmount, "Please enter hourly rates for companies services")) return false;
 
         //Check if input is valid information for certain inputs
-        if (!testInputWithRegex(emailText, emailRegex)) {userEmail.setError("Invalid email"); return false;}
-        if (!testInputWithRegex(phoneText, phoneRegex)) {userPhone.setError("Invalid phone number"); return false;}
-        if (!testInputWithRegex(stateText, stateRegex)) {userState.setError("Invalid U.S. State (excluding AK and HI)"); return false;}
-        if (!vendorFee.isChecked()) {vendorFee.setError("You must agree to this in order to register"); return false;}
+        if (!testInputWithRegex(vendorCompEmail, emailRegex, "Invalid email")) return false;
+        if (!testInputWithRegex(vendorCompPhone, phoneRegex, "Invalid phone number")) return false;
+        if (!testInputWithRegex(vendorCompState, stateRegex, "Invalid U.S. State (excluding AK and HI)")) return false;
+        if (!vendorFee.isChecked()) {
+            vendorFee.setError("You must agree to this in order to register");
+            Toast.makeText(getContext(), "You must agree to pay a fee in order to register", Toast.LENGTH_LONG).show();
+            return false;
+        }
 
         //Input is verified
         return true;

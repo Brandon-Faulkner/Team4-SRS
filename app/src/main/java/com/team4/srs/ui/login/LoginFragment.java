@@ -122,7 +122,7 @@ public class LoginFragment extends Fragment
             if (mainActivity.sqLiteHandler.checkLoginUser(loginIDText.getText().toString().trim(), loginPassText.getText().toString().trim())) {
                 //Successful login, head to home page
                 mainActivity.switchFragment(R.id.navigation_home, null);
-                mainActivity.isLoggedIn = true;
+                mainActivity.loggedInUser = loginIDText.getText().toString().trim();
             } else {
                 //Invalid login combo, show both errors
                 loginIDText.setError("Invalid login attempt. Please try again.");

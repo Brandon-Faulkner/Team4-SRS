@@ -778,7 +778,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
-                    android:id="@+id/user_reg_buttons"
+                    android:id="@+id/service_request_btns"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
@@ -789,7 +789,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/user_reg_cancel_btn"
+                        android:id="@+id/service_request_cancel_btn"
                         style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -800,7 +800,7 @@
                         tools:ignore="TextContrastCheck" />
 
                     <Button
-                        android:id="@+id/user_reg_submit_btn"
+                        android:id="@+id/service_request_submit_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"
