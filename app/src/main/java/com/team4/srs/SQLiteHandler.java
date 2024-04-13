@@ -10,6 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
@@ -276,7 +277,15 @@ public class SQLiteHandler extends SQLiteOpenHelper
                 String[] rowData = new String[cursor.getColumnCount()];
                 for (int i = 0; i < rowData.length; i++)
                 {
-                    rowData[i] = cursor.getString(i);
+                    if (i == cursor.getColumnIndex("services")) {
+                        rowData[i] = service;
+                    }
+                    else if (i == cursor.getColumnIndex("rates")) {
+                        int index = cursor.getColumnIndex("services");
+                        rowData[i] = getRateFromVendor(cursor.getString(index), service, cursor.getString(i));
+                    } else {
+                        rowData[i] = cursor.getString(i);
+                    }
                 }
                 list.add(rowData);
             }
@@ -288,6 +297,27 @@ public class SQLiteHandler extends SQLiteOpenHelper
             Log.e("SQLException", "getVendorsByService: " + e.getMessage());
             return null;
         }
+    }
+
+    private String getRateFromVendor(String services, String serviceToken, String rates) {
+        String[] serviceParts = services.split(",");
+        int servicePos = -1;
+
+        //Get the position of the specific service
+        if (serviceParts.length == 1) {
+            servicePos = 0;
+        } else {
+            for (int i = 0; i < serviceParts.length; i++) {
+                if (serviceParts[i].equals(serviceToken)) {
+                    servicePos = i;
+                    break;
+                }
+            }
+        }
+
+        //Get the rate that is associated with the specific service
+        String[] rateParts = rates.split(",");
+        return rateParts[servicePos];
     }
 
     private void insertTestVendors() {

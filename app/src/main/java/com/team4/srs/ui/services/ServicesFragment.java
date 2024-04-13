@@ -8,29 +8,21 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
-import android.widget.DatePicker;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.TimePicker;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.content.res.AppCompatResources;
-import androidx.core.content.res.ResourcesCompat;
 import androidx.fragment.app.Fragment;
 import androidx.lifecycle.ViewModelProvider;
-import androidx.recyclerview.widget.LinearLayoutManager;
-import androidx.recyclerview.widget.RecyclerView;
 
 import com.team4.srs.MainActivity;
 import com.team4.srs.R;
 
-import org.w3c.dom.Text;
-
-import java.text.SimpleDateFormat;
 import java.util.Calendar;
-import java.util.Date;
+import java.util.List;
 import java.util.Locale;
 import java.util.Objects;
 
@@ -80,8 +72,9 @@ public class ServicesFragment extends Fragment
         serviceCancelBtn = requireView().findViewById(R.id.service_request_cancel_btn);
         serviceSubmitBtn = requireView().findViewById(R.id.service_request_submit_btn);
 
-        //Set title of page
+        //Set title of page and estimate
         vendorsTitle.setText(serviceType);
+        setupServiceEstimate();
 
         //Change icon and description
         serviceIcon.setImageDrawable(getServiceIcon(Objects.requireNonNull(service)));
@@ -151,6 +144,20 @@ public class ServicesFragment extends Fragment
                 Toast.makeText(getContext(), "Unable to process your request. Please try again.", Toast.LENGTH_LONG).show();
             }
         });
+    }
+
+    private void setupServiceEstimate() {
+        List<String[]> vendors = mainActivity.sqLiteHandler.getVendorsByService(service);
+        int totalOfRates = 0;
+
+        for (int i = 0; i < vendors.size(); i++) {
+            totalOfRates += Integer.parseInt(vendors.get(i)[5]);
+        }
+
+        int totalAvg = totalOfRates / vendors.size();
+
+        String estimate = "Estimated Cost Avg: $" + totalAvg;
+        serviceEstimate.setText(estimate);
     }
 
     private Drawable getServiceIcon(String service) {

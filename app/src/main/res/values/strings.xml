@@ -79,7 +79,7 @@
     <!-- Service Request Page -->
     <string name="default_service_desc">This is a default description of a certain category of a service. This is used to test layouts and to visualize how it will look for the users. </string>
     <string name="service_request_instructions">To receive service, complete the form below. Vendors will review your request and offer their services.</string>
-    <string name="service_estimated_price">Estimated Price: N/A</string>
+    <string name="service_estimated_price">Estimated Cost Avg: N/A</string>
     <string name="service_request_form_title">Service Request Form</string>
     <string name="service_request_form_input_desc_title">Description of Service Needed</string>
     <string name="service_request_form_input_time_title">Preferred Time</string>
