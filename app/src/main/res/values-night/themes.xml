@@ -11,4 +11,9 @@
         <!-- Status bar color. -->
         <item name="android:statusBarColor">?attr/colorOnPrimary</item>
     </style>
+
+    <style name="CustomDialogTheme" parent="ThemeOverlay.MaterialComponents.Dialog.Alert">
+        <item name="android:background">?attr/colorOnPrimary</item>
+        <item name="dialogCornerRadius">10dp</item>
+    </style>
 </resources>

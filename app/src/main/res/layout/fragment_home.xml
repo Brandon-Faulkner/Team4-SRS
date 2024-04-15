@@ -42,7 +42,7 @@
         app:layout_constraintTop_toTopOf="parent" />
 
     <GridLayout
-        android:id="@+id/service_categories_grid"
+        android:id="@+id/search_filter_grid"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:alignmentMode="alignMargins"

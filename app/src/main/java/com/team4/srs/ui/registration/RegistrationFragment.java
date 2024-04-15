@@ -94,11 +94,11 @@ public class RegistrationFragment extends Fragment
         vendorCompCity = requireView().findViewById(R.id.vendor_reg_comp_city_input);
         vendorCompState = requireView().findViewById(R.id.vendor_reg_comp_state_input);
         vendorCompZip = requireView().findViewById(R.id.vendor_reg_comp_zipcode_input);
-        vendorServices = requireView().findViewById(R.id.vendor_reg_services);
+        vendorServices = requireView().findViewById(R.id.search_filter_service);
         vendorChargeAmount = requireView().findViewById(R.id.vendor_reg_comp_charge_input);
         vendorFee = requireView().findViewById(R.id.vendor_reg_fee_check);
-        userCancel = requireView().findViewById(R.id.service_request_cancel_btn);
-        userSubmit = requireView().findViewById(R.id.service_request_submit_btn);
+        userCancel = requireView().findViewById(R.id.search_back_btn);
+        userSubmit = requireView().findViewById(R.id.search_search_btn);
 
         //Initially show Profile and Login cards, not vendor cards
         userProfileCard.setVisibility(View.VISIBLE);
@@ -329,7 +329,7 @@ public class RegistrationFragment extends Fragment
         vendorServices.setOnClickListener(v ->
         {
             //Initialize alert dialog
-            AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.Theme_ServiceRequestSystem);
+            AlertDialog.Builder builder = new AlertDialog.Builder(getContext(), R.style.CustomDialogTheme);
 
             builder.setTitle("Select Services");
             builder.setCancelable(false);

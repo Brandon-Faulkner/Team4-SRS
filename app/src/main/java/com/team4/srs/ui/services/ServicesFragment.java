@@ -69,8 +69,8 @@ public class ServicesFragment extends Fragment
         serviceTime = requireView().findViewById(R.id.service_request_input_time);
         serviceDate = requireView().findViewById(R.id.service_request_input_date);
         userExtraInfo = requireView().findViewById(R.id.service_request_input_other_input);
-        serviceCancelBtn = requireView().findViewById(R.id.service_request_cancel_btn);
-        serviceSubmitBtn = requireView().findViewById(R.id.service_request_submit_btn);
+        serviceCancelBtn = requireView().findViewById(R.id.search_back_btn);
+        serviceSubmitBtn = requireView().findViewById(R.id.search_search_btn);
 
         //Set title of page and estimate
         vendorsTitle.setText(serviceType);
@@ -116,6 +116,7 @@ public class ServicesFragment extends Fragment
                 serviceDate.setText(date);
             }, year, month, day);
 
+            datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
             datePickerDialog.show();
         });
 
@@ -148,13 +149,14 @@ public class ServicesFragment extends Fragment
 
     private void setupServiceEstimate() {
         List<String[]> vendors = mainActivity.sqLiteHandler.getVendorsByService(service);
-        int totalOfRates = 0;
+        float totalOfRates = 0;
 
         for (int i = 0; i < vendors.size(); i++) {
-            totalOfRates += Integer.parseInt(vendors.get(i)[5]);
+            totalOfRates += Float.parseFloat(vendors.get(i)[5]);
+            //totalOfRates += Integer.parseInt(vendors.get(i)[5]);
         }
 
-        int totalAvg = totalOfRates / vendors.size();
+        int totalAvg = (int) (totalOfRates / vendors.size());
 
         String estimate = "Estimated Cost Avg: $" + totalAvg;
         serviceEstimate.setText(estimate);

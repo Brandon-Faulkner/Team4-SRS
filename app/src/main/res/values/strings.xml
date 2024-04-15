@@ -8,7 +8,6 @@
     <string name="general_submit_title">Submit</string>
     <string name="default_service_title">Vendors</string>
     <string name="general_back_title">Go Back</string>
-    <string name="default_service_rate_title">Charge Per Hour: $</string>
 
     <!-- Login Screen Main Buttons -->
     <string name="user_login_button">Login</string>
@@ -75,6 +74,18 @@
     <string name="home_repair_description">Home Repair &amp; Painting Service</string>
     <string name="pest_control_title">Pest Control</string>
     <string name="pest_control_description">Pest Control Service</string>
+
+    <!-- Search Page -->
+    <string name="search_filter_service_title">Service</string>
+    <string name="search_filter_rating_title">Rating</string>
+    <string name="search_filter_date_title">Date</string>
+    <string name="search_filter_price_title">Price</string>
+    <string name="search_search_title">Search</string>
+    <string name="default_service_rate_title">Rate/Hour: </string>
+    <string name="default_service_services_title">Service: </string>
+    <string name="default_service_address_title">Address: </string>
+    <string name="default_service_phone_title">Phone: </string>
+    <string name="search_no_result_title">No results found with these parameters.</string>
 
     <!-- Service Request Page -->
     <string name="default_service_desc">This is a default description of a certain category of a service. This is used to test layouts and to visualize how it will look for the users. </string>

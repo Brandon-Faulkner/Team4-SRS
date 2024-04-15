@@ -61,7 +61,7 @@ public class HomeFragment extends Fragment {
     private void setupHomeListeners()
     {
         serviceSearch.setOnClickListener(v -> {
-
+            mainActivity.switchFragment(R.id.navigation_search, null);
         });
 
         applianceBtn.setOnClickListener(v -> {

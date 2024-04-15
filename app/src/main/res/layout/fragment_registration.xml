@@ -86,7 +86,7 @@
                         android:orientation="vertical">
 
                         <TextView
-                            android:id="@+id/user_reg_profile_title"
+                            android:id="@+id/search_no_result_title"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -694,7 +694,7 @@
                         </LinearLayout>
 
                         <TextView
-                            android:id="@+id/vendor_reg_services"
+                            android:id="@+id/search_filter_service"
                             android:layout_width="match_parent"
                             android:layout_height="match_parent"
                             android:layout_gravity="center"
@@ -713,7 +713,7 @@
                             android:textAlignment="viewStart"
                             android:textColor="?android:attr/colorForeground"
                             android:textSize="16sp"
-                            app:drawableRightCompat="@android:drawable/arrow_down_float"
+                            app:drawableRightCompat="@android:drawable/ic_menu_more"
                             tools:ignore="TextContrastCheck" />
 
                         <com.google.android.material.textfield.TextInputLayout
@@ -779,7 +779,7 @@
                 </androidx.cardview.widget.CardView>
 
                 <LinearLayout
-                    android:id="@+id/service_request_btns"
+                    android:id="@+id/search_btns_layout"
                     android:layout_width="match_parent"
                     android:layout_height="match_parent"
                     android:layout_marginStart="10dp"
@@ -790,7 +790,7 @@
                     android:orientation="horizontal">
 
                     <Button
-                        android:id="@+id/service_request_cancel_btn"
+                        android:id="@+id/search_back_btn"
                         style="?android:attr/buttonBarButtonStyle"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
@@ -802,7 +802,7 @@
                         tools:ignore="TextContrastCheck" />
 
                     <Button
-                        android:id="@+id/service_request_submit_btn"
+                        android:id="@+id/search_search_btn"
                         android:layout_width="wrap_content"
                         android:layout_height="wrap_content"
                         android:layout_gravity="center"

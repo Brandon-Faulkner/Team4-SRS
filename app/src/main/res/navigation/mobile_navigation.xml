@@ -46,4 +46,9 @@
         android:name="com.team4.srs.ui.payment.PaymentFragment"
         android:label="fragment_payment"
         tools:layout="@layout/fragment_payment"/>
+    <fragment
+        android:id="@+id/navigation_search"
+        android:name="com.team4.srs.ui.search.SearchFragment"
+        android:label="fragment_search"
+        tools:layout="@layout/fragment_search" />
 </navigation>

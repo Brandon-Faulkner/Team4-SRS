@@ -10,10 +10,9 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
+import java.util.Objects;
+import java.util.concurrent.ThreadLocalRandom;
 
 public class SQLiteHandler extends SQLiteOpenHelper
 {
@@ -28,6 +27,10 @@ public class SQLiteHandler extends SQLiteOpenHelper
     public static final String CUSTOMER_TABLE = "Customers";
     public static final String VENDORS_TABLE = "Vendors";
     public static final String REQUESTS_TABLE = "Requests";
+    public static final String CUSTOMER_REVIEWS_TABLE = "Customer_Reviews";
+    public static final String VENDOR_REVIEWS_TABLE = "Vendor_Reviews";
+    public static final String VENDOR_DATES_TABLE = "Vendor_Dates";
+    public static final String VENDOR_SERVICES_TABLE = "Vendor_Services";
 
     public SQLiteHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -50,9 +53,13 @@ public class SQLiteHandler extends SQLiteOpenHelper
     @Override
     public void onCreate(SQLiteDatabase db) {
         createTable(db, USERS_TABLE, "userID TEXT PRIMARY KEY", new String[]{"password TEXT", "name TEXT", "email TEXT", "phone TEXT", "address TEXT"});
-        createTable(db, CUSTOMER_TABLE, "userID TEXT PRIMARY KEY", new String[]{"points TEXT", "discounts TEXT", "FOREIGN KEY (userID) REFERENCES Users (userID)"});
-        createTable(db, VENDORS_TABLE, "userID TEXT PRIMARY KEY", new String[]{"name TEXT", "email TEXT", "phone TEXT", "address TEXT", "services TEXT", "rates TEXT", "FOREIGN KEY (userID) REFERENCES Users (userID)"});
-        createTable(db, REQUESTS_TABLE, "orderID INTEGER PRIMARY KEY AUTOINCREMENT", new String[]{"userID TEXT", "service TEXT", "description TEXT", "time TEXT", "date TEXT", "other TEXT", "cost TEXT", "status TEXT", "FOREIGN KEY (userID) REFERENCES Users (userID)"});
+        createTable(db, CUSTOMER_TABLE, "customerID TEXT PRIMARY KEY", new String[]{"points TEXT", "discounts TEXT", "FOREIGN KEY (customerID) REFERENCES Users (userID)"});
+        createTable(db, VENDORS_TABLE, "vendorID TEXT PRIMARY KEY", new String[]{"name TEXT", "email TEXT", "phone TEXT", "address TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
+        createTable(db, REQUESTS_TABLE, "orderID INTEGER PRIMARY KEY AUTOINCREMENT", new String[]{"customerID TEXT", "service TEXT", "description TEXT", "time TEXT", "date TEXT", "other TEXT", "cost TEXT", "status TEXT", "FOREIGN KEY (customerID) REFERENCES Users (userID)"});
+        createTable(db, CUSTOMER_REVIEWS_TABLE, "reviewID INTEGER PRIMARY KEY AUTOINCREMENT", new String[]{"vendorID TEXT", "customerID TEXT", "rating TEXT", "comment TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)", "FOREIGN KEY (customerID) REFERENCES Users (userID)"});
+        createTable(db, VENDOR_REVIEWS_TABLE, "vendorID TEXT PRIMARY KEY", new String[]{"num_ratings INTEGER", "avg_rating TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
+        createTable(db, VENDOR_DATES_TABLE, "vendorID TEXT", new String[]{"avail_date TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
+        createTable(db, VENDOR_SERVICES_TABLE, "vendorID TEXT", new String[]{"service TEXT", "rate TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
     }
 
     public void createTable(SQLiteDatabase db, String tableName, String primaryKey, String[] columns) {
@@ -112,8 +119,8 @@ public class SQLiteHandler extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getWritableDatabase();
-            if (isCustomer) db.delete(CUSTOMER_TABLE, "userID=?", new String[]{userID});
-            if (isVendor) db.delete(VENDORS_TABLE, "userID=?", new String[]{userID});
+            if (isCustomer) db.delete(CUSTOMER_TABLE, "customerID=?", new String[]{userID});
+            if (isVendor) db.delete(VENDORS_TABLE, "vendorID=?", new String[]{userID});
             db.delete(USERS_TABLE, "userID=?", new String[]{userID} );
             db.close();
             return true;
@@ -200,13 +207,13 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public boolean insertCustomers(String userID, String points, String discounts) {
+    public boolean insertCustomers(String customerID, String points, String discounts) {
         try
         {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
 
-            values.put("userID", userID);
+            values.put("customerID", customerID);
             values.put("points", points);
             values.put("discounts", discounts);
 
@@ -219,21 +226,62 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public boolean insertVendors(String userID, String name, String email, String phone, String address, String services, String rates) {
+    public boolean insertCustomerReview(String vendorID, String customerID, String rating, String comment) {
         try
         {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
 
-            values.put("userID", userID);
+            values.put("vendorID", vendorID);
+            values.put("customerID", customerID);
+            values.put("rating", rating);
+            values.put("comment", comment);
+
+            db.insert(CUSTOMER_REVIEWS_TABLE, null, values);
+            db.close();
+
+            return updateVendorReviews(vendorID, rating);
+        }catch (SQLException e) {
+            Log.e("SQLException", "insertCustomerReview: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean insertVendors(String vendorID, String name, String email, String phone, String address, String services, String rates) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+
+            //Initial insertion of vendor to vendors table
+            ContentValues values = new ContentValues();
+            values.put("vendorID", vendorID);
             values.put("name", name);
             values.put("email", email);
             values.put("phone", phone);
             values.put("address", address);
-            values.put("services", services);
-            values.put("rates", rates);
-
+            //values.put("services", services);
+            //values.put("rates", rates);
             db.insert(VENDORS_TABLE, null, values);
+
+            //Insert services and rates into vendor services table
+            String[] serviceParts = services.split(",");
+            String[] rateParts = rates.split(",");
+            for (int i = 0; i < serviceParts.length; i++)
+            {
+                ContentValues serviceValues = new ContentValues();
+                serviceValues.put("vendorID", vendorID);
+                serviceValues.put("service", serviceParts[i].trim());
+                serviceValues.put("rate", rateParts[i].trim());
+                db.insert(VENDOR_SERVICES_TABLE, null, serviceValues);
+            }
+
+            //Now initially insert into vendor reviews table
+            ContentValues reviewValues = new ContentValues();
+            reviewValues.put("vendorID", vendorID);
+            reviewValues.put("num_ratings", 0);
+            reviewValues.put("avg_rating", "0");
+            db.insert(VENDOR_REVIEWS_TABLE, null, reviewValues);
+
             db.close();
             return true;
         }catch (SQLException e) {
@@ -242,13 +290,13 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public boolean insertRequests(String userID, String service, String desc, String time, String date, String other, String cost, String status) {
+    public boolean insertRequests(String customerID, String service, String desc, String time, String date, String other, String cost, String status) {
         try
         {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
 
-            values.put("userID", userID);
+            values.put("customerID", customerID);
             values.put("service", service);
             values.put("description", desc);
             values.put("time", time);
@@ -266,30 +314,56 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
+    public boolean insertVendorDate(String vendorID, String date) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            ContentValues values = new ContentValues();
+
+            values.put("vendorID", vendorID);
+            values.put("avail_date", date);
+
+            db.insert(VENDOR_DATES_TABLE, null, values);
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "insertVendorDate: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateVendorReviews(String vendorID, String newRating) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String query = "UPDATE " + VENDOR_REVIEWS_TABLE + " SET avg_rating = printf(\"%.1f\", (avg_rating * num_rating + " + newRating + ") / (num_ratings + 1)), " +
+                    "num_ratings = num_ratings + 1 WHERE vendorID = '" + vendorID + "';";
+            Cursor cursor = db.rawQuery(query,null);
+            cursor.close();
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "updateVendorReviews: " + e.getMessage());
+            return false;
+        }
+    }
+
     public List<String[]> getVendorsByService(String service) {
         try
         {
             List<String[]> list = new ArrayList<>();
             SQLiteDatabase db = this.getWritableDatabase();
-            String query = "SELECT name, email, phone, address, services, rates FROM " + VENDORS_TABLE + " WHERE services LIKE '%" + service + "%';";
+            String query = "SELECT v.name, v.email, v.phone, v.address, s.service, s.rate FROM " + VENDORS_TABLE + " v" +
+                    " LEFT JOIN " + VENDOR_SERVICES_TABLE + " s ON v.vendorID = s.vendorID " + "WHERE s.service LIKE '%" + service + "%';";
             Cursor cursor = db.rawQuery(query, null);
             while(cursor.moveToNext()) {
                 String[] rowData = new String[cursor.getColumnCount()];
                 for (int i = 0; i < rowData.length; i++)
                 {
-                    if (i == cursor.getColumnIndex("services")) {
-                        rowData[i] = service;
-                    }
-                    else if (i == cursor.getColumnIndex("rates")) {
-                        int index = cursor.getColumnIndex("services");
-                        rowData[i] = getRateFromVendor(cursor.getString(index), service, cursor.getString(i));
-                    } else {
-                        rowData[i] = cursor.getString(i);
-                    }
+                    rowData[i] = cursor.getString(i);
                 }
                 list.add(rowData);
             }
-            Log.i("SQLData", "getVendorsByService: " + list);
             cursor.close();
             db.close();
             return list;
@@ -299,7 +373,74 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    private String getRateFromVendor(String services, String serviceToken, String rates) {
+    public List<String[]> getVendorsBySearch(String service, String rating, String date, String price) {
+        try
+        {
+            List<String[]> list = new ArrayList<>();
+            SQLiteDatabase db = this.getWritableDatabase();
+            StringBuilder query = new StringBuilder();
+            query.append("SELECT v.name, v.email, v.phone, v.address, s.service, s.rate, r.avg_rating, d.avail_date FROM ").append(VENDORS_TABLE).append(" v");
+            query.append(" LEFT JOIN ").append(VENDOR_SERVICES_TABLE).append(" s ON v.vendorID = s.vendorID");
+            query.append(" LEFT JOIN ").append(VENDOR_REVIEWS_TABLE).append(" r ON v.vendorID = r.vendorID");
+            query.append(" LEFT JOIN ").append(VENDOR_DATES_TABLE).append(" d ON v.vendorID = d.vendorID");
+
+            boolean hasWhereClause = false;
+
+            if (!service.isEmpty() || !rating.isEmpty() || !date.isEmpty() || !price.isEmpty()) {
+                query.append(" WHERE ");
+                if (!service.isEmpty()) {
+                    query.append("s.service LIKE '%").append(service).append("%'");
+                    hasWhereClause = true;
+                }
+                if (!rating.isEmpty()) {
+                    if (hasWhereClause) {
+                        query.append(" AND ");
+                    }
+                    //Parse the rating parameter into lower and upper bounds
+                    String[] ratingRange = rating.split("-");
+                    query.append("CAST(r.avg_rating AS REAL) BETWEEN ").append(ratingRange[0]).append(" AND ").append(ratingRange[1]);
+                    hasWhereClause = true;
+                }
+                if (!date.isEmpty()) {
+                    if (hasWhereClause) {
+                        query.append(" AND ");
+                    }
+                    query.append("d.avail_date = '").append(date).append("'");
+                    hasWhereClause = true;
+                }
+                if (!price.isEmpty()) {
+                    if (hasWhereClause) {
+                        query.append(" AND ");
+                    }
+                    String[] priceRange = price.split("[-+]");
+                    if (priceRange.length == 2) {
+                        query.append("CAST(s.rate AS REAL) BETWEEN ").append(priceRange[0]).append(" AND ").append(priceRange[1]);
+                    } else {
+                        query.append("CAST(s.rate AS REAL) >= ").append(priceRange[0]);
+                    }
+                    hasWhereClause = true;
+                }
+            }
+
+            Cursor cursor = db.rawQuery(query.toString(), null);
+            while(cursor.moveToNext()) {
+                String[] rowData = new String[cursor.getColumnCount()];
+                for (int i = 0; i < rowData.length; i++)
+                {
+                    rowData[i] = cursor.getString(i);
+                }
+                list.add(rowData);
+            }
+            cursor.close();
+            db.close();
+            return list;
+        }catch (SQLException e) {
+            Log.e("SQLException", "getVendorsBySearch: " + e.getMessage());
+            return null;
+        }
+    }
+
+    private String splitRateFromVendorRates(String services, String serviceToken, String rates) {
         String[] serviceParts = services.split(",");
         int servicePos = -1;
 
