@@ -99,6 +99,8 @@
     <string name="manage_service_requests">Manage Service Requests</string>
     <string name="review_and_rating">Review and Rating</string>
     <string name="view_reviews">View Reviews</string>
+    <string name="user_dashboard_title">User Dashboard</string>
+    <string name="service_provider_dashboard_title">Service Provider Dashboard</string>
 
     <!-- Settings Switches and Descriptions -->
     <string name="settings_sound">Sound</string>
@@ -116,4 +118,5 @@
     <string name="card_exp_date_title">Expiration Date</string>
     <string name="card_cvv_title">CVV</string>
     <string name="submit_payment">Submit Payment</string>
+    <string name="cancel_payment">Cancel</string>
 </resources>
