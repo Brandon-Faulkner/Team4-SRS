@@ -4,6 +4,7 @@ import androidx.lifecycle.ViewModelProvider;
 
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.content.DialogInterface;
 import android.os.Bundle;
 
 import androidx.annotation.NonNull;
@@ -71,8 +72,8 @@ public class SearchFragment extends Fragment
         filterPrice = requireView().findViewById(R.id.search_filter_price);
         backBtn = requireView().findViewById(R.id.search_back_btn);
         searchBtn = requireView().findViewById(R.id.search_search_btn);
-        noResult = requireView().findViewById(R.id.search_no_result_title);
-        searchRecycler = requireView().findViewById(R.id.search_recycler_view);
+        noResult = requireView().findViewById(R.id.orders_no_result_title);
+        searchRecycler = requireView().findViewById(R.id.orders_recycler_view);
 
         //Initial query of all vendors to show in recycler view
         updateRecycler(new SearchAdapter(mainActivity.sqLiteHandler.getVendorsBySearch("", "", "", "")));
@@ -117,6 +118,11 @@ public class SearchFragment extends Fragment
                 String date = (monthOfYear + 1) + "/" + dayOfMonth + "/" + yearInput;
                 filterDate.setText(date);
             }, year, month, day);
+
+            datePickerDialog.setButton(DialogInterface.BUTTON_NEUTRAL, "Clear", (dialog, which) ->
+            {
+                filterDate.setText("");
+            });
 
             datePickerDialog.getDatePicker().setMinDate(c.getTimeInMillis());
             datePickerDialog.show();

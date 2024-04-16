@@ -19,7 +19,7 @@ import java.util.List;
 public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchViewHolder> {
     public static class SearchViewHolder extends RecyclerView.ViewHolder
     {
-        TextView vendorName, vendorPhone, vendorServices, vendorRate, vendorAddress;
+        TextView vendorName, vendorPhone, vendorServices, vendorRate, vendorAddress, vendorRating, vendorDate;
         ImageView vendorIcon;
         View view;
         public SearchViewHolder(@NonNull View itemView)
@@ -30,6 +30,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             vendorServices = itemView.findViewById(R.id.service_card_vendor_services);
             vendorRate = itemView.findViewById(R.id.service_card_vendor_rate);
             vendorAddress = itemView.findViewById(R.id.service_card_vendor_address);
+            vendorRating = itemView.findViewById(R.id.service_card_vendor_rating);
+            vendorDate = itemView.findViewById(R.id.service_card_vendor_date);
             vendorIcon = itemView.findViewById(R.id.service_card_icon);
             view = itemView;
         }
@@ -60,6 +62,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.vendorServices.setText(String.format("SERVICE: %s", data.get(position)[4]));
         holder.vendorRate.setText(String.format("RATE/HOUR: $%s", data.get(position)[5]));
         holder.vendorAddress.setText(String.format("ADDRESS: %s", data.get(position)[3]));
+        holder.vendorRating.setText(String.format("AVG RATING: %s", data.get(position)[6]));
+        holder.vendorDate.setText(String.format("AVAILABLE DATE: %s", data.get(position)[7]));
         holder.vendorIcon.setImageDrawable(getServiceIcon(holder.view, data.get(position)[4]));
 
         //Setup click listener

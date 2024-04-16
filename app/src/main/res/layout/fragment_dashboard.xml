@@ -22,241 +22,216 @@
         app:layout_constraintWidth_max="@dimen/field_max_width"
         app:layout_constraintWidth_percent="1" />
 
-    <!-- User Information Section -->
     <LinearLayout
-        android:id="@+id/userInfoSection"
+        android:id="@+id/dashboard_user_info_layout"
         android:layout_width="0dp"
         android:layout_height="wrap_content"
         android:orientation="vertical"
-        android:padding="16dp"
-        app:layout_constraintTop_toBottomOf="@id/app_title_logo"
+        app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintEnd_toEndOf="parent">
-
-        <!-- Replace with a CircleImageView or similar library for circular images -->
-        <ImageView
-            android:id="@+id/user_profile_image"
-            android:layout_width="100dp"
-            android:layout_height="100dp"
-            android:layout_gravity="center"
-            android:contentDescription="@string/user_profile_pic"
-            android:src="@drawable/user" />
+        app:layout_constraintTop_toBottomOf="@+id/app_title_logo">
 
         <TextView
             android:id="@+id/user_full_name"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Firstname Lastname"
             android:layout_gravity="center"
-            android:textAppearance="?android:attr/textAppearanceLarge" />
+            android:layout_marginTop="15dp"
+            android:text="@string/dashboard_greeting_title"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textStyle="italic" />
+
+        <TextView
+            android:id="@+id/user_rewards"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_gravity="center"
+            android:layout_marginTop="10dp"
+            android:text="@string/dashboard_user_rewards_title"
+            android:textAlignment="center"
+            android:textAppearance="?android:attr/textAppearanceLarge"
+            android:textSize="16sp"
+            android:textStyle="italic" />
+
     </LinearLayout>
 
-    <!-- Dashboard Grid Options -->
     <GridLayout
         android:id="@+id/user_dashboard_grid"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="15dp"
         android:alignmentMode="alignMargins"
-        android:columnCount="3"
+        android:columnCount="2"
         android:columnOrderPreserved="false"
-        android:padding="25dp"
-        android:rowCount="4"
-        android:visibility="gone"
+        android:padding="15dp"
+        android:rowCount="3"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userInfoSection">
+        app:layout_constraintTop_toBottomOf="@id/dashboard_user_info_layout">
 
-        <!-- Define buttons for grid items -->
-
-        <!-- Make Payment Button -->
         <Button
-            android:id="@+id/btnMakePayment"
+            android:id="@+id/dashboard_current_requests_customer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
-            android:drawableTop="@drawable/payment"
+            android:drawableTop="@drawable/current_requests_icon"
             android:drawablePadding="8dp"
-            android:padding="16dp"
-            android:text="@string/make_payment"
+            android:padding="10dp"
+            android:text="@string/dashboard_current_requests"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
-        <!-- Cancel Request Button -->
         <Button
-            android:id="@+id/btnCancelRequest"
+            android:id="@+id/dashboard_payment"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
-            android:drawableTop="@drawable/cancel_req"
+            android:drawableTop="@drawable/make_payment_icon"
             android:drawablePadding="8dp"
-            android:padding="16dp"
-            android:text="@string/cancel_request"
+            android:padding="10dp"
+            android:text="@string/dashboard_payment_title"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
-        <!-- Change Request Button -->
         <Button
-            android:id="@+id/btnChangeRequest"
+            android:id="@+id/dashboard_order_history_customer"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
-            android:drawableTop="@drawable/change_req"
-            android:drawablePadding="8dp"
-            android:padding="16dp"
-            android:text="@string/change_request"
-            android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
-
-        <!-- Order History Button -->
-        <Button
-            android:id="@+id/btnOrderHistory"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_margin="4dp"
-            android:backgroundTint="?attr/colorOnPrimary"
-            android:drawableTop="@drawable/order_history"
+            android:drawableTop="@drawable/order_history_icon"
             android:drawablePadding="8dp"
             android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/order_history"
+            android:padding="10dp"
+            android:text="@string/dashboard_order_history"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
-        <!-- Map View Button -->
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
+
         <Button
-            android:id="@+id/btnMapView"
+            android:id="@+id/dashboard_rate_services"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
-            android:drawableTop="@drawable/map_view"
+            android:drawableTop="@drawable/rating_icon"
             android:drawablePadding="8dp"
-            android:gravity="center"
-            android:padding="16dp"
-            android:text="@string/map_view"
+            android:padding="10dp"
+            android:text="@string/dashboard_rate_services"
             android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
-        <!-- Rewards Button -->
-        <Button
-            android:id="@+id/btnRewards"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_margin="4dp"
-            android:backgroundTint="?attr/colorOnPrimary"
-            android:drawableTop="@drawable/rewards"
-            android:drawablePadding="8dp"
-            android:padding="16dp"
-            android:text="@string/rewards"
-            android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
-        <!-- Review and Rating Button -->
-        <Button
-            android:id="@+id/btnReviewAndRating"
-            android:layout_width="0dp"
-            android:layout_height="wrap_content"
-            android:layout_columnWeight="1"
-            android:layout_gravity="fill"
-            android:layout_margin="4dp"
-            android:backgroundTint="?attr/colorOnPrimary"
-            android:drawableTop="@drawable/reviews"
-            android:drawablePadding="8dp"
-            android:padding="16dp"
-            android:text="@string/review_and_rating"
-            android:textAllCaps="false"
-            android:textColor="?android:attr/colorForeground" />
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
     </GridLayout>
 
-    <!-- Service Provider Dashboard Grid -->
     <GridLayout
         android:id="@+id/serviceProviderDashboardGrid"
         android:layout_width="0dp"
         android:layout_height="0dp"
+        android:layout_marginTop="15dp"
         android:alignmentMode="alignMargins"
         android:columnCount="2"
         android:columnOrderPreserved="false"
-        android:padding="25dp"
-        android:rowCount="4"
-        android:visibility="visible"
+        android:padding="15dp"
+        android:rowCount="3"
+        android:visibility="gone"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@id/userInfoSection">
+        app:layout_constraintTop_toBottomOf="@id/dashboard_user_info_layout">
 
-        <!-- Service provider-specific buttons -->
-
-        <!-- View Service Requests Button -->
         <Button
-            android:id="@+id/btnViewServiceRequests"
+            android:id="@+id/dashboard_current_requests_vendor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
-            android:drawableTop="@drawable/quote_request"
+            android:drawableTop="@drawable/current_requests_icon"
             android:drawablePadding="8dp"
             android:padding="16dp"
-            android:text="@string/view_service_requests"
-            android:textColor="?android:attr/colorForeground" />
+            android:text="@string/dashboard_current_requests"
+            android:textAllCaps="false"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
-        <!-- Manage Appointments Button -->
         <Button
-            android:id="@+id/btnManageAppointments"
+            android:id="@+id/dashboard_add_dates"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
-            android:drawableTop="@drawable/manage_req"
+            android:drawableTop="@drawable/add_dates_icon"
             android:drawablePadding="8dp"
             android:padding="16dp"
-            android:text="@string/manage_service_requests"
-            android:textColor="?android:attr/colorForeground" />
-        <!-- View Reviews and Ratings Button -->
+            android:text="@string/dashboard_add_dates"
+            android:textAllCaps="false"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
+
         <Button
-            android:id="@+id/btnViewReviews"
+            android:id="@+id/dashboard_order_history_vendor"
             android:layout_width="0dp"
             android:layout_height="wrap_content"
             android:layout_columnWeight="1"
             android:layout_gravity="fill"
             android:layout_margin="4dp"
             android:backgroundTint="?attr/colorOnPrimary"
-            android:drawableTop="@drawable/view_review"
+            android:drawableTop="@drawable/order_history_icon"
+            android:drawablePadding="8dp"
+            android:gravity="center"
+            android:padding="10dp"
+            android:text="@string/dashboard_order_history"
+            android:textAllCaps="false"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
+
+        <Button
+            android:id="@+id/dashboard_view_ratings"
+            android:layout_width="0dp"
+            android:layout_height="wrap_content"
+            android:layout_columnWeight="1"
+            android:layout_gravity="fill"
+            android:layout_margin="4dp"
+            android:backgroundTint="?attr/colorOnPrimary"
+            android:drawableTop="@drawable/rating_icon"
             android:drawablePadding="8dp"
             android:padding="16dp"
-            android:text="@string/view_reviews"
-            android:textColor="?android:attr/colorForeground" />
+            android:text="@string/dashboard_view_reviews"
+            android:textAllCaps="false"
+            android:textColor="?android:attr/colorForeground"
+            android:textSize="15sp" />
 
 
     </GridLayout>
 
-    <!-- Logout Button -->
     <Button
-        android:id="@+id/btnLogout"
+        android:id="@+id/dashboard_logout"
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_marginEnd="16dp"
         android:layout_marginBottom="16dp"
-        android:text="@string/logout"
+        android:text="@string/dashboard_user_logout_title"
         android:visibility="visible"
         app:layout_constraintBottom_toBottomOf="parent"
-        app:layout_constraintEnd_toEndOf="parent" />
+        app:layout_constraintEnd_toEndOf="parent"
+        tools:ignore="TextContrastCheck" />
 
 </androidx.constraintlayout.widget.ConstraintLayout>

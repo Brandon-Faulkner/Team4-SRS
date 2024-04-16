@@ -51,4 +51,14 @@
         android:name="com.team4.srs.ui.search.SearchFragment"
         android:label="fragment_search"
         tools:layout="@layout/fragment_search" />
+    <fragment
+        android:id="@+id/navigation_orders"
+        android:name="com.team4.srs.ui.orders.OrdersFragment"
+        android:label="fragment_orders"
+        tools:layout="@layout/fragment_orders" />
+    <fragment
+        android:id="@+id/navigation_rating"
+        android:name="com.team4.srs.ui.rating.RatingFragment"
+        android:label="fragment_rating"
+        tools:layout="@layout/fragment_rating" />
 </navigation>

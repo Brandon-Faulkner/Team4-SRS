@@ -5,7 +5,7 @@
     android:layout_height="wrap_content">
 
     <androidx.cardview.widget.CardView
-        android:id="@+id/service_card_view"
+        android:id="@+id/orders_card_view"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:layout_marginStart="15dp"
@@ -18,109 +18,101 @@
         app:cardElevation="4dp">
 
         <LinearLayout
-            android:id="@+id/service_card_info_layout"
+            android:id="@+id/orders_card_info_layout"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
             android:layout_marginStart="10dp"
             android:layout_marginTop="5dp"
-            android:layout_marginEnd="80dp"
+            android:layout_marginEnd="10dp"
             android:layout_marginBottom="5dp"
             android:orientation="vertical">
 
             <TextView
-                android:id="@+id/service_card_vendor"
+                android:id="@+id/orders_card_id"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="top"
                 android:layout_marginTop="2dp"
                 android:layout_marginBottom="2dp"
-                android:text="@string/default_service_title"
+                android:contentDescription="@string/orders_id_title"
+                android:text="@string/orders_id_title"
                 android:textColor="?android:attr/colorForeground"
                 android:textSize="20sp"
                 android:textStyle="bold" />
 
             <TextView
-                android:id="@+id/service_card_vendor_phone"
+                android:id="@+id/orders_card_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:contentDescription="@string/default_service_phone_title"
-                android:text="@string/default_service_phone_title"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/orders_service_title"
+                android:text="@string/orders_service_title"
                 android:textColor="?android:attr/colorForeground"
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/service_card_vendor_services"
+                android:id="@+id/orders_card_desc"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:contentDescription="@string/default_service_services_title"
-                android:text="@string/default_service_services_title"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/orders_description_title"
+                android:text="@string/orders_description_title"
                 android:textColor="?android:attr/colorForeground"
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/service_card_vendor_rate"
+                android:id="@+id/orders_card_datetime"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:contentDescription="@string/default_service_rate_title"
-                android:text="@string/default_service_rate_title"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/orders_datetime_title"
+                android:text="@string/orders_datetime_title"
                 android:textColor="?android:attr/colorForeground"
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/service_card_vendor_address"
+                android:id="@+id/orders_card_other"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:contentDescription="@string/default_service_address_title"
-                android:text="@string/default_service_address_title"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/orders_other_title"
+                android:text="@string/orders_other_title"
                 android:textColor="?android:attr/colorForeground"
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/service_card_vendor_rating"
+                android:id="@+id/orders_card_cost"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:contentDescription="@string/search_filter_rating_title"
-                android:text="@string/search_filter_rating_title"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/orders_cost_title"
+                android:text="@string/orders_cost_title"
                 android:textColor="?android:attr/colorForeground"
                 android:textStyle="italic" />
 
             <TextView
-                android:id="@+id/service_card_vendor_date"
+                android:id="@+id/orders_card_status"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
                 android:layout_gravity="bottom"
-                android:layout_marginTop="2dp"
-                android:layout_marginBottom="2dp"
-                android:contentDescription="@string/search_filter_date_title"
-                android:text="@string/search_filter_date_title"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/orders_status_title"
+                android:text="@string/orders_status_title"
                 android:textColor="?android:attr/colorForeground"
                 android:textStyle="bold|italic" />
 
         </LinearLayout>
 
-        <ImageView
-            android:id="@+id/service_card_icon"
-            android:layout_width="60dp"
-            android:layout_height="60dp"
-            android:layout_gravity="center_vertical|end"
-            android:layout_marginEnd="10dp"
-            android:contentDescription="@string/default_service_title"
-            android:scaleType="centerCrop"
-            app:srcCompat="@drawable/general_service_icon" />
     </androidx.cardview.widget.CardView>
 </RelativeLayout>

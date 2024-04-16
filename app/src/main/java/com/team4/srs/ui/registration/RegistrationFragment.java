@@ -159,7 +159,7 @@ public class RegistrationFragment extends Fragment
                 //Proceed with registration
                 if (submitUserInfo()) {
                     //Customer registration complete, head to home page with user ID
-                    mainActivity.loggedInUser = userID.getText().toString().trim();
+                    mainActivity.updateLoggedInUserInPrefSettings(userID.getText().toString().trim());
                     mainActivity.switchFragment(R.id.navigation_home, null);
                     Toast.makeText(getContext(), "Registration complete! Welcome to Service Request System!", Toast.LENGTH_LONG).show();
                 }
@@ -170,7 +170,7 @@ public class RegistrationFragment extends Fragment
                     //Proceed with registration
                     if (submitVendorInfo()) {
                         //Vendor registration complete, head to home page with user ID
-                        mainActivity.loggedInUser = userID.getText().toString().trim();
+                        mainActivity.updateLoggedInUserInPrefSettings(userID.getText().toString().trim());
                         mainActivity.switchFragment(R.id.navigation_home, null);
                         Toast.makeText(getContext(), "Registration complete! Welcome to Service Request System!", Toast.LENGTH_LONG).show();
                     }
@@ -231,7 +231,7 @@ public class RegistrationFragment extends Fragment
         //All is well, complete registration
         String fullAddress = userAddressText + ", " + userCityText + ", " + userStateText + ", " + userZipText;
         if(mainActivity.sqLiteHandler.insertUsers(userIDText, userPasswordText, userNameText, userEmailText, userPhoneText, fullAddress)) {
-            if (mainActivity.sqLiteHandler.insertCustomers(userIDText, "0", null)) {
+            if (mainActivity.sqLiteHandler.insertCustomers(userIDText, "0", "None")) {
                 //Successfully inserted user and customer
                 return true;
             } else {

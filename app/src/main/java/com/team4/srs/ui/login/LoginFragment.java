@@ -1,5 +1,6 @@
 package com.team4.srs.ui.login;
 
+import android.content.SharedPreferences;
 import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -122,7 +123,7 @@ public class LoginFragment extends Fragment
             if (mainActivity.sqLiteHandler.checkLoginUser(loginIDText.getText().toString().trim(), loginPassText.getText().toString().trim())) {
                 //Successful login, head to home page
                 mainActivity.switchFragment(R.id.navigation_home, null);
-                mainActivity.loggedInUser = loginIDText.getText().toString().trim();
+                mainActivity.updateLoggedInUserInPrefSettings(loginIDText.getText().toString().trim());
             } else {
                 //Invalid login combo, show both errors
                 loginIDText.setError("Invalid login attempt. Please try again.");

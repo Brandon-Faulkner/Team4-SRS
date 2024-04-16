@@ -98,20 +98,34 @@
     <string name="service_request_form_input_other_title">Any Other Information</string>
 
     <!-- Dashboard Icons and Buttons -->
-    <string name="make_payment">Make Payment</string>
-    <string name="change_request">Change Request</string>
-    <string name="cancel_request">Cancel Request</string>
-    <string name="logout">Logout</string>
-    <string name="user_profile_pic">Profile Pic</string>
-    <string name="map_view">Map View</string>
-    <string name="order_history">Order History</string>
-    <string name="rewards">Rewards</string>
-    <string name="view_service_requests">View Service Requests</string>
-    <string name="manage_service_requests">Manage Service Requests</string>
-    <string name="review_and_rating">Review and Rating</string>
-    <string name="view_reviews">View Reviews</string>
-    <string name="user_dashboard_title">User Dashboard</string>
-    <string name="service_provider_dashboard_title">Service Provider Dashboard</string>
+    <string name="dashboard_greeting_title">Hello, Firstname Lastname!</string>
+    <string name="dashboard_user_rewards_title">Discounts: None | Points: 0</string>
+    <string name="dashboard_user_logout_title">Logout</string>
+    <string name="dashboard_login_register">Login/Register</string>
+    <string name="dashboard_payment_title">Make Payments</string>
+    <string name="dashboard_order_history">Order History</string>
+    <string name="dashboard_current_requests">Current Requests</string>
+    <string name="dashboard_add_dates">Available Dates</string>
+    <string name="dashboard_rate_services">Rate Past Services</string>
+    <string name="dashboard_view_reviews">View Reviews</string>
+
+    <!-- Orders Information -->
+    <string name="orders_page_title">Orders Information</string>
+    <string name="orders_id_title">Request ID:</string>
+    <string name="orders_service_title">Service Requested:</string>
+    <string name="orders_description_title">Description:</string>
+    <string name="orders_datetime_title">Date &amp; Time:</string>
+    <string name="orders_other_title">Other Info:</string>
+    <string name="orders_cost_title">Cost: N/A</string>
+    <string name="orders_status_title">Status:</string>
+    <string name="orders_no_results_title">No orders found.</string>
+
+    <!-- Rating Information -->
+    <string name="rating_page_title">View Your Ratings</string>
+    <string name="rating_overall_title">Overall Avg: </string>
+    <string name="rating_customerID_title">From CustomerID</string>
+    <string name="rating_customer_comment_title">\"Customer Comment.\"</string>
+    <string name="rating_no_result_title">No ratings at this time.</string>
 
     <!-- Settings Switches and Descriptions -->
     <string name="settings_sound">Sound</string>

@@ -21,7 +21,7 @@ import com.team4.srs.databinding.ActivityMainBinding;
 public class MainActivity extends AppCompatActivity {
 
     public static final String PREFS_NAME = "srs_settings";
-    public String loggedInUser = null;
+    public String loggedInUser = "";
     public static final String GUEST_ID = "guestUserID";
 
     public SQLiteHandler sqLiteHandler; //USE THIS HANDLER FOR ALL FRAGMENTS. DO NOT CREATE A NEW ONE!
@@ -53,7 +53,7 @@ public class MainActivity extends AppCompatActivity {
             if (destination.getId() == R.id.navigation_home || destination.getId() == R.id.navigation_dashboard || destination.getId() == R.id.navigation_settings) {
                 navView.setVisibility(View.VISIBLE);
             } else {
-                if ((destination.getId() == R.id.navigation_login || destination.getId() == R.id.navigation_registration) && loggedInUser != null) {
+                if ((destination.getId() == R.id.navigation_login || destination.getId() == R.id.navigation_registration) && !loggedInUser.isEmpty()) {
                     //Don't let user go to login/registration page if they are logged in
                     popFragmentStack();
                 } else navView.setVisibility(View.GONE);
@@ -63,7 +63,7 @@ public class MainActivity extends AppCompatActivity {
         //Restore preferences for settings and isLoggedIn
         SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
         boolean isSettingsSetup = settings.getBoolean("isSetup", false);
-        loggedInUser = settings.getString("loggedInUser", null);
+        loggedInUser = settings.getString("loggedInUser", "");
 
         if (isSettingsSetup) loadAppSettings(); else setDefaultSettings();
 
@@ -73,7 +73,7 @@ public class MainActivity extends AppCompatActivity {
             SharedPreferences.Editor editor = settings.edit();
             editor.remove("isChangingTheme"); editor.apply();
             switchFragment(R.id.navigation_settings, null);
-        } else if (loggedInUser == null) {
+        } else if (loggedInUser.isEmpty()) {
             //Head to Login fragment on startup if not logged in
             switchFragment(R.id.navigation_login, null);
         }
@@ -128,6 +128,14 @@ public class MainActivity extends AppCompatActivity {
         }
         editor.putBoolean("texts_emails", true);
         editor.putBoolean("redeem_points", false);
+        editor.apply();
+    }
+
+    public void updateLoggedInUserInPrefSettings(String userID) {
+        loggedInUser = userID;
+        SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+        SharedPreferences.Editor editor = settings.edit();
+        editor.putString("loggedInUser", userID);
         editor.apply();
     }
 
