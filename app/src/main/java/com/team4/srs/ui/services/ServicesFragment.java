@@ -69,8 +69,8 @@ public class ServicesFragment extends Fragment
         serviceTime = requireView().findViewById(R.id.service_request_input_time);
         serviceDate = requireView().findViewById(R.id.service_request_input_date);
         userExtraInfo = requireView().findViewById(R.id.service_request_input_other_input);
-        serviceCancelBtn = requireView().findViewById(R.id.search_back_btn);
-        serviceSubmitBtn = requireView().findViewById(R.id.search_search_btn);
+        serviceCancelBtn = requireView().findViewById(R.id.service_back_btn);
+        serviceSubmitBtn = requireView().findViewById(R.id.service_submit_btn);
 
         //Set title of page and estimate
         vendorsTitle.setText(serviceType);

@@ -61,4 +61,9 @@
         android:name="com.team4.srs.ui.rating.RatingFragment"
         android:label="fragment_rating"
         tools:layout="@layout/fragment_rating" />
+    <fragment
+        android:id="@+id/navigation_map"
+        android:name="com.team4.srs.ui.map.MapFragment"
+        android:label="MapFragment"
+        tools:layout="@layout/fragment_map"/>
 </navigation>

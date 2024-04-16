@@ -97,8 +97,8 @@ public class RegistrationFragment extends Fragment
         vendorServices = requireView().findViewById(R.id.search_filter_service);
         vendorChargeAmount = requireView().findViewById(R.id.vendor_reg_comp_charge_input);
         vendorFee = requireView().findViewById(R.id.vendor_reg_fee_check);
-        userCancel = requireView().findViewById(R.id.search_back_btn);
-        userSubmit = requireView().findViewById(R.id.search_search_btn);
+        userCancel = requireView().findViewById(R.id.user_reg_cancel_btn);
+        userSubmit = requireView().findViewById(R.id.user_reg_submit_btn);
 
         //Initially show Profile and Login cards, not vendor cards
         userProfileCard.setVisibility(View.VISIBLE);

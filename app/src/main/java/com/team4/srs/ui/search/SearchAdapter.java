@@ -1,9 +1,11 @@
 package com.team4.srs.ui.search;
 
 import android.graphics.drawable.Drawable;
+import android.os.Bundle;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -12,6 +14,7 @@ import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
+import com.team4.srs.MainActivity;
 import com.team4.srs.R;
 
 import java.util.List;
@@ -21,6 +24,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     {
         TextView vendorName, vendorPhone, vendorServices, vendorRate, vendorAddress, vendorRating, vendorDate;
         ImageView vendorIcon;
+        Button mapBtn;
         View view;
         public SearchViewHolder(@NonNull View itemView)
         {
@@ -33,9 +37,12 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             vendorRating = itemView.findViewById(R.id.service_card_vendor_rating);
             vendorDate = itemView.findViewById(R.id.service_card_vendor_date);
             vendorIcon = itemView.findViewById(R.id.service_card_icon);
+            mapBtn = itemView.findViewById(R.id.service_card_map_btn);
             view = itemView;
         }
     }
+
+    MainActivity mainActivity;
 
     private final List<String[]> data;
 
@@ -49,6 +56,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     {
         //Create a new view, which defines the ui of the list item
         View view = LayoutInflater.from(parent.getContext()).inflate(R.layout.service_cards, parent,false);
+
+        mainActivity = ((MainActivity) view.getContext());
 
         return new SearchViewHolder(view);
     }
@@ -66,9 +75,11 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.vendorDate.setText(String.format("AVAILABLE DATE: %s", data.get(position)[7]));
         holder.vendorIcon.setImageDrawable(getServiceIcon(holder.view, data.get(position)[4]));
 
-        //Setup click listener
-        holder.view.setOnClickListener(v -> {
-            Toast.makeText(v.getContext(), "Pressed: " + data.get(position)[0], Toast.LENGTH_SHORT).show();
+        //Setup click listener for map btn
+        holder.mapBtn.setOnClickListener(v -> {
+            Bundle args = new Bundle();
+            args.putString("userAddress", data.get(position)[3]);
+            mainActivity.switchFragment(R.id.navigation_map, args);
         });
     }
 

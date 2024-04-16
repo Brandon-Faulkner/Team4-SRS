@@ -109,6 +109,12 @@
     <string name="dashboard_rate_services">Rate Past Services</string>
     <string name="dashboard_view_reviews">View Reviews</string>
 
+    <!-- Map Page Information -->
+    <string name="map_map_title">Map View</string>
+    <string name="map_trip_info_title">Trip Information</string>
+    <string name="map_open_btn_title">Open in Google Maps</string>
+    <string name="map_map_btn_title">Map</string>
+
     <!-- Orders Information -->
     <string name="orders_page_title">Orders Information</string>
     <string name="orders_id_title">Request ID:</string>
