@@ -66,4 +66,9 @@
         android:name="com.team4.srs.ui.map.MapFragment"
         android:label="MapFragment"
         tools:layout="@layout/fragment_map"/>
+    <fragment
+        android:id="@+id/navigation_dates"
+        android:name="com.team4.srs.ui.dates.DateFragment"
+        android:label="fragment_date"
+        tools:layout="@layout/fragment_date" />
 </navigation>

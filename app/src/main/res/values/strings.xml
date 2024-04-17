@@ -104,6 +104,7 @@
     <string name="dashboard_login_register">Login/Register</string>
     <string name="dashboard_payment_title">Make Payments</string>
     <string name="dashboard_order_history">Order History</string>
+    <string name="dashboard_request_history">Completed Requests</string>
     <string name="dashboard_current_requests">Current Requests</string>
     <string name="dashboard_add_dates">Available Dates</string>
     <string name="dashboard_rate_services">Rate Past Services</string>
@@ -125,6 +126,10 @@
     <string name="orders_cost_title">Cost: N/A</string>
     <string name="orders_status_title">Status:</string>
     <string name="orders_no_results_title">No orders found.</string>
+    <string name="orders_card_btn_left">Left</string>
+    <string name="orders_card_btn_right">Right</string>
+    <string name="orders_your_requests_tab_title">Current Requests</string>
+    <string name="orders_open_requests_tab_title">Available Requests</string>
 
     <!-- Rating Information -->
     <string name="rating_page_title">View Your Ratings</string>
@@ -132,6 +137,11 @@
     <string name="rating_customerID_title">From CustomerID</string>
     <string name="rating_customer_comment_title">\"Customer Comment.\"</string>
     <string name="rating_no_result_title">No ratings at this time.</string>
+
+    <!-- Add Dates Information -->
+    <string name="dates_page_title">Your Available Dates</string>
+    <string name="dates_add_remove_title">Add/Remove</string>
+    <string name="dates_date_input_title">Date to add or remove</string>
 
     <!-- Settings Switches and Descriptions -->
     <string name="settings_sound">Sound</string>

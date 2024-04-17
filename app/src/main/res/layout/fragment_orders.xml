@@ -42,7 +42,6 @@
         android:layout_width="match_parent"
         android:layout_height="1dp"
         android:layout_marginTop="20dp"
-        android:layout_marginBottom="10dp"
         android:background="?android:attr/listDivider"
         app:layout_constraintBottom_toTopOf="@+id/orders_scrollview"
         app:layout_constraintEnd_toEndOf="parent"
@@ -65,6 +64,26 @@
             android:layout_height="wrap_content"
             android:orientation="vertical">
 
+            <com.google.android.material.tabs.TabLayout
+                android:id="@+id/open_or_current_requests_tabs"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:background="?attr/colorOnPrimary"
+                app:tabGravity="center"
+                app:tabIndicatorGravity="bottom">
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/orders_your_requests_tab_title" />
+
+                <com.google.android.material.tabs.TabItem
+                    android:layout_width="match_parent"
+                    android:layout_height="match_parent"
+                    android:text="@string/orders_open_requests_tab_title" />
+
+            </com.google.android.material.tabs.TabLayout>
+
             <TextView
                 android:id="@+id/orders_no_result_title"
                 android:layout_width="200dp"
@@ -82,7 +101,8 @@
             <androidx.recyclerview.widget.RecyclerView
                 android:id="@+id/orders_recycler_view"
                 android:layout_width="match_parent"
-                android:layout_height="match_parent" />
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp" />
         </LinearLayout>
     </ScrollView>
 

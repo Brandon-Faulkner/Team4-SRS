@@ -14,6 +14,7 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import com.google.android.material.tabs.TabLayout;
 import com.team4.srs.MainActivity;
 import com.team4.srs.R;
 import com.team4.srs.databinding.FragmentOrdersBinding;
@@ -28,6 +29,11 @@ public class OrdersFragment extends Fragment
     MainActivity mainActivity;
 
     String currentUserID, userType;
+    boolean isPaid;
+    boolean isCurrentRequestsTabSelected = true;
+    boolean showTabs;
+
+    String noResultText;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -39,25 +45,14 @@ public class OrdersFragment extends Fragment
         binding.ordersPageTitle.setText(args.getString("title"));
         currentUserID = args.getString("userID");
         userType = args.getString("userType");
+        isPaid = args.getBoolean("isPaid");
+        showTabs = args.getBoolean("showTabs");
 
-        //Show orders in recycler view based on userType
-        List<String[]> data;
+        if (isPaid) noResultText = "No orders found";
+        else noResultText = "No requests found";
 
-        if (userType.equals("vendor")) {
-            data = mainActivity.sqLiteHandler.getVendorRequests(currentUserID, false);
-        } else {
-            data = mainActivity.sqLiteHandler.getCustomerOrders(currentUserID, false);
-        }
-
-        if (!data.isEmpty()) {
-            binding.ordersNoResultTitle.setVisibility(View.GONE);
-            binding.ordersRecyclerView.setVisibility(View.VISIBLE);
-            binding.ordersRecyclerView.setAdapter(new OrderAdapter(data));
-            binding.ordersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
-        } else {
-            binding.ordersNoResultTitle.setVisibility(View.VISIBLE);
-            binding.ordersRecyclerView.setVisibility(View.GONE);
-        }
+        setupBindings();
+        setupVendorTabs();
 
         binding.ordersBackBtn.setOnClickListener(v -> {
             mainActivity.popFragmentStack();
@@ -66,4 +61,53 @@ public class OrdersFragment extends Fragment
         return binding.getRoot();
     }
 
+    private void setupBindings() {
+        //Show orders in recycler view based on userType
+        List<String[]> data;
+
+        if (userType.equals("vendor")) {
+            if(showTabs) binding.openOrCurrentRequestsTabs.setVisibility(View.VISIBLE);
+            else binding.openOrCurrentRequestsTabs.setVisibility(View.GONE);
+            data = mainActivity.sqLiteHandler.getVendorRequests(currentUserID, !isPaid ? isCurrentRequestsTabSelected : isPaid);
+        } else {
+            binding.openOrCurrentRequestsTabs.setVisibility(View.GONE);
+            data = mainActivity.sqLiteHandler.getCustomerOrders(currentUserID, isPaid);
+        }
+
+        if (!data.isEmpty()) {
+            binding.ordersNoResultTitle.setVisibility(View.GONE);
+            binding.ordersRecyclerView.setVisibility(View.VISIBLE);
+            binding.ordersRecyclerView.setAdapter(new OrderAdapter(data, currentUserID, userType, isPaid, isCurrentRequestsTabSelected));
+            binding.ordersRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+        } else {
+            binding.ordersNoResultTitle.setText(noResultText);
+            binding.ordersNoResultTitle.setVisibility(View.VISIBLE);
+            binding.ordersRecyclerView.setVisibility(View.GONE);
+        }
+    }
+
+    private void setupVendorTabs() {
+        binding.openOrCurrentRequestsTabs.addOnTabSelectedListener(new TabLayout.OnTabSelectedListener()
+        {
+            @Override
+            public void onTabSelected(TabLayout.Tab tab)
+            {
+                if (tab.getPosition() == 0) //Current Requests Tab
+                {
+                    isCurrentRequestsTabSelected = true;
+                    noResultText = "No requests found";
+                    setupBindings();
+                } else {
+                    isCurrentRequestsTabSelected = false;
+                    noResultText = "No requests available";
+                    setupBindings();
+                }
+            }
+
+            @Override
+            public void onTabUnselected(TabLayout.Tab tab) {}
+            @Override
+            public void onTabReselected(TabLayout.Tab tab) {}
+        });
+    }
 }

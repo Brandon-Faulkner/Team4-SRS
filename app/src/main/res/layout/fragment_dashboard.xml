@@ -198,7 +198,7 @@
             android:drawablePadding="8dp"
             android:gravity="center"
             android:padding="10dp"
-            android:text="@string/dashboard_order_history"
+            android:text="@string/dashboard_request_history"
             android:textAllCaps="false"
             android:textColor="?android:attr/colorForeground"
             android:textSize="15sp" />

@@ -24,11 +24,7 @@ public class DashboardFragment extends Fragment {
 
     String currentUserID;
 
-    public View onCreateView(@NonNull LayoutInflater inflater,
-                             ViewGroup container, Bundle savedInstanceState) {
-        DashboardViewModel dashboardViewModel =
-                new ViewModelProvider(this).get(DashboardViewModel.class);
-
+    public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState) {
         binding = FragmentDashboardBinding.inflate(inflater, container, false);
 
         mainActivity = ((MainActivity) requireActivity());
@@ -76,11 +72,7 @@ public class DashboardFragment extends Fragment {
     private void setupButtonListeners() {
         //Customer and Guest listeners
         binding.dashboardCurrentRequestsCustomer.setOnClickListener(v -> {
-            Bundle args = new Bundle();
-            args.putString("title", "Current Service Requests");
-            args.putString("userID", currentUserID);
-            args.putString("userType", "customer");
-            mainActivity.switchFragment(R.id.navigation_orders, args);
+            mainActivity.switchFragment(R.id.navigation_orders, setupBundleArgs("Current Service Requests", "customer", false, false));
         });
 
         binding.dashboardPayment.setOnClickListener(v -> {
@@ -88,36 +80,28 @@ public class DashboardFragment extends Fragment {
         });
 
         binding.dashboardOrderHistoryCustomer.setOnClickListener(v -> {
-
+            mainActivity.switchFragment(R.id.navigation_orders, setupBundleArgs("Completed Service Requests", "customer", true, false));
         });
 
         binding.dashboardRateServices.setOnClickListener(v -> {
-
+            mainActivity.switchFragment(R.id.navigation_rating, setupBundleArgs("Rate Past Services", "customer", true, false));
         });
 
         //Vendor Listeners
         binding.dashboardCurrentRequestsVendor.setOnClickListener(v -> {
-            Bundle args = new Bundle();
-            args.putString("title", "Open Service Requests");
-            args.putString("userID", currentUserID);
-            args.putString("userType", "vendor");
-            mainActivity.switchFragment(R.id.navigation_orders, args);
+            mainActivity.switchFragment(R.id.navigation_orders, setupBundleArgs("Open Service Requests", "vendor", false, true));
         });
 
         binding.dashboardAddDates.setOnClickListener(v -> {
-
+            mainActivity.switchFragment(R.id.navigation_dates, setupBundleArgs("", "", false, false));
         });
 
         binding.dashboardOrderHistoryVendor.setOnClickListener(v -> {
-
+            mainActivity.switchFragment(R.id.navigation_orders, setupBundleArgs("Completed Service Requests", "vendor", true, false));
         });
 
         binding.dashboardViewRatings.setOnClickListener(v -> {
-            Bundle args = new Bundle();
-            args.putString("title", "View Your Ratings");
-            args.putString("userID", currentUserID);
-            args.putString("userType", "vendor");
-            mainActivity.switchFragment(R.id.navigation_rating, args);
+            mainActivity.switchFragment(R.id.navigation_rating, setupBundleArgs("View Your Ratings", "vendor", true, false));
         });
 
         //Mutual listeners
@@ -129,6 +113,16 @@ public class DashboardFragment extends Fragment {
                 mainActivity.switchFragment(R.id.navigation_login, null);
             }
         });
+    }
+
+    private Bundle setupBundleArgs(String title, String userType, boolean isPaid, boolean showTabs) {
+        Bundle args = new Bundle();
+        args.putString("title", title);
+        args.putString("userID", currentUserID);
+        args.putString("userType", userType);
+        args.putBoolean("isPaid", isPaid);
+        args.putBoolean("showTabs", showTabs);
+        return args;
     }
 
     @Override

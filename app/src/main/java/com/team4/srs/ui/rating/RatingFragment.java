@@ -18,6 +18,7 @@ import com.team4.srs.R;
 import com.team4.srs.databinding.FragmentOrdersBinding;
 import com.team4.srs.databinding.FragmentRatingBinding;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class RatingFragment extends Fragment
@@ -48,7 +49,7 @@ public class RatingFragment extends Fragment
             data = mainActivity.sqLiteHandler.getVendorRatings(currentUserID);
         } else {
             binding.ratingsOverallTitle.setVisibility(View.GONE);
-            data = null;
+            data = new ArrayList<>();
         }
 
         if (!data.isEmpty()) {

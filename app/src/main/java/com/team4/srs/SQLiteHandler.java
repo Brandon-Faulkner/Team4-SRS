@@ -337,6 +337,22 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
+    public boolean acceptCustomerRequestBid(String orderID, String customerID) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String query = "UPDATE " + REQUESTS_TABLE + " SET status = 'Accepted' WHERE orderID = '" + orderID + "' AND customerID = '" + customerID + "';";
+            Cursor cursor = db.rawQuery(query,null);
+            cursor.moveToFirst();
+            cursor.close();
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "acceptCustomerRequestBid: " + e.getMessage());
+            return false;
+        }
+    }
+
     public boolean insertCustomerReview(String vendorID, String customerID, String rating, String comment) {
         try
         {
@@ -444,6 +460,38 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
+    public boolean removeVendorDate(String vendorID, String date) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete(VENDOR_DATES_TABLE, "vendorID=? AND avail_date=?", new String[]{vendorID, date});
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "removeVendorDate: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public ArrayList<String> getVendorDates(String vendorID) {
+        try
+        {
+            ArrayList<String> list = new ArrayList<>();
+            SQLiteDatabase db = this.getWritableDatabase();
+            String query = "SELECT avail_date FROM " + VENDOR_DATES_TABLE + " WHERE vendorID = '" + vendorID + "'";
+            Cursor cursor = db.rawQuery(query, null);
+            while(cursor.moveToNext()) {
+                list.add(cursor.getString(0));
+            }
+            cursor.close();
+            db.close();
+            return list;
+        }catch (SQLException e) {
+            Log.e("SQLException", "getVendorDates: " + e.getMessage());
+            return null;
+        }
+    }
+
     public List<String[]> getVendorRequests(String vendorID, boolean isVendorSpecific) {
         try
         {
@@ -488,6 +536,67 @@ public class SQLiteHandler extends SQLiteOpenHelper
             return true;
         }catch (SQLException e) {
             Log.e("SQLException", "updateVendorReviews: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateRequestStatus(String orderID, String status) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String query = "UPDATE " + REQUESTS_TABLE + " SET status = '" + status + "' WHERE orderID = '" + orderID + "'";
+            Cursor cursor = db.rawQuery(query,null);
+            cursor.moveToFirst();
+            cursor.close();
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "updateRequestStatus: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateRequestDate(String orderID, String date) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String query = "UPDATE " + REQUESTS_TABLE + " SET date = '" + date + "' WHERE orderID = '" + orderID + "'";
+            Cursor cursor = db.rawQuery(query,null);
+            cursor.moveToFirst();
+            cursor.close();
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "updateRequestDate: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean updateRequestCost(String orderID, String vendorID, String cost) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String query = "UPDATE " + REQUESTS_TABLE + " SET cost = '" + cost + "' AND vendorID = '" + vendorID + "' WHERE orderID = '" + orderID + "'";
+            Cursor cursor = db.rawQuery(query,null);
+            cursor.moveToFirst();
+            cursor.close();
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "updateRequestCost: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean cancelCustomerRequest(String orderID) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            db.delete(REQUESTS_TABLE, "orderID=?", new String[]{orderID} );
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "cancelCustomerRequest: " + e.getMessage());
             return false;
         }
     }
@@ -780,7 +889,7 @@ public class SQLiteHandler extends SQLiteOpenHelper
     }
 
     private void insertTestRequests() {
-        insertRequests("user1028", "Appliances", "I need my microwave installed.", "10:00 AM", "5/27/2024", "", "N/A", "Waiting for Bid");
+        insertRequests("user1028", "Appliances", "I need my microwave installed.", "10:00 AM", "5/27/2024", "", "$100", "Waiting for Bid");
         insertRequests("user1029", "Electrical", "I need an outlet fixed.", "11:00 AM", "5/26/2024", "", "N/A", "Waiting for Bid");
         insertRequests("user1030", "Plumbing", "I need my toilet fixed.", "9:00 AM", "5/25/2024", "", "N/A", "Waiting for Bid");
         insertRequests("user1031", "Home Cleaning", "I need my bedroom cleaned.", "8:00 AM", "5/24/2024", "", "N/A", "Waiting for Bid");

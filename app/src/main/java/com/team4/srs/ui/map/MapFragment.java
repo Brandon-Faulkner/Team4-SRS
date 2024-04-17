@@ -29,7 +29,7 @@ public class MapFragment extends Fragment {
         mainActivity = ((MainActivity) requireActivity());
 
         Bundle args = getArguments();
-        binding.textTripInfo.setText(args.getString("userAddress"));
+        //binding.textTripInfo.setText(args.getString("userAddress"));
 
         binding.mapBackBtn.setOnClickListener(v -> {
             mainActivity.popFragmentStack();
