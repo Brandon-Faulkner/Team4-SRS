@@ -1,26 +1,20 @@
 package com.team4.srs.ui.orders;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.google.android.material.tabs.TabLayout;
 import com.team4.srs.MainActivity;
-import com.team4.srs.R;
 import com.team4.srs.databinding.FragmentOrdersBinding;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.Objects;
 
 public class OrdersFragment extends Fragment
 {
@@ -28,7 +22,7 @@ public class OrdersFragment extends Fragment
 
     MainActivity mainActivity;
 
-    String currentUserID, userType;
+    String currentUserID, userType, statusToSearch;
     boolean isPaid;
     boolean isCurrentRequestsTabSelected = true;
     boolean showTabs;
@@ -47,6 +41,7 @@ public class OrdersFragment extends Fragment
         userType = args.getString("userType");
         isPaid = args.getBoolean("isPaid");
         showTabs = args.getBoolean("showTabs");
+        statusToSearch = args.getString("statusToSearchFor");
 
         if (isPaid) noResultText = "No orders found";
         else noResultText = "No requests found";
@@ -66,12 +61,20 @@ public class OrdersFragment extends Fragment
         List<String[]> data;
 
         if (userType.equals("vendor")) {
-            if(showTabs) binding.openOrCurrentRequestsTabs.setVisibility(View.VISIBLE);
-            else binding.openOrCurrentRequestsTabs.setVisibility(View.GONE);
-            data = mainActivity.sqLiteHandler.getVendorRequests(currentUserID, !isPaid ? isCurrentRequestsTabSelected : isPaid);
+            if(showTabs) {
+                Objects.requireNonNull(binding.openOrCurrentRequestsTabs.getTabAt(0)).setText("Current Requests");
+                Objects.requireNonNull(binding.openOrCurrentRequestsTabs.getTabAt(1)).setText("Available Requests");
+                binding.openOrCurrentRequestsTabs.setVisibility(View.VISIBLE);
+            } else binding.openOrCurrentRequestsTabs.setVisibility(View.GONE);
+            data = mainActivity.sqLiteHandler.getVendorRequests(currentUserID, !isPaid ? isCurrentRequestsTabSelected : isPaid, isCurrentRequestsTabSelected ? "" : statusToSearch);
         } else {
-            binding.openOrCurrentRequestsTabs.setVisibility(View.GONE);
-            data = mainActivity.sqLiteHandler.getCustomerOrders(currentUserID, isPaid);
+            if(showTabs) {
+                Objects.requireNonNull(binding.openOrCurrentRequestsTabs.getTabAt(0)).setText("Accepted Requests");
+                Objects.requireNonNull(binding.openOrCurrentRequestsTabs.getTabAt(1)).setText("Requests With Bids");
+                binding.openOrCurrentRequestsTabs.setVisibility(View.VISIBLE);
+            }
+            else binding.openOrCurrentRequestsTabs.setVisibility(View.GONE);
+            data = mainActivity.sqLiteHandler.getCustomerOrders(currentUserID, isPaid, isCurrentRequestsTabSelected, isCurrentRequestsTabSelected);
         }
 
         if (!data.isEmpty()) {
@@ -107,7 +110,18 @@ public class OrdersFragment extends Fragment
             @Override
             public void onTabUnselected(TabLayout.Tab tab) {}
             @Override
-            public void onTabReselected(TabLayout.Tab tab) {}
+            public void onTabReselected(TabLayout.Tab tab) {
+                if (tab.getPosition() == 0) //Current Requests Tab
+                {
+                    isCurrentRequestsTabSelected = true;
+                    noResultText = "No requests found";
+                    setupBindings();
+                } else {
+                    isCurrentRequestsTabSelected = false;
+                    noResultText = "No requests available";
+                    setupBindings();
+                }
+            }
         });
     }
 }

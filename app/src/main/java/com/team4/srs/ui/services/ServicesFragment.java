@@ -135,7 +135,7 @@ public class ServicesFragment extends Fragment
             if (!mainActivity.isInputEmpty(serviceDate, "Please select desired date")) return;
 
             //Check if user is logged in, if not use guest id
-            String idToUse = mainActivity.loggedInUser == null ? MainActivity.GUEST_ID : mainActivity.loggedInUser;
+            String idToUse = mainActivity.loggedInUser.isEmpty() ? MainActivity.GUEST_ID : mainActivity.loggedInUser;
 
             //Submit service request
             if (mainActivity.sqLiteHandler.insertRequests(idToUse, service, userServiceDesc.getText().toString().trim(), serviceTime.getText().toString(), serviceDate.getText().toString(), userExtraInfo.getText().toString(), "N/A", "Waiting for Bid")) {

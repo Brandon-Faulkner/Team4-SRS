@@ -3,8 +3,8 @@ package com.team4.srs.ui.orders;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
-import android.content.res.Configuration;
 import android.text.InputType;
+import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,7 +21,9 @@ import androidx.recyclerview.widget.RecyclerView;
 import com.team4.srs.MainActivity;
 import com.team4.srs.R;
 
+import java.util.Arrays;
 import java.util.Calendar;
+import java.util.Iterator;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
@@ -73,6 +75,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         return new OrderViewHolder(view);
     }
 
+    @SuppressLint("NotifyDataSetChanged")
     @Override
     public void onBindViewHolder(@NonNull OrderViewHolder holder, int position)
     {
@@ -82,10 +85,32 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.description.setText(String.format("DESCRIPTION: %s", data.get(position)[4]));
         holder.dateTime.setText(String.format("DATE & TIME: %s on %s", data.get(position)[5], data.get(position)[6]));
         holder.other.setText(String.format("OTHER INFO: %s", data.get(position)[7]));
-        holder.cost.setText(String.format("COST: %s", data.get(position)[8]));
+
+        String costString;
+        if (data.get(position)[8] == null) {
+            costString = "N/A";
+            if (userType.equals("vendor")) {
+                holder.leftBtn.setVisibility(View.VISIBLE);
+                holder.rightBtn.setVisibility(View.VISIBLE);
+            }
+        } else {
+            costString = "$" + data.get(position)[8];
+            if (userType.equals("vendor")) {
+                holder.leftBtn.setVisibility(View.GONE);
+                holder.rightBtn.setVisibility(View.GONE);
+            }
+        }
+        if (!isCurrentVendorRequests) {
+            holder.cost.setText(String.format("%s", userType.equals("vendor") ? "YOUR BID: " + costString : "BID: " + costString));
+        } else {
+            holder.cost.setText(String.format("COST: %s", costString));
+        }
+
         holder.status.setText(String.format("STATUS: %s", data.get(position)[9]));
 
-        boolean isCustomerWaiting = data.get(position)[9].equals("Waiting for Bid");
+        boolean isCustomerWaiting;
+        if (data.get(position)[9].equals("Waiting for Bid") || data.get(position)[9].equals("Bids Placed")) isCustomerWaiting = true;
+        else isCustomerWaiting = false;
 
         //Setup buttons based on user type and order type
         if (!isPaid) {
@@ -99,11 +124,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                     rightText = "Offer Bid";
                 }
             } else {
+                leftText = "Cancel Request";
                 if (isCustomerWaiting) {
-                    leftText = "Cancel Request";
                     rightText = "Accept Bid";
                 } else {
-                    leftText = "Cancel Request";
                     rightText = "Change Date";
                 }
             }
@@ -128,16 +152,27 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                         setupStatusDialog(holder.status, position);
                         break;
                     case "Offer Bid":
-                        setupBidDialog(holder.cost, position);
+                        setupBidDialog(holder, holder.cost, holder.status, position);
                         break;
                     case "Accept Bid":
-                        if (data.get(position)[8].equals("N/A")) {
+                        if (data.get(position)[8] == null) {
                             Toast.makeText(holder.rightBtn.getContext(), "There is no bid to accept at this time.", Toast.LENGTH_LONG).show();
                         } else {
-                            if (mainActivity.sqLiteHandler.acceptCustomerRequestBid(data.get(position)[0], data.get(position)[2])) {
+                            if (mainActivity.sqLiteHandler.acceptCustomerRequestBid(data.get(position)[0], data.get(position)[1], data.get(position)[2], data.get(position)[8])) {
+                                mainActivity.sqLiteHandler.removeOldVendorBids(data.get(position)[0], data.get(position)[1]);
                                 Toast.makeText(holder.rightBtn.getContext(), "Bid has been accepted!", Toast.LENGTH_LONG).show();
-                                holder.rightBtn.setText(String.format("%s", "Change Date"));
-                                holder.status.setText(String.format("STATUS: %s", "Accepted"));
+                                for (Iterator<String[]> iterator = data.iterator(); iterator.hasNext(); ) {
+                                    String[] i = iterator.next();
+                                    Log.i("BEFORE", "onBindViewHolder: " + Arrays.toString(i));
+                                    if (i[1] != null) {
+                                        if (i[0].equals(data.get(position)[0]) && !i[1].equals(data.get(position)[1])) {
+                                            Log.i("DURING", "onBindViewHolder: " + Arrays.toString(i));
+                                            iterator.remove();
+                                        }
+                                    }
+                                }
+                                data.remove(holder.getAdapterPosition());
+                                notifyDataSetChanged();
                             }
                         }
                         break;
@@ -146,6 +181,14 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                         break;
                 }
             });
+
+            if (isCurrentVendorRequests && data.get(position)[9].equals("Bids Placed") && userType.equals("vendor")) {
+                holder.leftBtn.setVisibility(View.GONE);
+                holder.rightBtn.setVisibility(View.GONE);
+            }
+        } else {
+            holder.leftBtn.setVisibility(View.GONE);
+            holder.rightBtn.setVisibility(View.GONE);
         }
     }
 
@@ -190,7 +233,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         datePickerDialog.show();
     }
 
-    private void setupBidDialog(TextView cost, int position) {
+    private void setupBidDialog(OrderViewHolder holder, TextView cost, TextView status, int position) {
         //Initialize alert dialog
         AlertDialog.Builder builder = new AlertDialog.Builder(cost.getContext(), R.style.CustomDialogTheme);
 
@@ -211,8 +254,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         builder.setPositiveButton("Ok", (dialog, which) ->
         {
             if (!input.getText().toString().isEmpty()) {
-                if (mainActivity.sqLiteHandler.updateRequestCost(data.get(position)[0], vendorID, input.getText().toString())) {
-                    cost.setText(String.format("COST: %s", input.getText().toString()));
+                if (mainActivity.sqLiteHandler.insertVendorBid(data.get(position)[0], vendorID, input.getText().toString())) {
+                    cost.setText(String.format("YOUR BID: $%s", input.getText().toString()));
+                    status.setText(String.format("STATUS: %s", "Bids Placed"));
+                    holder.leftBtn.setVisibility(View.GONE);
+                    holder.rightBtn.setVisibility(View.GONE);
                     Toast.makeText(cost.getContext(), "Bid has been placed!", Toast.LENGTH_LONG).show();
                 } else {
                     Toast.makeText(cost.getContext(), "Unable to place bid. Please try again", Toast.LENGTH_LONG).show();

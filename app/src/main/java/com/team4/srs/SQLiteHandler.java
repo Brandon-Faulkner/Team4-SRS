@@ -32,6 +32,7 @@ public class SQLiteHandler extends SQLiteOpenHelper
     public static final String VENDOR_REVIEWS_TABLE = "Vendor_Reviews";
     public static final String VENDOR_DATES_TABLE = "Vendor_Dates";
     public static final String VENDOR_SERVICES_TABLE = "Vendor_Services";
+    public static final String VENDOR_BIDS_TABLE = "Vendor_Bids";
 
     public SQLiteHandler(Context context) {
         super(context, DB_NAME, null, DB_VERSION);
@@ -65,6 +66,7 @@ public class SQLiteHandler extends SQLiteOpenHelper
         createTable(db, VENDOR_REVIEWS_TABLE, "vendorID TEXT PRIMARY KEY", new String[]{"num_ratings INTEGER", "avg_rating TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
         createTable(db, VENDOR_DATES_TABLE, "vendorID TEXT", new String[]{"avail_date TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
         createTable(db, VENDOR_SERVICES_TABLE, "vendorID TEXT", new String[]{"service TEXT", "rate TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
+        createTable(db, VENDOR_BIDS_TABLE, "bidID INTEGER PRIMARY KEY AUTOINCREMENT", new String[]{"orderID INTEGER", "vendorID TEXT", "bid TEXT", "FOREIGN KEY (orderID) REFERENCES Requests (orderID)", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
     }
 
     public void createTable(SQLiteDatabase db, String tableName, String primaryKey, String[] columns) {
@@ -310,14 +312,26 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public List<String[]> getCustomerOrders(String customerID, Boolean isPaid) {
+    public List<String[]> getCustomerOrders(String customerID, boolean isPaid, boolean showBids, boolean isAccepted) {
         try
         {
             List<String[]> list = new ArrayList<>();
             SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT * FROM " + REQUESTS_TABLE + " WHERE customerID = '" + customerID + "'";
-            if (isPaid) query += " AND status LIKE 'Paid'";
-            else query += " AND status NOT LIKE 'Paid'";
+            String query;
+
+            if (!showBids) {
+                query = "SELECT r.orderID, b.vendorID, r.customerID, r.service, r.description, r.time, r.date, r.other, b.bid, r.status " +
+                        "FROM " + REQUESTS_TABLE + " r LEFT JOIN " + VENDOR_BIDS_TABLE + " b ON r.orderID = b.orderID WHERE r.customerID = '" + customerID + "'" +
+                        " AND (status LIKE 'Waiting for Bid' OR status LIKE 'Bids Placed')";
+            } else {
+                query = "SELECT * FROM " + REQUESTS_TABLE + " WHERE customerID = '" + customerID + "'";
+                if (isAccepted) {
+                    query += " AND (status LIKE 'Accepted' OR status LIKE 'In Progress' OR status LIKE 'Waiting for Payment')";
+                } else {
+                    if (isPaid) query += " AND status LIKE 'Paid'";
+                    else query += " AND status NOT LIKE 'Paid' AND status NOT LIKE 'Bids Placed'";
+                }
+            }
 
             Cursor cursor = db.rawQuery(query, null);
             while(cursor.moveToNext()) {
@@ -337,11 +351,12 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public boolean acceptCustomerRequestBid(String orderID, String customerID) {
+    public boolean acceptCustomerRequestBid(String orderID, String vendorID, String customerID, String cost) {
         try
         {
             SQLiteDatabase db = this.getWritableDatabase();
-            String query = "UPDATE " + REQUESTS_TABLE + " SET status = 'Accepted' WHERE orderID = '" + orderID + "' AND customerID = '" + customerID + "';";
+            String query = "UPDATE " + REQUESTS_TABLE + " SET status = 'Accepted', cost = '" + cost + "', vendorID = '" +
+                    vendorID +  "' WHERE orderID = '" + orderID + "' AND customerID = '" + customerID + "';";
             Cursor cursor = db.rawQuery(query,null);
             cursor.moveToFirst();
             cursor.close();
@@ -492,17 +507,18 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public List<String[]> getVendorRequests(String vendorID, boolean isVendorSpecific) {
+    public List<String[]> getVendorRequests(String vendorID, boolean isVendorSpecific, String status) {
         try
         {
             List<String[]> list = new ArrayList<>();
             SQLiteDatabase db = this.getWritableDatabase();
             String query;
             if (isVendorSpecific) {
-                query = "SELECT * FROM " + REQUESTS_TABLE + " WHERE vendorID LIKE '%" +vendorID + "%'";
+                query = "SELECT * FROM " + REQUESTS_TABLE + " WHERE vendorID = '" + vendorID + "' " + status;
             } else {
-                query = "SELECT r.orderID, r.vendorID, r.customerID, r.service, r.description, r.time, r.date, r.other, r.cost, r.status FROM " + REQUESTS_TABLE + " r";
-                query += " LEFT JOIN " + VENDOR_SERVICES_TABLE + " s ON r.service = s.service WHERE s.vendorID = '" + vendorID + "'";
+                query = "SELECT r.orderID, r.vendorID, r.customerID, r.service, r.description, r.time, r.date, r.other, " +
+                        "(SELECT bid FROM " + VENDOR_BIDS_TABLE + " WHERE orderID = r.orderID AND vendorID = '" + vendorID + "') AS bid, r.status FROM " + REQUESTS_TABLE + " r";
+                query += " LEFT JOIN " + VENDOR_SERVICES_TABLE + " s ON r.service = s.service WHERE s.vendorID = '" + vendorID + "' AND (status LIKE 'Waiting for Bid' OR status LIKE 'Bids Placed')";
             }
 
             Cursor cursor = db.rawQuery(query, null);
@@ -520,6 +536,48 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }catch (SQLException e) {
             Log.e("SQLException", "getVendorRequests: " + e.getMessage());
             return null;
+        }
+    }
+
+    public boolean insertVendorBid(String orderID, String vendorID, String cost) {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String checkBidID = "SELECT * FROM " + VENDOR_BIDS_TABLE + " WHERE orderID = '" + orderID + "' AND vendorID = '" + vendorID +"' LIMIT 1";
+            Cursor bidCursor = db.rawQuery(checkBidID, null);
+            if (bidCursor.getCount() == 1) {
+                //We can update instead of inserting
+                String query = "UPDATE " + VENDOR_BIDS_TABLE + " SET bid = '" + cost + "' WHERE orderID = '" + orderID + "' AND vendorID = '" + vendorID + "'";
+                bidCursor = db.rawQuery(query, null);
+                bidCursor.moveToFirst();
+            } else {
+                //We need to insert a new one
+                ContentValues values = new ContentValues();
+                values.put("orderID", orderID);
+                values.put("vendorID", vendorID);
+                values.put("bid", cost);
+                db.insert(VENDOR_BIDS_TABLE, null, values);
+            }
+            bidCursor.close();
+            db.close();
+            return updateRequestStatus(orderID, "Bids Placed");
+        }catch (SQLException e) {
+            Log.e("SQLException", "insertVendorBid: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public boolean removeOldVendorBids(String orderID, String vendorID) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            Log.i("PLZ", "removeOldVendorBids: " + vendorID);
+            db.delete(VENDOR_BIDS_TABLE, "orderID='" + orderID + "' AND vendorID='" + vendorID + "'", null);
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "removeOldVendorBids: " + e.getMessage());
+            return false;
         }
     }
 
@@ -572,26 +630,11 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public boolean updateRequestCost(String orderID, String vendorID, String cost) {
-        try
-        {
-            SQLiteDatabase db = this.getWritableDatabase();
-            String query = "UPDATE " + REQUESTS_TABLE + " SET cost = '" + cost + "' AND vendorID = '" + vendorID + "' WHERE orderID = '" + orderID + "'";
-            Cursor cursor = db.rawQuery(query,null);
-            cursor.moveToFirst();
-            cursor.close();
-            db.close();
-            return true;
-        }catch (SQLException e) {
-            Log.e("SQLException", "updateRequestCost: " + e.getMessage());
-            return false;
-        }
-    }
-
     public boolean cancelCustomerRequest(String orderID) {
         try
         {
             SQLiteDatabase db = this.getWritableDatabase();
+            db.delete(VENDOR_BIDS_TABLE, "orderID=?", new String[]{orderID});
             db.delete(REQUESTS_TABLE, "orderID=?", new String[]{orderID} );
             db.close();
             return true;
@@ -889,16 +932,16 @@ public class SQLiteHandler extends SQLiteOpenHelper
     }
 
     private void insertTestRequests() {
-        insertRequests("user1028", "Appliances", "I need my microwave installed.", "10:00 AM", "5/27/2024", "", "$100", "Waiting for Bid");
-        insertRequests("user1029", "Electrical", "I need an outlet fixed.", "11:00 AM", "5/26/2024", "", "N/A", "Waiting for Bid");
-        insertRequests("user1030", "Plumbing", "I need my toilet fixed.", "9:00 AM", "5/25/2024", "", "N/A", "Waiting for Bid");
-        insertRequests("user1031", "Home Cleaning", "I need my bedroom cleaned.", "8:00 AM", "5/24/2024", "", "N/A", "Waiting for Bid");
-        insertRequests("user1032", "Tutoring", "I need help with math.", "12:00 PM", "5/23/2024", "", "N/A", "Waiting for Bid");
-        insertRequests("user1033", "Packaging & Moving", "I need to move houses.", "1:00 PM", "5/22/2024", "", "N/A", "Waiting for Bid");
-        insertRequests("user1034", "Computer Repair", "I need my computer fixed.", "2:00 PM", "5/21/2024", "", "N/A", "Waiting for Bid");
-        insertRequests("user1035", "Home Repair & Painting", "I need my walls painted.", "3:00 PM", "5/20/2024", "", "N/A", "Waiting for Bid");
-        insertRequests("user1036", "Pest Control", "I need bugs in my shed gone.", "4:00 PM", "5/19/2024", "", "N/A", "Waiting for Bid");
-        insertRequests("user1037", "Appliances", "I need my washer and dryer installed.", "5:00 PM", "5/18/2024", "", "N/A", "Waiting for Bid");
+        insertRequests("user1028", "Appliances", "I need my microwave installed.", "10:00 AM", "5/27/2024", "", null, "Waiting for Bid");
+        insertRequests("user1029", "Electrical", "I need an outlet fixed.", "11:00 AM", "5/26/2024", "", null, "Waiting for Bid");
+        insertRequests("user1030", "Plumbing", "I need my toilet fixed.", "9:00 AM", "5/25/2024", "", null, "Waiting for Bid");
+        insertRequests("user1031", "Home Cleaning", "I need my bedroom cleaned.", "8:00 AM", "5/24/2024", "", null, "Waiting for Bid");
+        insertRequests("user1032", "Tutoring", "I need help with math.", "12:00 PM", "5/23/2024", "", null, "Waiting for Bid");
+        insertRequests("user1033", "Packaging & Moving", "I need to move houses.", "1:00 PM", "5/22/2024", "", null, "Waiting for Bid");
+        insertRequests("user1034", "Computer Repair", "I need my computer fixed.", "2:00 PM", "5/21/2024", "", null, "Waiting for Bid");
+        insertRequests("user1035", "Home Repair & Painting", "I need my walls painted.", "3:00 PM", "5/20/2024", "", null, "Waiting for Bid");
+        insertRequests("user1036", "Pest Control", "I need bugs in my shed gone.", "4:00 PM", "5/19/2024", "", null, "Waiting for Bid");
+        insertRequests("user1037", "Appliances", "I need my washer and dryer installed.", "5:00 PM", "5/18/2024", "", null, "Waiting for Bid");
     }
 
     private void insertTestReviews() {
