@@ -72,7 +72,7 @@ public class PaymentFragment extends Fragment
 
             if (verifyCardInput()) {
                 String requestID = binding.paymentOrderInfo.getText().toString().split("Request ID: ")[1].split("Vendor:")[0].trim();
-                Toast.makeText(mainActivity, requestID, Toast.LENGTH_LONG).show();
+                Toast.makeText(mainActivity, "Payment submitted. Thank you!", Toast.LENGTH_LONG).show();
 
                 mainActivity.sqLiteHandler.updateRequestStatus(requestID, "Paid");
 

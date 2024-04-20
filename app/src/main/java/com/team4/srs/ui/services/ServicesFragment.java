@@ -139,10 +139,10 @@ public class ServicesFragment extends Fragment
 
             //Submit service request
             if (mainActivity.sqLiteHandler.insertRequests(idToUse, service, userServiceDesc.getText().toString().trim(), serviceTime.getText().toString(), serviceDate.getText().toString(), userExtraInfo.getText().toString(), "N/A", "Waiting for Bid")) {
-                Toast.makeText(getContext(), "Service Request Complete! Vendors will give you offers shortly.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Request sent! You should get offers soon.", Toast.LENGTH_LONG).show();
                 mainActivity.popFragmentStack();
             } else {
-                Toast.makeText(getContext(), "Unable to process your request. Please try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Unable to process request. Please try again.", Toast.LENGTH_LONG).show();
             }
         });
     }

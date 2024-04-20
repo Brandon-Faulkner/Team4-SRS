@@ -127,11 +127,16 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public String getUsersName(String userID) {
+    public String getUsersName(String userID, String userType) {
         try
         {
             SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT name FROM " + USERS_TABLE + " WHERE userID = '" + userID + "' LIMIT 1;";
+            String query;
+            if (userType.equals("vendor")) {
+                query = "SELECT name FROM " + VENDORS_TABLE + " WHERE vendorID = '" + userID + "' LIMIT 1;";
+            } else {
+                query = "SELECT name FROM " + USERS_TABLE + " WHERE userID = '" + userID + "' LIMIT 1;";
+            }
             Cursor cursor = db.rawQuery(query, null);
             if (cursor.getCount() <= 0) {
                 cursor.close();
@@ -728,7 +733,7 @@ public class SQLiteHandler extends SQLiteOpenHelper
         {
             List<String[]> list = new ArrayList<>();
             SQLiteDatabase db = this.getWritableDatabase();
-            String query = "SELECT * FROM " + CUSTOMER_REVIEWS_TABLE + " WHERE vendorID = '" + vendorID + "'";
+            String query = "SELECT r.*, (SELECT name FROM " + USERS_TABLE + " WHERE userID = r.customerID) as custName FROM " + CUSTOMER_REVIEWS_TABLE + " r WHERE vendorID = '" + vendorID + "'";
             Cursor cursor = db.rawQuery(query, null);
             while(cursor.moveToNext()) {
                 String[] rowData = new String[cursor.getColumnCount()];
@@ -778,7 +783,7 @@ public class SQLiteHandler extends SQLiteOpenHelper
             List<String[]> list = new ArrayList<>();
             SQLiteDatabase db = this.getWritableDatabase();
             StringBuilder query = new StringBuilder();
-            query.append("SELECT v.name, v.email, v.phone, v.address, s.service, s.rate, r.avg_rating, d.avail_date FROM ").append(VENDORS_TABLE).append(" v");
+            query.append("SELECT v.name, v.email, v.phone, v.address, s.service, s.rate, r.avg_rating, GROUP_CONCAT(d.avail_date, ', ') AS avail_dates FROM ").append(VENDORS_TABLE).append(" v");
             query.append(" LEFT JOIN ").append(VENDOR_SERVICES_TABLE).append(" s ON v.vendorID = s.vendorID");
             query.append(" LEFT JOIN ").append(VENDOR_REVIEWS_TABLE).append(" r ON v.vendorID = r.vendorID");
             query.append(" LEFT JOIN ").append(VENDOR_DATES_TABLE).append(" d ON v.vendorID = d.vendorID");
@@ -820,6 +825,8 @@ public class SQLiteHandler extends SQLiteOpenHelper
                     hasWhereClause = true;
                 }
             }
+
+            query.append(" GROUP BY v.name, v.email, v.phone, v.address, s.service, s.rate, r.avg_rating");
 
             Cursor cursor = db.rawQuery(query.toString(), null);
             while(cursor.moveToNext()) {

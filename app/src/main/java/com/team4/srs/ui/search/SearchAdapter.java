@@ -72,7 +72,7 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.vendorRate.setText(String.format("RATE/HOUR: $%s", data.get(position)[5]));
         holder.vendorAddress.setText(String.format("ADDRESS: %s", data.get(position)[3]));
         holder.vendorRating.setText(String.format("AVG RATING: %s", data.get(position)[6]));
-        holder.vendorDate.setText(String.format("AVAILABLE DATE: %s", data.get(position)[7]));
+        holder.vendorDate.setText(String.format("AVAILABLE DATES: %s", data.get(position)[7]));
         holder.vendorIcon.setImageDrawable(getServiceIcon(holder.view, data.get(position)[4]));
 
         //Setup click listener for map btn

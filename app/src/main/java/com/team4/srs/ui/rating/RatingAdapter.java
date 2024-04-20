@@ -85,7 +85,7 @@ public class RatingAdapter extends RecyclerView.Adapter<RatingAdapter.RatingView
             holder.vendorRatingLayout.setVisibility(View.VISIBLE);
             holder.customerRatingLayout.setVisibility(View.GONE);
             holder.vendorRatingbar.setRating(Float.parseFloat(data.get(position)[4]));
-            holder.vendorCustomerID.setText(String.format("From @%s", data.get(position)[3]));
+            holder.vendorCustomerID.setText(String.format("From %s", data.get(position)[6]));
 
             String comment = data.get(position)[5];
             if (!comment.isEmpty()) {

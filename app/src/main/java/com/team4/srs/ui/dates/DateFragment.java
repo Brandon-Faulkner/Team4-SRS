@@ -2,13 +2,18 @@ package com.team4.srs.ui.dates;
 
 import android.app.DatePickerDialog;
 import android.content.DialogInterface;
+import android.content.res.Configuration;
+import android.graphics.Color;
 import android.os.Bundle;
+import android.util.TypedValue;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.fragment.app.Fragment;
 
 import com.team4.srs.MainActivity;
@@ -68,7 +73,36 @@ public class DateFragment extends Fragment
 
     private void updateListData() {
         data = mainActivity.sqLiteHandler.getVendorDates(currentUserID);
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(mainActivity.getApplicationContext(), android.R.layout.simple_list_item_1, data);
+        ArrayAdapter<String> adapter = new ArrayAdapter<String>(mainActivity.getApplicationContext(), android.R.layout.simple_list_item_1, data){
+
+            @NonNull
+            @Override
+            public View getView(int position, View convertView, @NonNull ViewGroup parent) {
+                View view =super.getView(position, convertView, parent);
+
+                TextView textView = (TextView) view.findViewById(android.R.id.text1);
+
+                int mode = getResources().getConfiguration().uiMode & Configuration.UI_MODE_NIGHT_MASK;
+                switch (mode) {
+                    case Configuration.UI_MODE_NIGHT_NO:
+                        // App is in Day mode
+                        textView.setTextColor(getResources().getColor(R.color.black));
+                        break;
+
+                    case Configuration.UI_MODE_NIGHT_YES:
+                        // App is in Night mode
+                        textView.setTextColor(getResources().getColor(R.color.white));
+                        break;
+
+                    case Configuration.UI_MODE_NIGHT_UNDEFINED:
+                        // We don't know what mode we're in, assume notnight
+                        textView.setTextColor(getResources().getColor(R.color.white));
+                        break;
+                }
+
+                return view;
+            }
+        };;
         binding.datesCurrentList.setAdapter(adapter);
     }
 

@@ -231,7 +231,7 @@ public class RegistrationFragment extends Fragment
         //All is well, complete registration
         String fullAddress = userAddressText + ", " + userCityText + ", " + userStateText + ", " + userZipText;
         if(mainActivity.sqLiteHandler.insertUsers(userIDText, userPasswordText, userNameText, userEmailText, userPhoneText, fullAddress)) {
-            if (mainActivity.sqLiteHandler.insertCustomers(userIDText, "0", "None")) {
+            if (mainActivity.sqLiteHandler.insertCustomers(userIDText, "0", "0")) {
                 //Successfully inserted user and customer
                 return true;
             } else {

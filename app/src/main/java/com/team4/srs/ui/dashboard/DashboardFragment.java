@@ -33,12 +33,12 @@ public class DashboardFragment extends Fragment {
         if (mainActivity.loggedInUser.isEmpty()) currentUserID = MainActivity.GUEST_ID;
         else currentUserID = mainActivity.loggedInUser;
 
-        //Set the name of user
-        String userNameText = "Hello, " + mainActivity.sqLiteHandler.getUsersName(currentUserID) + "!";
-        binding.userFullName.setText(userNameText);
-
         //Find out if user is a customer or vendor
         String customerOrVendor = mainActivity.sqLiteHandler.isCustomerOrVendor(currentUserID);
+
+        //Set the name of user
+        String userNameText = "Hello, " + mainActivity.sqLiteHandler.getUsersName(currentUserID, customerOrVendor) + "!";
+        binding.userFullName.setText(userNameText);
 
         if (Objects.equals(customerOrVendor, "customer")) {
             binding.userDashboardGrid.setVisibility(View.VISIBLE);
