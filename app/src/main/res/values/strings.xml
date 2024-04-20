@@ -134,7 +134,7 @@
 
     <!-- Rating Information -->
     <string name="rating_card_rating_input_title">Your Rating:</string>
-    <string name="rating_card_comment_title">Optional Comment…</string>
+    <string name="rating_card_comment_title">Optional Comment</string>
     <string name="rating_page_title">View Your Ratings</string>
     <string name="rating_overall_title">Overall Avg: </string>
     <string name="rating_customerID_title">From CustomerID</string>

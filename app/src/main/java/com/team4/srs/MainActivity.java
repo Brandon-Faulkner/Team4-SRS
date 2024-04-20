@@ -2,8 +2,10 @@ package com.team4.srs;
 
 import android.animation.Animator;
 import android.animation.AnimatorListenerAdapter;
+import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.media.AudioManager;
 import android.os.Bundle;
 import android.view.View;
 import android.widget.TextView;
@@ -24,10 +26,9 @@ public class MainActivity extends AppCompatActivity {
     public String loggedInUser = "";
     public static final String GUEST_ID = "guestUserID";
 
-    public SQLiteHandler sqLiteHandler; //USE THIS HANDLER FOR ALL FRAGMENTS. DO NOT CREATE A NEW ONE!
+    public SQLiteHandler sqLiteHandler;
     private ActivityMainBinding binding;
     private BottomNavigationView navView;
-
     private NavController navController;
 
     @Override
@@ -149,8 +150,10 @@ public class MainActivity extends AppCompatActivity {
         boolean redeemPoints = settings.getBoolean("redeem_points", false);
 
         //Handle sound
+        toggleAppSounds(sound);
 
         //Handle notifications
+        //**Not being used do to it being a local app with no online database**
 
         //Handle location
 
@@ -159,7 +162,15 @@ public class MainActivity extends AppCompatActivity {
         else AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
 
         //Handle texts and emails
+        //**Not being used do to it being a local app with no online database**
+        //**Sending texts and emails would cost money as well**
 
         //Handle redeem points
+        //**This is handled during payment process**
+    }
+
+    public void toggleAppSounds(boolean muteState) {
+        AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
+        audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, muteState);
     }
 }

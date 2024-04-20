@@ -49,11 +49,6 @@ public class SQLiteHandler extends SQLiteOpenHelper
             insertTestCustomers();
             insertTestRequests();
             insertTestReviews();
-
-            //JUST FOR DEBUG -- REMOVE
-            //insertRequests("user1028", "Appliances", "Gimme", "10:00 AM", "4/19/2024", "", null, "Waiting for Bid");
-            //acceptCustomerRequestBid("11", "user1002", "user1028", "100");
-            //updateRequestStatus("11", "Paid");
         }
 
         SharedPreferences.Editor editor = dbPrefs.edit();
@@ -408,13 +403,18 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public List<String[]> getRequestsForReview(String customerID) {
+    public List<String[]> getRequestsForReview(String customerID, boolean showOldReviews) {
         try
         {
             List<String[]> list = new ArrayList<>();
             SQLiteDatabase db = this.getReadableDatabase();
-            String query = "SELECT r.*, (SELECT name FROM " + VENDORS_TABLE + " WHERE vendorID = r.vendorID) as vendor FROM " +
-                    REQUESTS_TABLE + " r LEFT JOIN " + CUSTOMER_REVIEWS_TABLE + " c ON r.orderID = c.orderID WHERE r.customerID = '" + customerID + "' AND c.orderID IS NULL AND r.status = 'Paid'";
+            String query;
+            if (!showOldReviews) {
+                query = "SELECT r.*, (SELECT name FROM " + VENDORS_TABLE + " WHERE vendorID = r.vendorID) as vendor FROM " +
+                        REQUESTS_TABLE + " r LEFT JOIN " + CUSTOMER_REVIEWS_TABLE + " c ON r.orderID = c.orderID WHERE r.customerID = '" + customerID + "' AND c.orderID IS NULL AND r.status = 'Paid'";
+            } else {
+                query = "SELECT r.*, (SELECT name FROM " + VENDORS_TABLE + " WHERE vendorID = r.vendorID) as vendor FROM " + CUSTOMER_REVIEWS_TABLE + " r WHERE customerID = '" + customerID + "'";
+            }
             Cursor cursor = db.rawQuery(query, null);
             while(cursor.moveToNext()) {
                 String[] rowData = new String[cursor.getColumnCount()];

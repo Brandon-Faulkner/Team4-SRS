@@ -62,6 +62,7 @@ public class SettingsFragment extends Fragment {
     private void setSwitchListeners() {
         soundTog.setOnClickListener(v -> {
             saveSettings("sound", soundTog.isChecked());
+            mainActivity.toggleAppSounds(!soundTog.isChecked());
         });
 
         notifsTog.setOnClickListener(v -> {

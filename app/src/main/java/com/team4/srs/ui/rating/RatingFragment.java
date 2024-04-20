@@ -43,25 +43,37 @@ public class RatingFragment extends Fragment
         List<String[]> data;
 
         if (userType.equals("vendor")) {
-            binding.ratingsPageTitle.setText(String.format("%s", "View Your Ratings"));
             binding.ratingsOverallTitle.setVisibility(View.VISIBLE);
             String result = mainActivity.sqLiteHandler.getVendorOverallRating(currentUserID);
             binding.ratingsOverallTitle.setText(String.format("Overall Avg: %s", result.isEmpty() ? "N/A" : result));
             data = mainActivity.sqLiteHandler.getVendorRatings(currentUserID);
         } else {
-            binding.ratingsPageTitle.setText(String.format("%s", "Submit Vendor Ratings"));
             binding.ratingsOverallTitle.setVisibility(View.GONE);
-            data = mainActivity.sqLiteHandler.getRequestsForReview(currentUserID);
+            data = mainActivity.sqLiteHandler.getRequestsForReview(currentUserID, false);
         }
 
         if (!data.isEmpty()) {
             binding.ratingsNoResultTitle.setVisibility(View.GONE);
             binding.ratingsRecyclerView.setVisibility(View.VISIBLE);
-            binding.ratingsRecyclerView.setAdapter(new RatingAdapter(data, currentUserID, userType, getContext()));
+            binding.ratingsRecyclerView.setAdapter(new RatingAdapter(data, currentUserID, userType, false, getContext()));
             binding.ratingsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
-            binding.ratingsNoResultTitle.setVisibility(View.VISIBLE);
-            binding.ratingsRecyclerView.setVisibility(View.GONE);
+            if (userType.equals("customer")) {
+                data = mainActivity.sqLiteHandler.getRequestsForReview(currentUserID, true);
+                if (!data.isEmpty()) {
+                    binding.ratingsPageTitle.setText(String.format("%s", "Submitted Ratings"));
+                    binding.ratingsNoResultTitle.setVisibility(View.GONE);
+                    binding.ratingsRecyclerView.setVisibility(View.VISIBLE);
+                    binding.ratingsRecyclerView.setAdapter(new RatingAdapter(data, currentUserID, userType, true, getContext()));
+                    binding.ratingsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
+                } else {
+                    binding.ratingsNoResultTitle.setVisibility(View.VISIBLE);
+                    binding.ratingsRecyclerView.setVisibility(View.GONE);
+                }
+            } else {
+                binding.ratingsNoResultTitle.setVisibility(View.VISIBLE);
+                binding.ratingsRecyclerView.setVisibility(View.GONE);
+            }
         }
 
         binding.ratingsBackBtn.setOnClickListener(v -> {

@@ -85,7 +85,7 @@ public class DashboardFragment extends Fragment {
         });
 
         binding.dashboardRateServices.setOnClickListener(v -> {
-            mainActivity.switchFragment(R.id.navigation_rating, setupBundleArgs("Rate Past Services", "customer", true, false, ""));
+            mainActivity.switchFragment(R.id.navigation_rating, setupBundleArgs("Submit Vendor Ratings", "customer", true, false, ""));
         });
 
         //Vendor Listeners
