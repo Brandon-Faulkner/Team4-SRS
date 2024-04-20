@@ -43,19 +43,21 @@ public class RatingFragment extends Fragment
         List<String[]> data;
 
         if (userType.equals("vendor")) {
+            binding.ratingsPageTitle.setText(String.format("%s", "View Your Ratings"));
             binding.ratingsOverallTitle.setVisibility(View.VISIBLE);
             String result = mainActivity.sqLiteHandler.getVendorOverallRating(currentUserID);
             binding.ratingsOverallTitle.setText(String.format("Overall Avg: %s", result.isEmpty() ? "N/A" : result));
             data = mainActivity.sqLiteHandler.getVendorRatings(currentUserID);
         } else {
+            binding.ratingsPageTitle.setText(String.format("%s", "Submit Vendor Ratings"));
             binding.ratingsOverallTitle.setVisibility(View.GONE);
-            data = new ArrayList<>();
+            data = mainActivity.sqLiteHandler.getRequestsForReview(currentUserID);
         }
 
         if (!data.isEmpty()) {
             binding.ratingsNoResultTitle.setVisibility(View.GONE);
             binding.ratingsRecyclerView.setVisibility(View.VISIBLE);
-            binding.ratingsRecyclerView.setAdapter(new RatingAdapter(data));
+            binding.ratingsRecyclerView.setAdapter(new RatingAdapter(data, currentUserID, userType, getContext()));
             binding.ratingsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
         } else {
             binding.ratingsNoResultTitle.setVisibility(View.VISIBLE);

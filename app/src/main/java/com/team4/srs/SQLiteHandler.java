@@ -49,6 +49,11 @@ public class SQLiteHandler extends SQLiteOpenHelper
             insertTestCustomers();
             insertTestRequests();
             insertTestReviews();
+
+            //JUST FOR DEBUG -- REMOVE
+            //insertRequests("user1028", "Appliances", "Gimme", "10:00 AM", "4/19/2024", "", null, "Waiting for Bid");
+            //acceptCustomerRequestBid("11", "user1002", "user1028", "100");
+            //updateRequestStatus("11", "Paid");
         }
 
         SharedPreferences.Editor editor = dbPrefs.edit();
@@ -62,7 +67,7 @@ public class SQLiteHandler extends SQLiteOpenHelper
         createTable(db, CUSTOMER_TABLE, "customerID TEXT PRIMARY KEY", new String[]{"points TEXT", "discounts TEXT", "FOREIGN KEY (customerID) REFERENCES Users (userID)"});
         createTable(db, VENDORS_TABLE, "vendorID TEXT PRIMARY KEY", new String[]{"name TEXT", "email TEXT", "phone TEXT", "address TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
         createTable(db, REQUESTS_TABLE, "orderID INTEGER PRIMARY KEY AUTOINCREMENT", new String[]{"vendorID TEXT", "customerID TEXT", "service TEXT", "description TEXT", "time TEXT", "date TEXT", "other TEXT", "cost TEXT", "status TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)", "FOREIGN KEY (customerID) REFERENCES Users (userID)"});
-        createTable(db, CUSTOMER_REVIEWS_TABLE, "reviewID INTEGER PRIMARY KEY AUTOINCREMENT", new String[]{"vendorID TEXT", "customerID TEXT", "rating TEXT", "comment TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)", "FOREIGN KEY (customerID) REFERENCES Users (userID)"});
+        createTable(db, CUSTOMER_REVIEWS_TABLE, "reviewID INTEGER PRIMARY KEY AUTOINCREMENT", new String[]{"orderID INTEGER", "vendorID TEXT", "customerID TEXT", "rating TEXT", "comment TEXT", "FOREIGN KEY (orderID) REFERENCES Requests (orderID)", "FOREIGN KEY (vendorID) REFERENCES Users (userID)", "FOREIGN KEY (customerID) REFERENCES Users (userID)"});
         createTable(db, VENDOR_REVIEWS_TABLE, "vendorID TEXT PRIMARY KEY", new String[]{"num_ratings INTEGER", "avg_rating TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
         createTable(db, VENDOR_DATES_TABLE, "vendorID TEXT", new String[]{"avail_date TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
         createTable(db, VENDOR_SERVICES_TABLE, "vendorID TEXT", new String[]{"service TEXT", "rate TEXT", "FOREIGN KEY (vendorID) REFERENCES Users (userID)"});
@@ -312,24 +317,54 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public List<String[]> getCustomerOrders(String customerID, boolean isPaid, boolean showBids, boolean isAccepted) {
+    public boolean updateCustomerRewards(String customerID, String discount, String points, boolean removeOldPoints) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String query;
+            if (removeOldPoints) {
+                query = "UPDATE " + CUSTOMER_TABLE + " SET points = '" + points + "', discounts = '" + discount + "' WHERE customerID = '" + customerID + "'";
+            } else {
+                query = "UPDATE " + CUSTOMER_TABLE + " SET points = (CAST(points AS INTEGER) + " + Integer.valueOf(points) + "), discounts = '" + discount + "' WHERE customerID = '" + customerID + "'";
+            }
+            Cursor cursor = db.rawQuery(query,null);
+            cursor.moveToFirst();
+            cursor.close();
+            db.close();
+            return true;
+        }catch (SQLException e) {
+            Log.e("SQLException", "updateCustomerRewards: " + e.getMessage());
+            return false;
+        }
+    }
+
+    public List<String[]> getCustomerOrders(String customerID, boolean isPaid, boolean showBids, boolean isAccepted, boolean makePayment) {
         try
         {
             List<String[]> list = new ArrayList<>();
             SQLiteDatabase db = this.getReadableDatabase();
             String query;
 
-            if (!showBids) {
-                query = "SELECT r.orderID, b.vendorID, r.customerID, r.service, r.description, r.time, r.date, r.other, b.bid, r.status " +
-                        "FROM " + REQUESTS_TABLE + " r LEFT JOIN " + VENDOR_BIDS_TABLE + " b ON r.orderID = b.orderID WHERE r.customerID = '" + customerID + "'" +
-                        " AND (status LIKE 'Waiting for Bid' OR status LIKE 'Bids Placed')";
+            if (makePayment) {
+                query = "SELECT r.*, (SELECT name FROM " + VENDORS_TABLE + " WHERE vendorID = r.vendorID) as vendor FROM " + REQUESTS_TABLE +
+                        " r WHERE customerID = '" + customerID + "' AND status LIKE 'Waiting for Payment'";
             } else {
-                query = "SELECT * FROM " + REQUESTS_TABLE + " WHERE customerID = '" + customerID + "'";
-                if (isAccepted) {
-                    query += " AND (status LIKE 'Accepted' OR status LIKE 'In Progress' OR status LIKE 'Waiting for Payment')";
-                } else {
-                    if (isPaid) query += " AND status LIKE 'Paid'";
-                    else query += " AND status NOT LIKE 'Paid' AND status NOT LIKE 'Bids Placed'";
+                if (!showBids)
+                {
+                    query = "SELECT r.orderID, b.vendorID, r.customerID, r.service, r.description, r.time, r.date, r.other, b.bid, r.status, (SELECT name FROM " +
+                            VENDORS_TABLE + " WHERE vendorID = b.vendorID) as vendor " +
+                            "FROM " + REQUESTS_TABLE + " r LEFT JOIN " + VENDOR_BIDS_TABLE + " b ON r.orderID = b.orderID WHERE r.customerID = '" + customerID + "'" +
+                            " AND (status LIKE 'Waiting for Bid' OR status LIKE 'Bids Placed')";
+                } else
+                {
+                    query = "SELECT r.*, (SELECT name FROM " + VENDORS_TABLE + " WHERE vendorID = r.vendorID) as vendor FROM " + REQUESTS_TABLE + " r WHERE customerID = '" + customerID + "'";
+                    if (isPaid)
+                    {
+                        query += " AND status LIKE 'Paid'";
+                    } else if (isAccepted)
+                    {
+                        query += " AND (status LIKE 'Accepted' OR status LIKE 'In Progress' OR status LIKE 'Waiting for Payment')";
+                    }
                 }
             }
 
@@ -368,12 +403,38 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
-    public boolean insertCustomerReview(String vendorID, String customerID, String rating, String comment) {
+    public List<String[]> getRequestsForReview(String customerID) {
+        try
+        {
+            List<String[]> list = new ArrayList<>();
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT r.*, (SELECT name FROM " + VENDORS_TABLE + " WHERE vendorID = r.vendorID) as vendor FROM " +
+                    REQUESTS_TABLE + " r LEFT JOIN " + CUSTOMER_REVIEWS_TABLE + " c ON r.orderID = c.orderID WHERE r.customerID = '" + customerID + "' AND c.orderID IS NULL AND r.status = 'Paid'";
+            Cursor cursor = db.rawQuery(query, null);
+            while(cursor.moveToNext()) {
+                String[] rowData = new String[cursor.getColumnCount()];
+                for (int i = 0; i < rowData.length; i++)
+                {
+                    rowData[i] = cursor.getString(i);
+                }
+                list.add(rowData);
+            }
+            cursor.close();
+            db.close();
+            return list;
+        }catch (SQLException e) {
+            Log.e("SQLException", "getRequestsForReview: " + e.getMessage());
+            return null;
+        }
+    }
+
+    public boolean insertCustomerReview(String orderID, String vendorID, String customerID, String rating, String comment) {
         try
         {
             SQLiteDatabase db = this.getWritableDatabase();
             ContentValues values = new ContentValues();
 
+            values.put("orderID", orderID);
             values.put("vendorID", vendorID);
             values.put("customerID", customerID);
             values.put("rating", rating);
@@ -521,6 +582,8 @@ public class SQLiteHandler extends SQLiteOpenHelper
                 query += " LEFT JOIN " + VENDOR_SERVICES_TABLE + " s ON r.service = s.service WHERE s.vendorID = '" + vendorID + "' AND (status LIKE 'Waiting for Bid' OR status LIKE 'Bids Placed')";
             }
 
+            Log.i("QUERY", "getVendorRequests: " + query);
+
             Cursor cursor = db.rawQuery(query, null);
             while(cursor.moveToNext()) {
                 String[] rowData = new String[cursor.getColumnCount()];
@@ -571,8 +634,7 @@ public class SQLiteHandler extends SQLiteOpenHelper
         try
         {
             SQLiteDatabase db = this.getWritableDatabase();
-            Log.i("PLZ", "removeOldVendorBids: " + vendorID);
-            db.delete(VENDOR_BIDS_TABLE, "orderID='" + orderID + "' AND vendorID='" + vendorID + "'", null);
+            db.delete(VENDOR_BIDS_TABLE, "orderID='" + orderID + "' AND vendorID = '" + vendorID + "'", null);
             db.close();
             return true;
         }catch (SQLException e) {
@@ -901,89 +963,98 @@ public class SQLiteHandler extends SQLiteOpenHelper
 
     private void insertTestCustomers() {
         insertUsers("user1028", "Passw1rd!", "Alice Smith", "alice.smith@example.com", "8171234567", "456 Main St, Arlington, TX, 76010");
-        insertCustomers("user1028", "0", "None");
+        insertCustomers("user1028", "200", ".05");
 
         insertUsers("user1029", "P@ssw0rd!", "Bob Johnson", "bob.johnson@example.com", "8172345678", "789 Elm St, Fort Worth, TX, 76102");
-        insertCustomers("user1029", "0", "None");
+        insertCustomers("user1029", "0", "0");
 
         insertUsers("user1030", "SecurePwd!", "Emily Davis", "emily.davis@example.com", "8173456789", "101 Oak St, Mansfield, TX, 76063");
-        insertCustomers("user1030", "0", "None");
+        insertCustomers("user1030", "0", "0");
 
         insertUsers("user1031", "Secret123", "David Brown", "david.brown@example.com", "8174567890", "202 Pine St, Grapevine, TX, 76051");
-        insertCustomers("user1031", "0", "None");
+        insertCustomers("user1031", "0", "0");
 
         insertUsers("user1032", "Pa$$w0rd!", "Sarah Wilson", "sarah.wilson@example.com", "8175678901", "303 Maple St, Irving, TX, 75038");
-        insertCustomers("user1032", "0", "None");
+        insertCustomers("user1032", "0", "0");
 
         insertUsers("user1033", "MyPwd123", "Michael Martinez", "michael.martinez@example.com", "8176789012", "404 Cedar St, Keller, TX, 76248");
-        insertCustomers("user1033", "0", "None");
+        insertCustomers("user1033", "0", "0");
 
         insertUsers("user1034", "StrongPwd!", "Jessica Lee", "jessica.lee@example.com", "8177890123", "505 Walnut St, Southlake, TX, 76092");
-        insertCustomers("user1034", "0", "None");
+        insertCustomers("user1034", "0", "0");
 
         insertUsers("user1035", "Passw0rd!", "Daniel Harris", "daniel.harris@example.com", "8178901234", "606 Cherry St, Colleyville, TX, 76034");
-        insertCustomers("user1035", "0", "None");
+        insertCustomers("user1035", "0", "0");
 
         insertUsers("user1036", "Password!", "Laura Clark", "laura.clark@example.com", "8179012345", "707 Pine St, Euless, TX, 76039");
-        insertCustomers("user1036", "0", "None");
+        insertCustomers("user1036", "0", "0");
 
         insertUsers("user1037", "Pwd12345!", "Ryan Nguyen", "ryan.nguyen@example.com", "8170123456", "808 Oak St, Bedford, TX, 76021");
-        insertCustomers("user1037", "0", "None");
+        insertCustomers("user1037", "0", "0");
     }
 
     private void insertTestRequests() {
         insertRequests("user1028", "Appliances", "I need my microwave installed.", "10:00 AM", "5/27/2024", "", null, "Waiting for Bid");
+        acceptCustomerRequestBid("1", "user1001", "user1028", "200");
+        updateRequestStatus("1", "Paid");
+
         insertRequests("user1029", "Electrical", "I need an outlet fixed.", "11:00 AM", "5/26/2024", "", null, "Waiting for Bid");
+        acceptCustomerRequestBid("2", "user1004", "user1029", "75");
+        updateRequestStatus("2", "Paid");
+
         insertRequests("user1030", "Plumbing", "I need my toilet fixed.", "9:00 AM", "5/25/2024", "", null, "Waiting for Bid");
+        acceptCustomerRequestBid("3", "user1007", "user1030", "150");
+        updateRequestStatus("3", "Paid");
+
         insertRequests("user1031", "Home Cleaning", "I need my bedroom cleaned.", "8:00 AM", "5/24/2024", "", null, "Waiting for Bid");
+        acceptCustomerRequestBid("4", "user1010", "user1031", "300");
+        updateRequestStatus("4", "Paid");
+
         insertRequests("user1032", "Tutoring", "I need help with math.", "12:00 PM", "5/23/2024", "", null, "Waiting for Bid");
+        acceptCustomerRequestBid("5", "user1013", "user1032", "45");
+        updateRequestStatus("5", "Paid");
+
         insertRequests("user1033", "Packaging & Moving", "I need to move houses.", "1:00 PM", "5/22/2024", "", null, "Waiting for Bid");
+        acceptCustomerRequestBid("6", "user1016", "user1033", "400");
+        updateRequestStatus("6", "Paid");
+
         insertRequests("user1034", "Computer Repair", "I need my computer fixed.", "2:00 PM", "5/21/2024", "", null, "Waiting for Bid");
+        acceptCustomerRequestBid("7", "user1019", "user1034", "175");
+        updateRequestStatus("7", "Paid");
+
         insertRequests("user1035", "Home Repair & Painting", "I need my walls painted.", "3:00 PM", "5/20/2024", "", null, "Waiting for Bid");
+        acceptCustomerRequestBid("8", "user1022", "user1035", "100");
+        updateRequestStatus("8", "Paid");
+
         insertRequests("user1036", "Pest Control", "I need bugs in my shed gone.", "4:00 PM", "5/19/2024", "", null, "Waiting for Bid");
+        acceptCustomerRequestBid("9", "user1025", "user1036", "125");
+        updateRequestStatus("9", "Paid");
+
         insertRequests("user1037", "Appliances", "I need my washer and dryer installed.", "5:00 PM", "5/18/2024", "", null, "Waiting for Bid");
+        acceptCustomerRequestBid("10", "user1002", "user1037", "350");
+        updateRequestStatus("10", "Paid");
     }
 
     private void insertTestReviews() {
-        insertCustomerReview("user1001", "user1028", "4", "Good Job");
-        insertCustomerReview("user1002", "user1028", "3", "Okay Job");
-        insertCustomerReview("user1003", "user1028", "5", "Great Job!");
+        insertCustomerReview("1","user1001", "user1028", "5", "Great Job!");
 
-        insertCustomerReview("user1004", "user1029", "4", "Good Job");
-        insertCustomerReview("user1005", "user1029", "3", "Okay Job");
-        insertCustomerReview("user1006", "user1029", "5", "Great Job!");
+        insertCustomerReview("2","user1004", "user1029", "2", "Poor Job");
 
-        insertCustomerReview("user1007", "user1030", "4", "Good Job");
-        insertCustomerReview("user1008", "user1030", "3", "Okay Job");
-        insertCustomerReview("user1009", "user1030", "5", "Great Job!");
+        insertCustomerReview("3","user1007", "user1030", "3", "Okay Job");
 
-        insertCustomerReview("user1010", "user1031", "4", "Good Job");
-        insertCustomerReview("user1011", "user1031", "3", "Okay Job");
-        insertCustomerReview("user1012", "user1031", "5", "Great Job!");
+        insertCustomerReview("4","user1010", "user1031", "3.5", "Alright Job");
 
-        insertCustomerReview("user1013", "user1032", "4", "Good Job");
-        insertCustomerReview("user1014", "user1032", "3", "Okay Job");
-        insertCustomerReview("user1015", "user1032", "5", "Great Job!");
+        insertCustomerReview("5","user1013", "user1032", "5", "Great Job!");
 
-        insertCustomerReview("user1016", "user1033", "4", "Good Job");
-        insertCustomerReview("user1017", "user1033", "3", "Okay Job");
-        insertCustomerReview("user1018", "user1033", "5", "Great Job!");
+        insertCustomerReview("6","user1016", "user1033", "4", "Good Job");
 
-        insertCustomerReview("user1019", "user1034", "4", "Good Job");
-        insertCustomerReview("user1020", "user1034", "3", "Okay Job");
-        insertCustomerReview("user1021", "user1034", "5", "Great Job!");
+        insertCustomerReview("7","user1019", "user1034", "3", "Okay Job");
 
-        insertCustomerReview("user1022", "user1035", "4", "Good Job");
-        insertCustomerReview("user1023", "user1035", "3", "Okay Job");
-        insertCustomerReview("user1024", "user1035", "5", "Great Job!");
+        insertCustomerReview("8","user1022", "user1035", "4.5", "Nice Job!");
 
-        insertCustomerReview("user1025", "user1036", "4", "Good Job");
-        insertCustomerReview("user1026", "user1036", "3", "Okay Job");
-        insertCustomerReview("user1027", "user1036", "5", "Great Job!");
+        insertCustomerReview("9","user1025", "user1036", "4", "Good Job");
 
-        insertCustomerReview("user1001", "user1037", "2", "Alright Job");
-        insertCustomerReview("user1002", "user1037", "5", "Great Job!");
-        insertCustomerReview("user1003", "user1037", "3", "Okay Job");
+        insertCustomerReview("10","user1002", "user1028", "5", "Great Job!");
     }
 
     @Override

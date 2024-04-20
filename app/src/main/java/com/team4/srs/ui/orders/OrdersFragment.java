@@ -22,12 +22,10 @@ public class OrdersFragment extends Fragment
 
     MainActivity mainActivity;
 
-    String currentUserID, userType, statusToSearch;
+    String currentUserID, userType, statusToSearch, noResultText;
     boolean isPaid;
     boolean isCurrentRequestsTabSelected = true;
     boolean showTabs;
-
-    String noResultText;
 
     public View onCreateView(@NonNull LayoutInflater inflater, ViewGroup container, Bundle savedInstanceState)
     {
@@ -66,7 +64,7 @@ public class OrdersFragment extends Fragment
                 Objects.requireNonNull(binding.openOrCurrentRequestsTabs.getTabAt(1)).setText("Available Requests");
                 binding.openOrCurrentRequestsTabs.setVisibility(View.VISIBLE);
             } else binding.openOrCurrentRequestsTabs.setVisibility(View.GONE);
-            data = mainActivity.sqLiteHandler.getVendorRequests(currentUserID, !isPaid ? isCurrentRequestsTabSelected : isPaid, isCurrentRequestsTabSelected ? "" : statusToSearch);
+            data = mainActivity.sqLiteHandler.getVendorRequests(currentUserID, !isPaid ? isCurrentRequestsTabSelected : isPaid, isPaid != isCurrentRequestsTabSelected ? "AND status NOT LIKE 'Paid'" : statusToSearch);
         } else {
             if(showTabs) {
                 Objects.requireNonNull(binding.openOrCurrentRequestsTabs.getTabAt(0)).setText("Accepted Requests");
@@ -74,7 +72,7 @@ public class OrdersFragment extends Fragment
                 binding.openOrCurrentRequestsTabs.setVisibility(View.VISIBLE);
             }
             else binding.openOrCurrentRequestsTabs.setVisibility(View.GONE);
-            data = mainActivity.sqLiteHandler.getCustomerOrders(currentUserID, isPaid, isCurrentRequestsTabSelected, isCurrentRequestsTabSelected);
+            data = mainActivity.sqLiteHandler.getCustomerOrders(currentUserID, isPaid, isCurrentRequestsTabSelected, isCurrentRequestsTabSelected, false);
         }
 
         if (!data.isEmpty()) {

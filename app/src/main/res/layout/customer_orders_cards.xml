@@ -42,6 +42,18 @@
                 android:textStyle="bold" />
 
             <TextView
+                android:id="@+id/orders_card_vendor"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="bottom"
+                android:layout_marginTop="4dp"
+                android:layout_marginBottom="4dp"
+                android:contentDescription="@string/orders_vendor_title"
+                android:text="@string/orders_vendor_title"
+                android:textColor="?android:attr/colorForeground"
+                android:textStyle="italic" />
+
+            <TextView
                 android:id="@+id/orders_card_service"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"

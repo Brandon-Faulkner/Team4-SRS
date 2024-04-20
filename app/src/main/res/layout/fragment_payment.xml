@@ -4,6 +4,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
+    android:layout_marginTop="10dp"
     android:background="?attr/colorOnPrimary"
     tools:context=".ui.payment.PaymentFragment">
 
@@ -22,32 +23,49 @@
         app:layout_constraintWidth_max="@dimen/field_max_width"
         app:layout_constraintWidth_percent="1" />
 
+    <TextView
+        android:id="@+id/payment_page_title"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:text="@string/payment_info_title"
+        android:textAlignment="center"
+        android:textColor="?android:attr/colorForeground"
+        android:textSize="20sp"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/app_title_logo"
+        tools:ignore="TextContrastCheck" />
+
+    <View
+        android:id="@+id/payment_divider"
+        android:layout_width="match_parent"
+        android:layout_height="1dp"
+        android:layout_marginTop="20dp"
+        android:background="?android:attr/listDivider"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/payment_page_title" />
+
     <LinearLayout
         android:id="@+id/payment_info_layout"
         android:layout_width="0dp"
         android:layout_height="0dp"
-        android:orientation="vertical"
         android:layout_marginTop="10dp"
+        android:orientation="vertical"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
         app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toBottomOf="@+id/app_title_logo">
+        app:layout_constraintTop_toBottomOf="@+id/payment_divider"
+        app:layout_constraintWidth_max="@dimen/field_max_width">
 
         <TextView
-            android:id="@+id/payment_page_title"
+            android:id="@+id/payment_order_info"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:textAlignment="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            android:maxWidth="@dimen/field_max_width"
-            android:minWidth="@dimen/field_max_width"
-            android:text="@string/payment_info_title"
-            android:textColor="?android:attr/colorForeground"
-            android:textSize="20sp"
-            tools:ignore="TextContrastCheck" />
+            android:paddingStart="10dp"
+            android:paddingEnd="10dp"
+            android:text="@string/payment_order_info_default_title"
+            android:textColor="?android:attr/colorForeground" />
 
         <com.google.android.material.textfield.TextInputLayout
             android:id="@+id/card_number_layout"
@@ -70,6 +88,7 @@
                 android:layout_height="wrap_content"
                 android:autofillHints="creditCardNumber"
                 android:ems="10"
+                android:maxLength="16"
                 android:inputType="number"
                 android:paddingStart="@dimen/general_padding"
                 android:paddingEnd="@dimen/general_padding"
@@ -77,72 +96,164 @@
                 tools:ignore="TextContrastCheck" />
         </com.google.android.material.textfield.TextInputLayout>
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/card_exp_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+        <LinearLayout
+            android:id="@+id/card_exp_cvv_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            android:hint="@string/card_exp_date_title"
-            android:maxWidth="@dimen/field_max_width"
-            android:minWidth="@dimen/field_max_width"
-            android:minHeight="50dp">
+            android:baselineAligned="true"
+            android:orientation="horizontal"
+            android:weightSum="1">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/card_exp_input"
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/card_exp_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:autofillHints="creditCardExpirationDate"
-                android:ems="10"
-                android:inputType="number"
-                android:paddingStart="@dimen/general_padding"
-                android:paddingEnd="@dimen/general_padding"
-                android:textColor="?android:attr/colorForeground"
-                tools:ignore="TextContrastCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight=".5"
+                android:hint="@string/card_exp_date_title"
+                android:maxWidth="@dimen/field_max_width"
+                android:minWidth="@dimen/field_max_width"
+                android:minHeight="50dp">
 
-        <com.google.android.material.textfield.TextInputLayout
-            android:id="@+id/card_cvv_layout"
-            style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/card_exp_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="creditCardExpirationDate"
+                    android:ems="10"
+                    android:maxLength="4"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/general_padding"
+                    android:paddingEnd="@dimen/general_padding"
+                    android:textColor="?android:attr/colorForeground"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+
+            <com.google.android.material.textfield.TextInputLayout
+                android:id="@+id/card_cvv_layout"
+                style="@style/Widget.MaterialComponents.TextInputLayout.OutlinedBox"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginTop="5dp"
+                android:layout_marginEnd="10dp"
+                android:layout_marginBottom="5dp"
+                android:layout_weight=".5"
+                android:hint="@string/card_cvv_title"
+                android:maxWidth="@dimen/field_max_width"
+                android:minWidth="@dimen/field_max_width"
+                android:minHeight="50dp">
+
+                <com.google.android.material.textfield.TextInputEditText
+                    android:id="@+id/card_cvv_input"
+                    android:layout_width="match_parent"
+                    android:layout_height="wrap_content"
+                    android:autofillHints="creditCardSecurityCode"
+                    android:ems="10"
+                    android:maxLength="3"
+                    android:inputType="number"
+                    android:paddingStart="@dimen/general_padding"
+                    android:paddingEnd="@dimen/general_padding"
+                    android:textColor="?android:attr/colorForeground"
+                    tools:ignore="TextContrastCheck" />
+            </com.google.android.material.textfield.TextInputLayout>
+        </LinearLayout>
+
+        <LinearLayout
+            android:id="@+id/payment_btns_layout"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="center"
-            android:layout_marginStart="10dp"
-            android:layout_marginTop="5dp"
-            android:layout_marginEnd="10dp"
-            android:layout_marginBottom="5dp"
-            android:hint="@string/card_cvv_title"
-            android:maxWidth="@dimen/field_max_width"
-            android:minWidth="@dimen/field_max_width"
-            android:minHeight="50dp">
+            android:layout_marginTop="20dp"
+            android:layout_marginBottom="10dp"
+            android:gravity="center"
+            android:orientation="horizontal">
 
-            <com.google.android.material.textfield.TextInputEditText
-                android:id="@+id/card_cvv_input"
-                android:layout_width="match_parent"
+            <Button
+                android:id="@+id/payment_cancel_btn"
+                style="?android:attr/buttonBarButtonStyle"
+                android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:autofillHints="creditCardSecurityCode"
-                android:ems="10"
-                android:inputType="number"
-                android:paddingStart="@dimen/general_padding"
-                android:paddingEnd="@dimen/general_padding"
-                android:textColor="?android:attr/colorForeground"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/general_cancel_title"
+                android:textSize="14sp"
                 tools:ignore="TextContrastCheck" />
-        </com.google.android.material.textfield.TextInputLayout>
 
-        <Button
-            android:id="@+id/btnSubmitPayment"
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginTop="10dp"
-            android:layout_gravity="center"
-            android:text="@string/submit_payment"
-            app:layout_constraintWidth_percent="1"
-            tools:ignore="TextContrastCheck"/>
+            <Button
+                android:id="@+id/payment_submit_btn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_gravity="center"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:text="@string/submit_payment"
+                android:textSize="14sp"
+                tools:ignore="ButtonStyle,TextContrastCheck" />
+
+        </LinearLayout>
     </LinearLayout>
+
+    <ScrollView
+        android:id="@+id/payment_scrollview"
+        android:layout_width="0dp"
+        android:layout_height="0dp"
+        android:layout_marginBottom="10dp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toTopOf="@+id/payment_back_btn"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@id/payment_divider">
+
+        <LinearLayout
+            android:id="@+id/payment_recycler_layout"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical">
+
+            <TextView
+                android:id="@+id/payment_no_result_title"
+                android:layout_width="wrap_content"
+                android:layout_height="match_parent"
+                android:layout_gravity="center"
+                android:layout_marginTop="20dp"
+                android:layout_marginBottom="5dp"
+                android:text="@string/payment_no_result_title"
+                android:textAlignment="center"
+                android:textColor="?android:attr/colorForeground"
+                android:textSize="20sp"
+                android:visibility="gone"
+                tools:ignore="TextContrastCheck,TextSizeCheck" />
+
+            <androidx.recyclerview.widget.RecyclerView
+                android:id="@+id/payment_recycler_view"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"
+                android:layout_marginTop="10dp" />
+        </LinearLayout>
+    </ScrollView>
+
+    <Button
+        android:id="@+id/payment_back_btn"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="20dp"
+        android:gravity="center"
+        android:text="@string/general_back_title"
+        android:textSize="14sp"
+        android:visibility="gone"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/payment_scrollview"
+        tools:ignore="ButtonStyle,TextContrastCheck" />
 
 
 </androidx.constraintlayout.widget.ConstraintLayout>

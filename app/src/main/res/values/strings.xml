@@ -119,6 +119,7 @@
     <!-- Orders Information -->
     <string name="orders_page_title">Orders Information</string>
     <string name="orders_id_title">Request ID:</string>
+    <string name="orders_vendor_title">Vendor:</string>
     <string name="orders_service_title">Service Requested:</string>
     <string name="orders_description_title">Description:</string>
     <string name="orders_datetime_title">Date &amp; Time:</string>
@@ -132,11 +133,14 @@
     <string name="orders_open_requests_tab_title">Available Requests</string>
 
     <!-- Rating Information -->
+    <string name="rating_card_rating_input_title">Your Rating:</string>
+    <string name="rating_card_comment_title">Optional Comment…</string>
     <string name="rating_page_title">View Your Ratings</string>
     <string name="rating_overall_title">Overall Avg: </string>
     <string name="rating_customerID_title">From CustomerID</string>
     <string name="rating_customer_comment_title">\"Customer Comment.\"</string>
     <string name="rating_no_result_title">No ratings at this time.</string>
+    <string name="rating_submit_button">Submit Rating</string>
 
     <!-- Add Dates Information -->
     <string name="dates_page_title">Your Available Dates</string>
@@ -154,9 +158,11 @@
     <string name="settings_redeem_desc">Use your reward points to receive exclusive discounts and rewards.</string>
 
     <!-- Payment Page Strings -->
+    <string name="payment_no_result_title">No orders found waiting on payment</string>
+    <string name="payment_order_info_default_title">Request ID: \n\nVendor: \n\nDescription: \n\nDate &amp; Time: \n\nCost: \n\nTax: \n\nTotal: \n\nRewards Earned: \n</string>
     <string name="payment_info_title">Payment Information</string>
     <string name="card_number_title">Card Number</string>
-    <string name="card_exp_date_title">Expiration Date</string>
+    <string name="card_exp_date_title">Expiration MM/YY</string>
     <string name="card_cvv_title">CVV</string>
     <string name="submit_payment">Submit Payment</string>
     <string name="cancel_payment">Cancel</string>

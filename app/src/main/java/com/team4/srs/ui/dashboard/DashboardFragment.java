@@ -49,7 +49,8 @@ public class DashboardFragment extends Fragment {
             //Setup rewards for customer
             binding.userRewards.setVisibility(View.VISIBLE);
             String[] customerRewards = mainActivity.sqLiteHandler.getCustomerRewards(currentUserID);
-            String rewardsText = String.format("Discounts: %s | Points: %s", customerRewards[1], customerRewards[0]);
+            String rewardsText = String.format("Discounts: %s | Points: %s",
+                    customerRewards[1].equals("0") ? "None" : "5%", customerRewards[0]);
             binding.userRewards.setText(rewardsText);
         } else if (Objects.equals(customerOrVendor, "vendor")) {
             binding.userDashboardGrid.setVisibility(View.GONE);
@@ -76,7 +77,7 @@ public class DashboardFragment extends Fragment {
         });
 
         binding.dashboardPayment.setOnClickListener(v -> {
-
+            mainActivity.switchFragment(R.id.navigation_payment, null);
         });
 
         binding.dashboardOrderHistoryCustomer.setOnClickListener(v -> {
@@ -89,7 +90,7 @@ public class DashboardFragment extends Fragment {
 
         //Vendor Listeners
         binding.dashboardCurrentRequestsVendor.setOnClickListener(v -> {
-            mainActivity.switchFragment(R.id.navigation_orders, setupBundleArgs("Open Service Requests", "vendor", false, true, "LEFT JOIN Vendor_Bids b ON b.orderID = r.orderID"));
+            mainActivity.switchFragment(R.id.navigation_orders, setupBundleArgs("Open Service Requests", "vendor", false, true, ""));
         });
 
         binding.dashboardAddDates.setOnClickListener(v -> {
@@ -97,7 +98,7 @@ public class DashboardFragment extends Fragment {
         });
 
         binding.dashboardOrderHistoryVendor.setOnClickListener(v -> {
-            mainActivity.switchFragment(R.id.navigation_orders, setupBundleArgs("Completed Service Requests", "vendor", true, false, " AND status = 'Paid'"));
+            mainActivity.switchFragment(R.id.navigation_orders, setupBundleArgs("Completed Service Requests", "vendor", true, false, "AND status = 'Paid'"));
         });
 
         binding.dashboardViewRatings.setOnClickListener(v -> {
