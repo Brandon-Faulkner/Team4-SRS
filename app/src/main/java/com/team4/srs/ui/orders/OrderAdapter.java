@@ -3,8 +3,8 @@ package com.team4.srs.ui.orders;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.os.Bundle;
 import android.text.InputType;
-import android.util.Log;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -20,14 +20,10 @@ import androidx.recyclerview.widget.RecyclerView;
 
 import com.team4.srs.MainActivity;
 import com.team4.srs.R;
-import com.team4.srs.ui.dashboard.DashboardFragment;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.Calendar;
-import java.util.Collection;
 import java.util.Collections;
-import java.util.Iterator;
 import java.util.List;
 
 public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHolder> {
@@ -144,7 +140,19 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                 switch (holder.leftBtn.getText().toString())
                 {
                     case "View Map":
-                        mainActivity.switchFragment(R.id.navigation_map, null);
+                        String currentUserAddress, destinationAddress;
+                        if (userType.equals("vendor")){
+                            currentUserAddress = mainActivity.sqLiteHandler.getVendorsAddress(currentUserID);
+                            destinationAddress = mainActivity.sqLiteHandler.getUsersAddress(data.get(position)[2]);
+                        } else {
+                            currentUserAddress = mainActivity.sqLiteHandler.getUsersAddress(currentUserID);
+                            destinationAddress = mainActivity.sqLiteHandler.getVendorsAddress(data.get(position)[1]);
+                        }
+
+                        Bundle args = new Bundle();
+                        args.putString("customerAddress", currentUserAddress);
+                        args.putString("vendorAddress", destinationAddress);
+                        mainActivity.switchFragment(R.id.navigation_map, args);
                         break;
                     case "Cancel Request":
                         setupCancelDialog(holder, position);

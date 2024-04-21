@@ -10,10 +10,7 @@ import android.database.sqlite.SQLiteOpenHelper;
 import android.util.Log;
 
 import java.util.ArrayList;
-import java.util.Arrays;
 import java.util.List;
-import java.util.Objects;
-import java.util.concurrent.ThreadLocalRandom;
 
 public class SQLiteHandler extends SQLiteOpenHelper
 {
@@ -146,6 +143,28 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }catch (SQLException e) {
             Log.e("SQLException", "getUsersName: " + e.getMessage());
             return userID;
+        }
+    }
+
+    public String getUsersAddress(String userID) {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT address FROM " + USERS_TABLE + " WHERE userID = '" + userID + "' LIMIT 1";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.getCount() <= 0) {
+                cursor.close();
+                db.close();
+                return null;
+            }
+            cursor.moveToNext();
+            String address = cursor.getString(0);
+            cursor.close();
+            db.close();
+            return address;
+        }catch (SQLException e) {
+            Log.e("SQLException", "getUsersAddress: " + e.getMessage());
+            return null;
         }
     }
 
@@ -697,6 +716,28 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
+    public String getVendorsAddress(String vendorID) {
+        try
+        {
+            SQLiteDatabase db = this.getReadableDatabase();
+            String query = "SELECT address FROM " + VENDORS_TABLE + " WHERE vendorID = '" + vendorID + "' LIMIT 1";
+            Cursor cursor = db.rawQuery(query, null);
+            if (cursor.getCount() <= 0) {
+                cursor.close();
+                db.close();
+                return null;
+            }
+            cursor.moveToNext();
+            String address = cursor.getString(0);
+            cursor.close();
+            db.close();
+            return address;
+        }catch (SQLException e) {
+            Log.e("SQLException", "getVendorsAddress: " + e.getMessage());
+            return null;
+        }
+    }
+
     public boolean cancelCustomerRequest(String orderID) {
         try
         {
@@ -848,94 +889,94 @@ public class SQLiteHandler extends SQLiteOpenHelper
 
     private void insertTestVendors() {
         //Appliance vendors
-        insertUsers("user1001", "Passw1rd!", "John Doe", "johndoe@gmail.com", "8178888888", "123 Bob St, Burleson, TX, 76028");
-        insertVendors("user1001", "Appliance Needs", "applianceneeds@gmail.com", "8178881234", "123 Test St, Burleson, TX, 76028", "Appliances", "25");
+        insertUsers("user1001", "Passw1rd!", "John Doe", "johndoe@gmail.com", "8178888888", "123 S Wisteria St, Mansfield, TX, 76063");
+        insertVendors("user1001", "Appliance Needs", "applianceneeds@gmail.com", "8178881234", "123 E Debbie Ln, Mansfield, TX, 76063", "Appliances", "25");
 
-        insertUsers("user1002", "Passw1rd!", "Michael Adams", "michaeladams@gmail.com", "8177778888", "321 Elm St, Arlington, TX, 76001");
-        insertVendors("user1002", "Elite Appliances", "eliteappliances@gmail.com", "8177771234", "321 Test St, Arlington, TX, 76001", "Appliances", "30");
+        insertUsers("user1002", "Passw1rd!", "Michael Adams", "michaeladams@gmail.com", "8177778888", "1600 Pennsylvania Ave, Fort Worth, TX, 76104");
+        insertVendors("user1002", "Elite Appliances", "eliteappliances@gmail.com", "8177771234", "121 S Riverside Dr, Fort Worth, TX, 76104", "Appliances", "30");
 
-        insertUsers("user1003", "Passw1rd!", "Sarah Johnson", "sarahjohnson@gmail.com", "8176667777", "456 Oak St, Fort Worth, TX, 76102");
-        insertVendors("user1003", "Quick Fix Appliances", "quickfixappliances@gmail.com", "8176661234", "456 Test St, Fort Worth, TX, 76102", "Appliances", "20");
+        insertUsers("user1003", "Passw1rd!", "Sarah Johnson", "sarahjohnson@gmail.com", "8176667777", "777 Taylor St, Fort Worth, TX, 76102");
+        insertVendors("user1003", "Quick Fix Appliances", "quickfixappliances@gmail.com", "8176661234", "500 Throckmorton St, Fort Worth, TX, 76102", "Appliances", "20");
 
         //Electrical vendors
         insertUsers("user1004", "Passw1rd!", "Jane Smith", "janesmith@gmail.com", "8177777777", "456 Oak St, Arlington, TX, 76001");
-        insertVendors("user1004", "Power Solutions", "powersolutions@gmail.com", "8177771234", "456 Test St, Arlington, TX, 76001", "Electrical", "30");
+        insertVendors("user1004", "Power Solutions", "powersolutions@gmail.com", "8177771234", "123 W Main St, Arlington, TX, 76001", "Electrical", "30");
 
-        insertUsers("user1005", "Passw1rd!", "Ryan Wilson", "ryanwilson@gmail.com", "8175556666", "789 Pine St, Dallas, TX, 75201");
-        insertVendors("user1005", "Wired Solutions", "wiredsolutions@gmail.com", "8175551234", "789 Test St, Dallas, TX, 75201", "Electrical", "35");
+        insertUsers("user1005", "Passw1rd!", "Ryan Wilson", "ryanwilson@gmail.com", "8175556666", "321 N Central Expy, Richardson, TX, 75080");
+        insertVendors("user1005", "Wired Solutions", "wiredsolutions@gmail.com", "8175551234", "1379 W Belt Line Rd, Richardson, TX, 75080", "Electrical", "35");
 
-        insertUsers("user1006", "Passw1rd!", "Jessica Martinez", "jessicamartinez@gmail.com", "8174445555", "852 Cedar St, Plano, TX, 75023");
-        insertVendors("user1006", "Eco Electric", "ecoelectric@gmail.com", "8174441234", "852 Test St, Plano, TX, 75023", "Electrical", "25");
+        insertUsers("user1006", "Passw1rd!", "Jessica Martinez", "jessicamartinez@gmail.com", "8174445555", "190 E Stacy Rd, Allen, TX, 75002");
+        insertVendors("user1006", "Eco Electric", "ecoelectric@gmail.com", "8174441234", "2150 E Lamar Blvd, Arlington, TX, 76006", "Electrical", "25");
 
         //Plumbing vendors
-        insertUsers("user1007", "Passw1rd!", "Mike Johnson", "mikejohnson@gmail.com", "8176666666", "789 Elm St, Fort Worth, TX, 76102");
-        insertVendors("user1007", "Plumbing Experts", "plumbingexperts@gmail.com", "8176661234", "789 Test St, Fort Worth, TX, 76102", "Plumbing", "40");
+        insertUsers("user1007", "Passw1rd!", "Mike Johnson", "mikejohnson@gmail.com", "8176666666", "9500 Ray White Rd, Fort Worth, TX, 76133");
+        insertVendors("user1007", "Plumbing Experts", "plumbingexperts@gmail.com", "8176661234", "931 Foch St, Fort Worth, TX, 76107", "Plumbing", "40");
 
-        insertUsers("user1008", "Passw1rd!", "Daniel Brown", "danielbrown@gmail.com", "8173334444", "987 Walnut St, Irving, TX, 75038");
-        insertVendors("user1008", "Reliable Plumbing", "reliableplumbing@gmail.com", "8173331234", "987 Test St, Irving, TX, 75038", "Plumbing", "45");
+        insertUsers("user1008", "Passw1rd!", "Daniel Brown", "danielbrown@gmail.com", "8173334444", "4425 W Airport Fwy, Irving, TX, 75062");
+        insertVendors("user1008", "Reliable Plumbing", "reliableplumbing@gmail.com", "8173331234", "501 E Corporate Dr, Lewisville, TX, 75057", "Plumbing", "45");
 
-        insertUsers("user1009", "Passw1rd!", "Laura Taylor", "laurataylor@gmail.com", "8172223333", "654 Ash St, Garland, TX, 75040");
-        insertVendors("user1009", "Aqua Plumbing", "aquaplumbing@gmail.com", "8172221234", "654 Test St, Garland, TX, 75040", "Plumbing", "55");
+        insertUsers("user1009", "Passw1rd!", "Laura Taylor", "laurataylor@gmail.com", "8172223333", "1002 Avenue B, Garland, TX, 75040");
+        insertVendors("user1009", "Aqua Plumbing", "aquaplumbing@gmail.com", "8172221234", "109 W Avenue B, Garland, TX, 75040", "Plumbing", "55");
 
         //Home cleaning vendors
-        insertUsers("user1010", "Passw1rd!", "Emily Brown", "emilybrown@gmail.com", "8175555555", "987 Maple St, Dallas, TX, 75201");
-        insertVendors("user1010", "Sparkle Cleaners", "sparklecleaners@gmail.com", "8175551234", "987 Test St, Dallas, TX, 75201", "Home Cleaning", "35");
+        insertUsers("user1010", "Passw1rd!", "Emily Brown", "emilybrown@gmail.com", "8175555555", "12345 E Main St, Richardson, TX, 75081");
+        insertVendors("user1010", "Sparkle Cleaners", "sparklecleaners@gmail.com", "8175551234", "1511 E Main St, Allen, TX, 75002", "Home Cleaning", "35");
 
-        insertUsers("user1011", "Passw1rd!", "Mark Hernandez", "markhernandez@gmail.com", "8171112222", "321 Birch St, Richardson, TX, 75080");
-        insertVendors("user1011", "Fresh Start Cleaning", "freshstartcleaning@gmail.com", "8171111234", "321 Test St, Richardson, TX, 75080", "Home Cleaning", "40");
+        insertUsers("user1011", "Passw1rd!", "Mark Hernandez", "markhernandez@gmail.com", "8171112222", "1600 Pennsylvania Ave, Fort Worth, TX, 76104");
+        insertVendors("user1011", "Fresh Start Cleaning", "freshstartcleaning@gmail.com", "8171111234", "111 S Main St, Grapevine, TX, 76051", "Home Cleaning", "40");
 
-        insertUsers("user1012", "Passw1rd!", "Emma Clark", "emmaclark@gmail.com", "8179990000", "753 Cedar St, McKinney, TX, 75071");
-        insertVendors("user1012", "Spotless Cleaning", "spotlesscleaning@gmail.com", "8179991234", "753 Test St, McKinney, TX, 75071", "Home Cleaning", "50");
+        insertUsers("user1012", "Passw1rd!", "Emma Clark", "emmaclark@gmail.com", "8179990000", "122 W Lamar St, McKinney, TX, 75069");
+        insertVendors("user1012", "Spotless Cleaning", "spotlesscleaning@gmail.com", "8179991234", "206 N Kentucky St, McKinney, TX, 75069", "Home Cleaning", "50");
 
         //Tutoring vendors
-        insertUsers("user1013", "Passw1rd!", "David Lee", "davidlee@gmail.com", "8174444444", "654 Pine St, Plano, TX, 75023");
-        insertVendors("user1013", "LearnWell Tutoring", "learnwelltutoring@gmail.com", "8174441234", "654 Test St, Plano, TX, 75023", "Tutoring", "50");
+        insertUsers("user1013", "Passw1rd!", "David Lee", "davidlee@gmail.com", "8174444444", "304 Preston Rd, Plano, TX, 75093");
+        insertVendors("user1013", "LearnWell Tutoring", "learnwelltutoring@gmail.com", "8174441234", "2000 W Parker Rd, Plano, TX, 75023", "Tutoring", "50");
 
-        insertUsers("user1014", "Passw1rd!", "Brian Scott", "brianscott@gmail.com", "8178889999", "159 Bob St, Burleson, TX, 76028");
-        insertVendors("user1014", "Smart Learning", "smartlearning@gmail.com", "8178881234", "159 Test St, Burleson, TX, 76028", "Tutoring", "60");
+        insertUsers("user1014", "Passw1rd!", "Brian Scott", "brianscott@gmail.com", "8178889999", "123 S Wisteria St, Mansfield, TX, 76063");
+        insertVendors("user1014", "Smart Learning", "smartlearning@gmail.com", "8178881234", "7001 US-287 Frontage Rd, Arlington, TX, 76001", "Tutoring", "60");
 
         insertUsers("user1015", "Passw1rd!", "Kimberly Nguyen", "kimberlynguyen@gmail.com", "8177778888", "456 Oak St, Arlington, TX, 76001");
-        insertVendors("user1015", "Knowledge Builders", "knowledgebuilders@gmail.com", "8177771234", "456 Test St, Arlington, TX, 76001", "Tutoring", "70");
+        insertVendors("user1015", "Knowledge Builders", "knowledgebuilders@gmail.com", "8177771234", "2000 E Lamar Blvd, Arlington, TX, 76006", "Tutoring", "70");
 
         //Packaging and moving vendors
-        insertUsers("user1016", "Passw1rd!", "Sarah Kim", "sarahkim@gmail.com", "8173333333", "321 Cedar St, Irving, TX, 75038");
-        insertVendors("user1016", "Swift Movers", "swiftmovers@gmail.com", "8173331234", "321 Test St, Irving, TX, 75038", "Packaging & Moving", "60");
+        insertUsers("user1016", "Passw1rd!", "Sarah Kim", "sarahkim@gmail.com", "8173333333", "4460 McEwen Rd, Dallas, TX, 75244");
+        insertVendors("user1016", "Swift Movers", "swiftmovers@gmail.com", "8173331234", "2720 Royal Ln, Dallas, TX, 75229", "Packaging & Moving", "60");
 
-        insertUsers("user1017", "Passw1rd!", "Christopher Lopez", "christopherlopez@gmail.com", "8176667777", "789 Elm St, Fort Worth, TX, 76102");
-        insertVendors("user1017", "Move Masters", "movemasters@gmail.com", "8176661234", "789 Test St, Fort Worth, TX, 76102", "Packaging & Moving", "65");
+        insertUsers("user1017", "Passw1rd!", "Christopher Lopez", "christopherlopez@gmail.com", "8176667777", "800 W Magnolia Ave, Fort Worth, TX, 76104");
+        insertVendors("user1017", "Move Masters", "movemasters@gmail.com", "8176661234", "2201 N Collins St, Arlington, TX, 76011", "Packaging & Moving", "65");
 
-        insertUsers("user1018", "Passw1rd!", "Amanda Hall", "amandahall@gmail.com", "8175556666", "987 Pine St, Dallas, TX, 75201");
-        insertVendors("user1018", "Speedy Movers", "speedymovers@gmail.com", "8175551234", "987 Test St, Dallas, TX, 75201", "Packaging & Moving", "55");
+        insertUsers("user1018", "Passw1rd!", "Amanda Hall", "amandahall@gmail.com", "8175556666", "2200 N Stemmons Fwy, Dallas, TX, 75207");
+        insertVendors("user1018", "Speedy Movers", "speedymovers@gmail.com", "8175551234", "9850 N Central Expy, Dallas, TX, 75231", "Packaging & Moving", "55");
 
-        //Computer repair vendors
-        insertUsers("user1019", "Passw1rd!", "Kevin Garcia", "kevingarcia@gmail.com", "8172222222", "159 Walnut St, Garland, TX, 75040");
-        insertVendors("user1019", "PC Wizards", "pcwizards@gmail.com", "8172221234", "159 Test St, Garland, TX, 75040", "Computer Repair", "45");
+        //Computer Repaid vendors
+        insertUsers("user1019", "Passw1rd!", "Kevin Garcia", "kevingarcia@gmail.com", "8172222222", "3046 Lavon Dr, Garland, TX, 75040");
+        insertVendors("user1019", "PC Wizards", "pcwizards@gmail.com", "8172221234", "3415 W Buckingham Rd, Garland, TX, 75042", "Computer Repair", "45");
 
-        insertUsers("user1020", "Passw1rd!", "Jason White", "jasonwhite@gmail.com", "8174445555", "654 Walnut St, Plano, TX, 75023");
-        insertVendors("user1020", "Geek Squad", "geeksquad@gmail.com", "8174441234", "654 Test St, Plano, TX, 75023", "Computer Repair", "50");
+        insertUsers("user1020", "Passw1rd!", "Jason White", "jasonwhite@gmail.com", "8174445555", "4701 W Park Blvd, Plano, TX, 75093");
+        insertVendors("user1020", "Geek Squad", "geeksquad@gmail.com", "8174441234", "2201 Preston Rd, Plano, TX, 75093", "Computer Repair", "50");
 
-        insertUsers("user1021", "Passw1rd!", "Stephanie Garcia", "stephaniegarcia@gmail.com", "8173334444", "852 Ash St, Irving, TX, 75038");
-        insertVendors("user1021", "Tech Geniuses", "techgeniuses@gmail.com", "8173331234", "852 Test St, Irving, TX, 75038", "Computer Repair", "45");
+        insertUsers("user1021", "Passw1rd!", "Stephanie Garcia", "stephaniegarcia@gmail.com", "8173334444", "8701 Cypress Waters Blvd, Irving, TX, 75063");
+        insertVendors("user1021", "Tech Geniuses", "techgeniuses@gmail.com", "8173331234", "975 W Bethel Rd, Coppell, TX, 75019", "Computer Repair", "45");
 
         //Home repair and painting vendors
-        insertUsers("user1022", "Passw1rd!", "Rachel Martinez", "rachelmartinez@gmail.com", "8171111111", "852 Ash St, Richardson, TX, 75080");
-        insertVendors("user1022", "FixIt Pros", "fixitpros@gmail.com", "8171111234", "852 Test St, Richardson, TX, 75080", "Home Repair & Painting", "55");
+        insertUsers("user1022", "Passw1rd!", "Rachel Martinez", "rachelmartinez@gmail.com", "8171111111", "1101 W Arapaho Rd, Richardson, TX, 75080");
+        insertVendors("user1022", "FixIt Pros", "fixitpros@gmail.com", "8171111234", "2100 N Greenville Ave, Richardson, TX, 75080", "Home Repair & Painting", "55");
 
-        insertUsers("user1023", "Passw1rd!", "Brandon Martinez", "brandonmartinez@gmail.com", "8172223333", "321 Cedar St, Garland, TX, 75040");
-        insertVendors("user1023", "Handy Hands", "handyhands@gmail.com", "8172221234", "321 Test St, Garland, TX, 75040", "Home Repair & Painting", "60");
+        insertUsers("user1023", "Passw1rd!", "Brandon Martinez", "brandonmartinez@gmail.com", "8172223333", "3939 S Garland Ave, Garland, TX, 75041");
+        insertVendors("user1023", "Handy Hands", "handyhands@gmail.com", "8172221234", "635 N Garland Ave, Garland, TX, 75040", "Home Repair & Painting", "60");
 
-        insertUsers("user1024", "Passw1rd!", "Nicole Thompson", "nicolethompson@gmail.com", "8171112222", "753 Pine St, Richardson, TX, 75080");
-        insertVendors("user1024", "Master Craftsmen", "mastercraftsmen@gmail.com", "8171111234", "753 Test St, Richardson, TX, 75080", "Home Repair & Painting", "70");
+        insertUsers("user1024", "Passw1rd!", "Nicole Thompson", "nicolethompson@gmail.com", "8171112222", "101 S Coit Rd, Richardson, TX, 75080");
+        insertVendors("user1024", "Master Craftsmen", "mastercraftsmen@gmail.com", "8171111234", "2100 N Collins Blvd, Richardson, TX, 75080", "Home Repair & Painting", "70");
 
         //Pest control vendors
-        insertUsers("user1025", "Passw1rd!", "Chris Thompson", "christhompson@gmail.com", "8179999999", "753 Birch St, McKinney, TX, 75071");
-        insertVendors("user1025", "Bug Busters", "bugbusters@gmail.com", "8179991234", "753 Test St, McKinney, TX, 75071", "Pest Control", "70");
+        insertUsers("user1025", "Passw1rd!", "Chris Thompson", "christhompson@gmail.com", "8179999999", "4550 Eldorado Pkwy, McKinney, TX, 75070");
+        insertVendors("user1025", "Bug Busters", "bugbusters@gmail.com", "8179991234", "2001 Central Cir, McKinney, TX, 75070", "Pest Control", "70");
 
-        insertUsers("user1026", "Passw1rd!", "Adam Wilson", "adamwilson@gmail.com", "8179990000", "159 Bob St, McKinney, TX, 75071");
-        insertVendors("user1026", "Critter Control", "crittercontrol@gmail.com", "8179991234", "159 Test St, McKinney, TX, 75071", "Pest Control", "75");
+        insertUsers("user1026", "Passw1rd!", "Adam Wilson", "adamwilson@gmail.com", "8179990000", "4991 W University Dr, McKinney, TX, 75071");
+        insertVendors("user1026", "Critter Control", "crittercontrol@gmail.com", "8179991234", "6500 W Virginia Pkwy, McKinney, TX, 75071", "Pest Control", "75");
 
-        insertUsers("user1027", "Passw1rd!", "Taylor Harris", "taylorharris@gmail.com", "8178889999", "456 Oak St, Burleson, TX, 76028");
-        insertVendors("user1027", "Bug Off", "bugoff@gmail.com", "8178881234", "456 Test St, Burleson, TX, 76028", "Pest Control", "65");
+        insertUsers("user1027", "Passw1rd!", "Taylor Harris", "taylorharris@gmail.com", "8178889999", "123 S Wisteria St, Mansfield, TX, 76063");
+        insertVendors("user1027", "Bug Off", "bugoff@gmail.com", "8178881234", "1532 E Debbie Ln, Mansfield, TX, 76063", "Pest Control", "65");
     }
 
     private void insertTestVendorDates() {
@@ -969,34 +1010,34 @@ public class SQLiteHandler extends SQLiteOpenHelper
     }
 
     private void insertTestCustomers() {
-        insertUsers("user1028", "Passw1rd!", "Alice Smith", "alice.smith@example.com", "8171234567", "456 Main St, Arlington, TX, 76010");
+        insertUsers("user1028", "Passw1rd!", "Alice Smith", "alice.smith@example.com", "8171234567", "456 W Main St, Arlington, TX, 76010");
         insertCustomers("user1028", "200", ".05");
 
-        insertUsers("user1029", "P@ssw0rd!", "Bob Johnson", "bob.johnson@example.com", "8172345678", "789 Elm St, Fort Worth, TX, 76102");
+        insertUsers("user1029", "Passw1rd!", "Bob Johnson", "bob.johnson@example.com", "8172345678", "789 Elm St, Fort Worth, TX, 76102");
         insertCustomers("user1029", "0", "0");
 
-        insertUsers("user1030", "SecurePwd!", "Emily Davis", "emily.davis@example.com", "8173456789", "101 Oak St, Mansfield, TX, 76063");
+        insertUsers("user1030", "Passw1rd!", "Emily Davis", "emily.davis@example.com", "8173456789", "101 W Oak St, Mansfield, TX, 76063");
         insertCustomers("user1030", "0", "0");
 
-        insertUsers("user1031", "Secret123", "David Brown", "david.brown@example.com", "8174567890", "202 Pine St, Grapevine, TX, 76051");
+        insertUsers("user1031", "Passw1rd!", "David Brown", "david.brown@example.com", "8174567890", "202 S Pine St, Grapevine, TX, 76051");
         insertCustomers("user1031", "0", "0");
 
-        insertUsers("user1032", "Pa$$w0rd!", "Sarah Wilson", "sarah.wilson@example.com", "8175678901", "303 Maple St, Irving, TX, 75038");
+        insertUsers("user1032", "Passw1rd!", "Sarah Wilson", "sarah.wilson@example.com", "8175678901", "303 Maple St, Irving, TX, 75038");
         insertCustomers("user1032", "0", "0");
 
-        insertUsers("user1033", "MyPwd123", "Michael Martinez", "michael.martinez@example.com", "8176789012", "404 Cedar St, Keller, TX, 76248");
+        insertUsers("user1033", "Passw1rd!", "Michael Martinez", "michael.martinez@example.com", "8176789012", "404 Cedar Glen St, Keller, TX, 76248");
         insertCustomers("user1033", "0", "0");
 
-        insertUsers("user1034", "StrongPwd!", "Jessica Lee", "jessica.lee@example.com", "8177890123", "505 Walnut St, Southlake, TX, 76092");
+        insertUsers("user1034", "Passw1rd!", "Jessica Lee", "jessica.lee@example.com", "8177890123", "505 Walnut Dr, Southlake, TX, 76092");
         insertCustomers("user1034", "0", "0");
 
-        insertUsers("user1035", "Passw0rd!", "Daniel Harris", "daniel.harris@example.com", "8178901234", "606 Cherry St, Colleyville, TX, 76034");
+        insertUsers("user1035", "Passw1rd!", "Daniel Harris", "daniel.harris@example.com", "8178901234", "606 Cherry Lane, Colleyville, TX, 76034");
         insertCustomers("user1035", "0", "0");
 
-        insertUsers("user1036", "Password!", "Laura Clark", "laura.clark@example.com", "8179012345", "707 Pine St, Euless, TX, 76039");
+        insertUsers("user1036", "Passw1rd!", "Laura Clark", "laura.clark@example.com", "8179012345", "Pine St, Fort Worth, TX, 76102");
         insertCustomers("user1036", "0", "0");
 
-        insertUsers("user1037", "Pwd12345!", "Ryan Nguyen", "ryan.nguyen@example.com", "8170123456", "808 Oak St, Bedford, TX, 76021");
+        insertUsers("user1037", "Passw1rd!", "Ryan Nguyen", "ryan.nguyen@example.com", "8170123456", "808 Oak St, Bedford, TX, 76021");
         insertCustomers("user1037", "0", "0");
     }
 

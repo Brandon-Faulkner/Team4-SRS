@@ -3,7 +3,6 @@ package com.team4.srs.ui.rating;
 import android.annotation.SuppressLint;
 import android.content.Context;
 import android.text.InputType;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;

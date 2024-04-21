@@ -5,12 +5,21 @@ import android.animation.AnimatorListenerAdapter;
 import android.content.Context;
 import android.content.SharedPreferences;
 import android.content.res.Configuration;
+import android.location.Address;
+import android.location.Geocoder;
+import android.location.Location;
+import android.location.LocationListener;
+import android.location.LocationManager;
 import android.media.AudioManager;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import androidx.activity.result.ActivityResultLauncher;
+import androidx.activity.result.contract.ActivityResultContracts;
+import androidx.annotation.NonNull;
 import androidx.appcompat.app.AppCompatActivity;
 import androidx.appcompat.app.AppCompatDelegate;
 import androidx.navigation.NavController;
@@ -20,8 +29,14 @@ import androidx.navigation.ui.NavigationUI;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.team4.srs.databinding.ActivityMainBinding;
 
-public class MainActivity extends AppCompatActivity {
+import java.io.IOException;
+import java.util.List;
+import java.util.Locale;
 
+public class MainActivity extends AppCompatActivity implements LocationListener {
+    private LocationManager locationManager;
+    public String locationAddress;
+    public boolean locationOkayToUse;
     public static final String PREFS_NAME = "srs_settings";
     public String loggedInUser = "";
     public static final String GUEST_ID = "guestUserID";
@@ -37,6 +52,8 @@ public class MainActivity extends AppCompatActivity {
 
         binding = ActivityMainBinding.inflate(getLayoutInflater());
         setContentView(binding.getRoot());
+
+        locationManager = (LocationManager) getSystemService(Context.LOCATION_SERVICE);
 
         //Get our database setup
         sqLiteHandler = new SQLiteHandler(MainActivity.this);
@@ -156,6 +173,7 @@ public class MainActivity extends AppCompatActivity {
         //**Not being used do to it being a local app with no online database**
 
         //Handle location
+        setupLocationRequest(location);
 
         //Handle darkMode
         if (darkMode) AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_YES);
@@ -172,5 +190,63 @@ public class MainActivity extends AppCompatActivity {
     public void toggleAppSounds(boolean muteState) {
         AudioManager audioManager = (AudioManager) getSystemService(Context.AUDIO_SERVICE);
         audioManager.setStreamMute(AudioManager.STREAM_SYSTEM, muteState);
+    }
+
+    public void setupLocationRequest(boolean locationAllowed) {
+        if (locationAllowed) {
+            SharedPreferences settings = getSharedPreferences(PREFS_NAME, 0);
+            SharedPreferences.Editor editor = settings.edit();
+            boolean fineLoc = settings.getBoolean("fineLocationAllowed", false);
+            boolean coarseLoc = settings.getBoolean("coarseLocationAllowed", false);
+            locationOkayToUse = fineLoc || coarseLoc;
+
+            if (!fineLoc && !coarseLoc) {
+                ActivityResultLauncher<String[]> locationPermissionRequest = registerForActivityResult(new ActivityResultContracts.RequestMultiplePermissions(), result ->
+                        {
+                            Boolean fineLocationGranted = result.getOrDefault(android.Manifest.permission.ACCESS_FINE_LOCATION, false);
+                            Boolean coarseLocationGranted = result.getOrDefault(android.Manifest.permission.ACCESS_COARSE_LOCATION, false);
+                            editor.putBoolean("fineLocationAllowed", fineLocationGranted != null && fineLocationGranted);
+                            editor.putBoolean("coarseLocationAllowed", coarseLocationGranted != null && coarseLocationGranted);
+                            editor.apply();
+                            locationOkayToUse = (fineLocationGranted != null && fineLocationGranted) || (coarseLocationGranted != null && coarseLocationGranted);
+                            startGettingLocation(locationOkayToUse);
+                        }
+                );
+
+                locationPermissionRequest.launch(new String[]{android.Manifest.permission.ACCESS_FINE_LOCATION, android.Manifest.permission.ACCESS_COARSE_LOCATION});
+            } else {
+                startGettingLocation(true);
+            }
+        }
+    }
+
+    private void startGettingLocation(boolean locationAllowed) {
+        if (locationAllowed) {
+            try {
+                locationManager.requestLocationUpdates(LocationManager.GPS_PROVIDER, 5000, 10, this);
+            } catch (SecurityException e){
+                Log.e("Security Exception", "loadAppSettings: ", e);
+            }
+        }
+    }
+
+    @Override
+    public void onLocationChanged(@NonNull Location location)
+    {
+        // Handle location changes
+        double latitude = location.getLatitude();
+        double longitude = location.getLongitude();
+
+        // Reverse geocoding to get address
+        Geocoder geocoder = new Geocoder(this, Locale.getDefault());
+        try {
+            List<Address> addresses = geocoder.getFromLocation(latitude, longitude, 1);
+            if (addresses != null && !addresses.isEmpty()) {
+                Address address = addresses.get(0);
+                locationAddress = address.getAddressLine(0);
+            }
+        } catch (IOException e) {
+            Log.e("Location Exception", "onLocationChanged: ", e);
+        }
     }
 }

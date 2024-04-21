@@ -111,6 +111,7 @@
     <string name="dashboard_view_reviews">View Reviews</string>
 
     <!-- Map Page Information -->
+    <string name="map_failure_title">Unable to load the map at this time.</string>
     <string name="map_map_title">Map View</string>
     <string name="map_trip_info_title">Trip Information</string>
     <string name="map_open_btn_title">Open in Google Maps</string>

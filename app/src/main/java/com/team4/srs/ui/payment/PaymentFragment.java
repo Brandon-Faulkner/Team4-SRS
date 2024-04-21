@@ -2,8 +2,6 @@ package com.team4.srs.ui.payment;
 
 import android.content.SharedPreferences;
 import android.os.Bundle;
-import android.text.Editable;
-import android.text.TextWatcher;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,7 +14,6 @@ import androidx.recyclerview.widget.LinearLayoutManager;
 import com.team4.srs.MainActivity;
 import com.team4.srs.R;
 import com.team4.srs.databinding.FragmentPaymentBinding;
-import com.team4.srs.ui.orders.OrderAdapter;
 
 import java.text.DateFormat;
 import java.text.SimpleDateFormat;

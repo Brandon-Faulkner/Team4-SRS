@@ -2,13 +2,13 @@ package com.team4.srs.ui.search;
 
 import android.graphics.drawable.Drawable;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.Button;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.appcompat.content.res.AppCompatResources;
@@ -77,8 +77,17 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         //Setup click listener for map btn
         holder.mapBtn.setOnClickListener(v -> {
+            Log.i("LOCATION", "onBindViewHolder: " + mainActivity.locationAddress);
+            //Determine current user ID
+            String currentUserID = null;
+            if (!mainActivity.loggedInUser.isEmpty()) currentUserID = mainActivity.loggedInUser;
+
+            String currentUserAddress = null;
+            if (currentUserID != null) currentUserAddress = mainActivity.sqLiteHandler.getUsersAddress(currentUserID);
+
             Bundle args = new Bundle();
-            args.putString("userAddress", data.get(position)[3]);
+            args.putString("customerAddress", currentUserAddress);
+            args.putString("vendorAddress", data.get(position)[3]);
             mainActivity.switchFragment(R.id.navigation_map, args);
         });
     }

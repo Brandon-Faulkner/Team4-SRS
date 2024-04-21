@@ -71,6 +71,11 @@ public class SettingsFragment extends Fragment {
 
         locationTog.setOnClickListener(v -> {
             saveSettings("location", locationTog.isChecked());
+            if (locationTog.isChecked()) {
+                mainActivity.locationOkayToUse = true;
+            } else {
+                mainActivity.locationOkayToUse = false;
+            }
         });
 
         darkModeTog.setOnClickListener(v -> {

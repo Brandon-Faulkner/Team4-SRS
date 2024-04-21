@@ -1,24 +1,17 @@
 package com.team4.srs.ui.rating;
 
-import androidx.lifecycle.ViewModelProvider;
-
 import android.os.Bundle;
-
-import androidx.annotation.NonNull;
-import androidx.annotation.Nullable;
-import androidx.fragment.app.Fragment;
-import androidx.recyclerview.widget.LinearLayoutManager;
-
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
+import androidx.recyclerview.widget.LinearLayoutManager;
+
 import com.team4.srs.MainActivity;
-import com.team4.srs.R;
-import com.team4.srs.databinding.FragmentOrdersBinding;
 import com.team4.srs.databinding.FragmentRatingBinding;
 
-import java.util.ArrayList;
 import java.util.List;
 
 public class RatingFragment extends Fragment
