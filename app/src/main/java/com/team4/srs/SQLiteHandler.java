@@ -97,6 +97,20 @@ public class SQLiteHandler extends SQLiteOpenHelper
         }
     }
 
+    public void updateGuestAddress(String userID, String address) {
+        try
+        {
+            SQLiteDatabase db = this.getWritableDatabase();
+            String query = "UPDATE " + USERS_TABLE + " SET address = '" + address + "' WHERE userID ='" + userID + "'";
+            Cursor cursor = db.rawQuery(query,null);
+            cursor.moveToFirst();
+            cursor.close();
+            db.close();
+        }catch (SQLException e) {
+            Log.e("SQLException", "updateGuestAddress: " + e.getMessage());
+        }
+    }
+
     public boolean insertUsers(String userID, String password, String name, String email, String phone, String address) {
         try
         {

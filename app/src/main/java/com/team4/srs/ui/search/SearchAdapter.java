@@ -77,7 +77,6 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
 
         //Setup click listener for map btn
         holder.mapBtn.setOnClickListener(v -> {
-            Log.i("LOCATION", "onBindViewHolder: " + mainActivity.locationAddress);
             //Determine current user ID
             String currentUserID = null;
             if (!mainActivity.loggedInUser.isEmpty()) currentUserID = mainActivity.loggedInUser;

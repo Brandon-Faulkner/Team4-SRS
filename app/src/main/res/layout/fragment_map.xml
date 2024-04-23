@@ -53,6 +53,8 @@
             android:id="@+id/map_map_visualizer"
             android:layout_width="match_parent"
             android:layout_height="match_parent"
+            android:layout_marginTop="-350px"
+            android:layout_marginBottom="-150px"
             android:backgroundTint="@android:color/transparent"
             android:contentDescription="@string/map_map_title" />
     </androidx.cardview.widget.CardView>

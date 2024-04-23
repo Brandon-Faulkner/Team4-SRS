@@ -4,10 +4,15 @@ import android.annotation.SuppressLint;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
+import android.os.Handler;
+import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
-import android.webkit.WebSettings;
+import android.webkit.ValueCallback;
+import android.webkit.WebChromeClient;
+import android.webkit.WebResourceRequest;
+import android.webkit.WebView;
 import android.webkit.WebViewClient;
 
 import androidx.annotation.NonNull;
@@ -15,6 +20,7 @@ import androidx.fragment.app.Fragment;
 
 import com.team4.srs.MainActivity;
 import com.team4.srs.databinding.FragmentMapBinding;
+import com.team4.srs.ui.login.LoginFragment;
 
 public class MapFragment extends Fragment {
 
@@ -39,10 +45,10 @@ public class MapFragment extends Fragment {
         {
             //Setup the WebView to show directions between user address and vendor address
             mapsUrl = "https://www.google.com/maps/dir/" + customerAddress.replaceAll(" ", "+") + "/" + vendorAddress.replaceAll(" ", "+") + ",+USA";
+            binding.mapMapVisualizer.getSettings().setJavaScriptEnabled(true);
+            binding.mapMapVisualizer.setWebChromeClient(new WebChromeClient());
             binding.mapMapVisualizer.setWebViewClient(new WebViewClient());
             binding.mapMapVisualizer.loadUrl(mapsUrl);
-            WebSettings webSettings = binding.mapMapVisualizer.getSettings();
-            webSettings.setJavaScriptEnabled(true);
 
             //Disable all clicks on the WebView
             binding.mapMapVisualizer.setOnTouchListener((v, event) -> true);

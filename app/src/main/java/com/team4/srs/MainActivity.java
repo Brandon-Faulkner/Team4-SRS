@@ -244,6 +244,9 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
             if (addresses != null && !addresses.isEmpty()) {
                 Address address = addresses.get(0);
                 locationAddress = address.getAddressLine(0);
+                if (loggedInUser.isEmpty()) {
+                    sqLiteHandler.updateGuestAddress(GUEST_ID, locationAddress);
+                }
             }
         } catch (IOException e) {
             Log.e("Location Exception", "onLocationChanged: ", e);
