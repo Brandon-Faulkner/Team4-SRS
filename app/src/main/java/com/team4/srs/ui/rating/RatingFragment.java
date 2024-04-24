@@ -38,7 +38,7 @@ public class RatingFragment extends Fragment
         if (userType.equals("vendor")) {
             binding.ratingsOverallTitle.setVisibility(View.VISIBLE);
             String result = mainActivity.sqLiteHandler.getVendorOverallRating(currentUserID);
-            binding.ratingsOverallTitle.setText(String.format("Overall Avg: %s", result.isEmpty() ? "N/A" : result));
+            binding.ratingsOverallTitle.setText(String.format("Overall Avg: %s", result.equals("0") ? "N/A" : result));
             data = mainActivity.sqLiteHandler.getVendorRatings(currentUserID);
         } else {
             binding.ratingsOverallTitle.setVisibility(View.GONE);
@@ -60,6 +60,7 @@ public class RatingFragment extends Fragment
                     binding.ratingsRecyclerView.setAdapter(new RatingAdapter(data, currentUserID, userType, true, getContext()));
                     binding.ratingsRecyclerView.setLayoutManager(new LinearLayoutManager(getActivity()));
                 } else {
+                    binding.ratingsNoResultTitle.setText(String.format("%s", "No orders found that are completed and have not been rated"));
                     binding.ratingsNoResultTitle.setVisibility(View.VISIBLE);
                     binding.ratingsRecyclerView.setVisibility(View.GONE);
                 }

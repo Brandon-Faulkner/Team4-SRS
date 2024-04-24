@@ -3,8 +3,11 @@ package com.team4.srs.ui.orders;
 import android.annotation.SuppressLint;
 import android.app.AlertDialog;
 import android.app.DatePickerDialog;
+import android.graphics.PorterDuff;
+import android.graphics.drawable.Drawable;
 import android.os.Bundle;
 import android.text.InputType;
+import android.view.Display;
 import android.view.Gravity;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -16,6 +19,7 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 import androidx.annotation.NonNull;
+import androidx.appcompat.content.res.AppCompatResources;
 import androidx.recyclerview.widget.RecyclerView;
 
 import com.team4.srs.MainActivity;
@@ -85,7 +89,7 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
         holder.service.setText(String.format("SERVICE: %s", data.get(position)[3]));
         holder.description.setText(String.format("DESCRIPTION: %s", data.get(position)[4]));
         holder.dateTime.setText(String.format("DATE & TIME: %s on %s", data.get(position)[5], data.get(position)[6]));
-        holder.other.setText(String.format("OTHER INFO: %s", data.get(position)[7]));
+        holder.other.setText(String.format("OTHER INFO: %s", data.get(position)[7].isEmpty() ? "N/A" : data.get(position)[7]));
 
         if (userType.equals("customer")) {
             holder.vendor.setVisibility(View.VISIBLE);
@@ -149,10 +153,11 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                             destinationAddress = mainActivity.sqLiteHandler.getVendorsAddress(data.get(position)[1]);
                         }
 
-                        Bundle args = new Bundle();
-                        args.putString("customerAddress", currentUserAddress);
-                        args.putString("vendorAddress", destinationAddress);
-                        mainActivity.switchFragment(R.id.navigation_map, args);
+                        mainActivity.passThroughArgs = new Bundle();
+                        mainActivity.passThroughArgs.putString("customerAddress", currentUserAddress);
+                        mainActivity.passThroughArgs.putString("vendorAddress", destinationAddress);
+                        mainActivity.passThroughArgs.putString("currentTab", String.valueOf(isCurrentVendorRequests));
+                        mainActivity.switchFragment(R.id.navigation_map, mainActivity.passThroughArgs);
                         break;
                     case "Cancel Request":
                         setupCancelDialog(holder, position);
@@ -301,7 +306,9 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
 
         builder.setTitle("Cancel Request");
         builder.setMessage("Are you sure you want to cancel? If you cancel within 24 hours of your scheduled date, you will lose points.");
-        builder.setIcon(android.R.drawable.ic_dialog_alert);
+        Drawable icon = AppCompatResources.getDrawable(mainActivity, android.R.drawable.ic_dialog_alert);
+        icon.setColorFilter(mainActivity.getColor(R.color.red), PorterDuff.Mode.MULTIPLY);
+        builder.setIcon(icon);
         builder.setPositiveButton(android.R.string.yes, (dialog, which) -> {
             if (mainActivity.sqLiteHandler.cancelCustomerRequest(data.get(position)[0])) {
                 Toast.makeText(holder.view.getContext(), "Request: " + data.get(position)[0] + " has been cancelled", Toast.LENGTH_LONG).show();

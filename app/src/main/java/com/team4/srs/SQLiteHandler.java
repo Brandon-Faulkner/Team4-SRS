@@ -620,8 +620,6 @@ public class SQLiteHandler extends SQLiteOpenHelper
                 query += " LEFT JOIN " + VENDOR_SERVICES_TABLE + " s ON r.service = s.service WHERE s.vendorID = '" + vendorID + "' AND (status LIKE 'Waiting for Bid' OR status LIKE 'Bids Placed')";
             }
 
-            Log.i("QUERY", "getVendorRequests: " + query);
-
             Cursor cursor = db.rawQuery(query, null);
             while(cursor.moveToNext()) {
                 String[] rowData = new String[cursor.getColumnCount()];
@@ -994,33 +992,34 @@ public class SQLiteHandler extends SQLiteOpenHelper
     }
 
     private void insertTestVendorDates() {
-        insertVendorDate("user1001", "5/1/2024"); insertVendorDate("user1001", "5/2/2024");
-        insertVendorDate("user1002", "5/2/2024"); insertVendorDate("user1002", "5/3/2024");
-        insertVendorDate("user1003", "5/3/2024"); insertVendorDate("user1003", "5/4/2024");
-        insertVendorDate("user1004", "5/4/2024"); insertVendorDate("user1004", "5/5/2024");
-        insertVendorDate("user1005", "5/5/2024"); insertVendorDate("user1005", "5/6/2024");
-        insertVendorDate("user1006", "5/6/2024"); insertVendorDate("user1006", "5/7/2024");
-        insertVendorDate("user1007", "5/7/2024"); insertVendorDate("user1007", "5/8/2024");
-        insertVendorDate("user1008", "5/8/2024"); insertVendorDate("user1008", "5/9/2024");
-        insertVendorDate("user1009", "5/9/2024"); insertVendorDate("user1009", "5/10/2024");
-        insertVendorDate("user1010", "5/10/2024"); insertVendorDate("user1010", "5/11/2024");
-        insertVendorDate("user1011", "5/11/2024"); insertVendorDate("user1011", "5/12/2024");
-        insertVendorDate("user1012", "5/12/2024"); insertVendorDate("user1012", "5/13/2024");
-        insertVendorDate("user1013", "5/13/2024"); insertVendorDate("user1013", "5/14/2024");
-        insertVendorDate("user1014", "5/14/2024"); insertVendorDate("user1014", "5/15/2024");
-        insertVendorDate("user1015", "5/15/2024"); insertVendorDate("user1015", "5/16/2024");
-        insertVendorDate("user1016", "5/16/2024"); insertVendorDate("user1016", "5/17/2024");
-        insertVendorDate("user1017", "5/17/2024"); insertVendorDate("user1017", "5/18/2024");
-        insertVendorDate("user1018", "5/18/2024"); insertVendorDate("user1018", "5/19/2024");
-        insertVendorDate("user1019", "5/19/2024"); insertVendorDate("user1019", "5/20/2024");
-        insertVendorDate("user1020", "5/20/2024"); insertVendorDate("user1020", "5/21/2024");
-        insertVendorDate("user1021", "5/21/2024"); insertVendorDate("user1021", "5/22/2024");
-        insertVendorDate("user1022", "5/22/2024"); insertVendorDate("user1022", "5/23/2024");
-        insertVendorDate("user1023", "5/23/2024"); insertVendorDate("user1023", "5/24/2024");
-        insertVendorDate("user1024", "5/24/2024"); insertVendorDate("user1024", "5/25/2024");
-        insertVendorDate("user1025", "5/25/2024"); insertVendorDate("user1025", "5/26/2024");
-        insertVendorDate("user1026", "5/26/2024"); insertVendorDate("user1026", "5/27/2024");
-        insertVendorDate("user1027", "5/27/2024"); insertVendorDate("user1027", "5/28/2024");
+        insertVendorDate("user1001", "6/1/2024"); insertVendorDate("user1001", "6/2/2024");
+        insertVendorDate("user1002", "6/2/2024"); insertVendorDate("user1002", "6/3/2024");
+        insertVendorDate("user1003", "6/3/2024"); insertVendorDate("user1003", "6/4/2024");
+        insertVendorDate("user1004", "6/4/2024"); insertVendorDate("user1004", "6/5/2024");
+        insertVendorDate("user1005", "6/5/2024"); insertVendorDate("user1005", "6/6/2024");
+        insertVendorDate("user1006", "6/6/2024"); insertVendorDate("user1006", "6/7/2024");
+        insertVendorDate("user1007", "6/7/2024"); insertVendorDate("user1007", "6/8/2024");
+        insertVendorDate("user1008", "6/8/2024"); insertVendorDate("user1008", "6/9/2024");
+        insertVendorDate("user1009", "6/9/2024"); insertVendorDate("user1009", "6/10/2024");
+        insertVendorDate("user1010", "6/10/2024"); insertVendorDate("user1010", "6/11/2024");
+        insertVendorDate("user1011", "6/11/2024"); insertVendorDate("user1011", "6/12/2024");
+        insertVendorDate("user1012", "6/12/2024"); insertVendorDate("user1012", "6/13/2024");
+        insertVendorDate("user1013", "6/13/2024"); insertVendorDate("user1013", "6/14/2024");
+        insertVendorDate("user1014", "6/14/2024"); insertVendorDate("user1014", "6/15/2024");
+        insertVendorDate("user1015", "6/15/2024"); insertVendorDate("user1015", "6/16/2024");
+        insertVendorDate("user1016", "6/16/2024"); insertVendorDate("user1016", "6/17/2024");
+        insertVendorDate("user1017", "6/17/2024"); insertVendorDate("user1017", "6/18/2024");
+        insertVendorDate("user1018", "6/18/2024"); insertVendorDate("user1018", "6/19/2024");
+        insertVendorDate("user1019", "6/19/2024"); insertVendorDate("user1019", "6/20/2024");
+        insertVendorDate("user1020", "6/20/2024"); insertVendorDate("user1020", "6/21/2024");
+        insertVendorDate("user1021", "6/21/2024"); insertVendorDate("user1021", "6/22/2024");
+        insertVendorDate("user1022", "6/22/2024"); insertVendorDate("user1022", "6/23/2024");
+        insertVendorDate("user1023", "6/23/2024"); insertVendorDate("user1023", "6/24/2024");
+        insertVendorDate("user1024", "6/24/2024"); insertVendorDate("user1024", "6/25/2024");
+        insertVendorDate("user1025", "6/25/2024"); insertVendorDate("user1025", "6/26/2024");
+        insertVendorDate("user1026", "6/26/2024"); insertVendorDate("user1026", "6/27/2024");
+        insertVendorDate("user1027", "6/27/2024"); insertVendorDate("user1027", "6/28/2024");
+
     }
 
     private void insertTestCustomers() {
@@ -1056,43 +1055,43 @@ public class SQLiteHandler extends SQLiteOpenHelper
     }
 
     private void insertTestRequests() {
-        insertRequests("user1028", "Appliances", "I need my microwave installed.", "10:00 AM", "5/27/2024", "", null, "Waiting for Bid");
+        insertRequests("user1028", "Appliances", "I need my microwave installed.", "10:00 AM", "3/27/2024", "", null, "Waiting for Bid");
         acceptCustomerRequestBid("1", "user1001", "user1028", "200");
         updateRequestStatus("1", "Paid");
 
-        insertRequests("user1029", "Electrical", "I need an outlet fixed.", "11:00 AM", "5/26/2024", "", null, "Waiting for Bid");
+        insertRequests("user1029", "Electrical", "I need an outlet fixed.", "11:00 AM", "3/26/2024", "", null, "Waiting for Bid");
         acceptCustomerRequestBid("2", "user1004", "user1029", "75");
         updateRequestStatus("2", "Paid");
 
-        insertRequests("user1030", "Plumbing", "I need my toilet fixed.", "9:00 AM", "5/25/2024", "", null, "Waiting for Bid");
+        insertRequests("user1030", "Plumbing", "I need my toilet fixed.", "9:00 AM", "3/25/2024", "", null, "Waiting for Bid");
         acceptCustomerRequestBid("3", "user1007", "user1030", "150");
         updateRequestStatus("3", "Paid");
 
-        insertRequests("user1031", "Home Cleaning", "I need my bedroom cleaned.", "8:00 AM", "5/24/2024", "", null, "Waiting for Bid");
+        insertRequests("user1031", "Home Cleaning", "I need my bedroom cleaned.", "8:00 AM", "3/24/2024", "", null, "Waiting for Bid");
         acceptCustomerRequestBid("4", "user1010", "user1031", "300");
         updateRequestStatus("4", "Paid");
 
-        insertRequests("user1032", "Tutoring", "I need help with math.", "12:00 PM", "5/23/2024", "", null, "Waiting for Bid");
+        insertRequests("user1032", "Tutoring", "I need help with math.", "12:00 PM", "4/23/2024", "", null, "Waiting for Bid");
         acceptCustomerRequestBid("5", "user1013", "user1032", "45");
         updateRequestStatus("5", "Paid");
 
-        insertRequests("user1033", "Packaging & Moving", "I need to move houses.", "1:00 PM", "5/22/2024", "", null, "Waiting for Bid");
+        insertRequests("user1033", "Packaging & Moving", "I need to move houses.", "1:00 PM", "3/22/2024", "", null, "Waiting for Bid");
         acceptCustomerRequestBid("6", "user1016", "user1033", "400");
         updateRequestStatus("6", "Paid");
 
-        insertRequests("user1034", "Computer Repair", "I need my computer fixed.", "2:00 PM", "5/21/2024", "", null, "Waiting for Bid");
+        insertRequests("user1034", "Computer Repair", "I need my computer fixed.", "2:00 PM", "4/21/2024", "", null, "Waiting for Bid");
         acceptCustomerRequestBid("7", "user1019", "user1034", "175");
         updateRequestStatus("7", "Paid");
 
-        insertRequests("user1035", "Home Repair & Painting", "I need my walls painted.", "3:00 PM", "5/20/2024", "", null, "Waiting for Bid");
+        insertRequests("user1035", "Home Repair & Painting", "I need my walls painted.", "3:00 PM", "3/20/2024", "", null, "Waiting for Bid");
         acceptCustomerRequestBid("8", "user1022", "user1035", "100");
         updateRequestStatus("8", "Paid");
 
-        insertRequests("user1036", "Pest Control", "I need bugs in my shed gone.", "4:00 PM", "5/19/2024", "", null, "Waiting for Bid");
+        insertRequests("user1036", "Pest Control", "I need bugs in my shed gone.", "4:00 PM", "4/19/2024", "", null, "Waiting for Bid");
         acceptCustomerRequestBid("9", "user1025", "user1036", "125");
         updateRequestStatus("9", "Paid");
 
-        insertRequests("user1037", "Appliances", "I need my washer and dryer installed.", "5:00 PM", "5/18/2024", "", null, "Waiting for Bid");
+        insertRequests("user1037", "Appliances", "I need my washer and dryer installed.", "5:00 PM", "3/18/2024", "", null, "Waiting for Bid");
         acceptCustomerRequestBid("10", "user1002", "user1037", "350");
         updateRequestStatus("10", "Paid");
     }
@@ -1116,7 +1115,7 @@ public class SQLiteHandler extends SQLiteOpenHelper
 
         insertCustomerReview("9","user1025", "user1036", "4", "Good Job");
 
-        insertCustomerReview("10","user1002", "user1028", "5", "Great Job!");
+        insertCustomerReview("10","user1002", "user1037", "5", "Great Job!");
     }
 
     @Override

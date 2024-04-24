@@ -39,7 +39,7 @@ public class SearchFragment extends Fragment
 
     //Rating filter
     private final int[] selectedRating = {-1};
-    private final String[] ratingArray = {"1-2", "2-3", "3-4", "4-5"};
+    private final String[] ratingArray = {"0-2", "2-3", "3-4", "4-5"};
 
     //Price filter
     private final int[] selectedPrice = {-1};
@@ -73,8 +73,13 @@ public class SearchFragment extends Fragment
         noResult = requireView().findViewById(R.id.search_no_result_title);
         searchRecycler = requireView().findViewById(R.id.search_recycler_view);
 
+        //Check and see if coming back from map view and reload filters that were used
+        loadCachedFilters();
+
         //Initial query of all vendors to show in recycler view
-        updateRecycler(new SearchAdapter(mainActivity.sqLiteHandler.getVendorsBySearch("", "", "", "")));
+        updateRecycler(new SearchAdapter(mainActivity.sqLiteHandler.getVendorsBySearch(filterService.getText().toString()
+                , filterRating.getText().toString(), filterDate.getText().toString(), filterPrice.getText().toString()),
+                selectedService[0], selectedRating[0], selectedPrice[0], filterDate.getText().toString()));
 
         setupFilterDialogs(filterService, serviceArray, selectedService, "Select Service", R.string.search_filter_service_title);
         setupFilterDialogs(filterRating, ratingArray, selectedRating, "Select Rating", R.string.search_filter_rating_title);
@@ -82,6 +87,7 @@ public class SearchFragment extends Fragment
         setupDateFilter();
 
         backBtn.setOnClickListener(v -> {
+            mainActivity.passThroughArgs = null;
             mainActivity.popFragmentStack();
         });
 
@@ -90,13 +96,38 @@ public class SearchFragment extends Fragment
             if (!data.isEmpty()) {
                 noResult.setVisibility(View.GONE);
                 searchRecycler.setVisibility(View.VISIBLE);
-                updateRecycler(new SearchAdapter(data));
+                updateRecycler(new SearchAdapter(data, selectedService[0], selectedRating[0], selectedPrice[0], filterDate.getText().toString()));
             }
             else {
                 noResult.setVisibility(View.VISIBLE);
                 searchRecycler.setVisibility(View.GONE);
             }
         });
+    }
+
+    private void loadCachedFilters() {
+        if (mainActivity.passThroughArgs != null) {
+            String service = mainActivity.passThroughArgs.getString("serviceFilter");
+            String rating = mainActivity.passThroughArgs.getString("ratingFilter");
+            String price = mainActivity.passThroughArgs.getString("priceFilter");
+            String date = mainActivity.passThroughArgs.getString("dateFilter");
+
+            if (service != null) {
+                selectedService[0] = Integer.parseInt(service);
+                filterService.setText(selectedService[0] == -1 ? "" : serviceArray[selectedService[0]]);
+            }
+            if (rating != null) {
+                selectedRating[0] = Integer.parseInt(rating);
+                filterRating.setText(selectedRating[0] == -1 ? "" : ratingArray[selectedRating[0]]);
+            }
+            if (price != null) {
+                selectedPrice[0] = Integer.parseInt(price);
+                filterPrice.setText(selectedPrice[0] == -1 ? "" : priceArray[selectedPrice[0]]);
+            }
+            if (date != null) {
+                filterDate.setText(date);
+            }
+        }
     }
 
     private void updateRecycler(SearchAdapter adapter) {

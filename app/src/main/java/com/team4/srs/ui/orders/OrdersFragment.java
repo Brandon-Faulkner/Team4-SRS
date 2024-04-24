@@ -47,9 +47,18 @@ public class OrdersFragment extends Fragment
         setupBindings();
         setupVendorTabs();
 
-        binding.ordersBackBtn.setOnClickListener(v -> {
-            mainActivity.popFragmentStack();
-        });
+        binding.ordersBackBtn.setOnClickListener(v -> mainActivity.popFragmentStack());
+
+        //Check if coming back from map view and load last used tab
+        if (mainActivity.passThroughArgs != null) {
+            if (mainActivity.passThroughArgs.getString("currentTab") != null) {
+                if (Objects.equals(mainActivity.passThroughArgs.getString("currentTab"), "true")) {
+                    binding.openOrCurrentRequestsTabs.selectTab(binding.openOrCurrentRequestsTabs.getTabAt(0));
+                } else {
+                    binding.openOrCurrentRequestsTabs.selectTab(binding.openOrCurrentRequestsTabs.getTabAt(1));
+                }
+            }
+        }
 
         return binding.getRoot();
     }

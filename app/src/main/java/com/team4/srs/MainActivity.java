@@ -40,6 +40,7 @@ public class MainActivity extends AppCompatActivity implements LocationListener 
     public static final String PREFS_NAME = "srs_settings";
     public String loggedInUser = "";
     public static final String GUEST_ID = "guestUserID";
+    public Bundle passThroughArgs;
 
     public SQLiteHandler sqLiteHandler;
     private ActivityMainBinding binding;

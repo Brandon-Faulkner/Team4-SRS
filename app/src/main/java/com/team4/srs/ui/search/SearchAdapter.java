@@ -45,9 +45,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     MainActivity mainActivity;
 
     private final List<String[]> data;
-
-    public SearchAdapter(List<String[]> list) {
+    private int service, rating, price;
+    private String date;
+    public SearchAdapter(List<String[]> list, int service, int rating, int price, String date) {
         data = list;
+        this.service = service;
+        this.rating = rating;
+        this.price = price;
+        this.date = date;
     }
 
     @NonNull
@@ -71,8 +76,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
         holder.vendorServices.setText(String.format("SERVICE: %s", data.get(position)[4]));
         holder.vendorRate.setText(String.format("RATE/HOUR: $%s", data.get(position)[5]));
         holder.vendorAddress.setText(String.format("ADDRESS: %s", data.get(position)[3]));
-        holder.vendorRating.setText(String.format("AVG RATING: %s", data.get(position)[6]));
-        holder.vendorDate.setText(String.format("AVAILABLE DATES: %s", data.get(position)[7]));
+        holder.vendorRating.setText(String.format("AVG RATING: %s", data.get(position)[6].equals("0") ? "N/A" : data.get(position)[6]));
+        holder.vendorDate.setText(String.format("AVAILABLE DATES: %s", data.get(position)[7] == null ? "N/A" : data.get(position)[7]));
         holder.vendorIcon.setImageDrawable(getServiceIcon(holder.view, data.get(position)[4]));
 
         //Setup click listener for map btn
@@ -84,10 +89,14 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             String currentUserAddress = null;
             if (currentUserID != null) currentUserAddress = mainActivity.sqLiteHandler.getUsersAddress(currentUserID);
 
-            Bundle args = new Bundle();
-            args.putString("customerAddress", currentUserAddress);
-            args.putString("vendorAddress", data.get(position)[3]);
-            mainActivity.switchFragment(R.id.navigation_map, args);
+            mainActivity.passThroughArgs = new Bundle();
+            mainActivity.passThroughArgs.putString("customerAddress", currentUserAddress);
+            mainActivity.passThroughArgs.putString("vendorAddress", data.get(position)[3]);
+            mainActivity.passThroughArgs.putString("serviceFilter", String.valueOf(service));
+            mainActivity.passThroughArgs.putString("ratingFilter", String.valueOf(rating));
+            mainActivity.passThroughArgs.putString("priceFilter", String.valueOf(price));
+            mainActivity.passThroughArgs.putString("dateFilter", date);
+            mainActivity.switchFragment(R.id.navigation_map, mainActivity.passThroughArgs);
         });
     }
 

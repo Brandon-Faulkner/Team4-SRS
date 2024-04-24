@@ -161,7 +161,7 @@ public class RegistrationFragment extends Fragment
                     //Customer registration complete, head to home page with user ID
                     mainActivity.updateLoggedInUserInPrefSettings(userID.getText().toString().trim());
                     mainActivity.switchFragment(R.id.navigation_home, null);
-                    Toast.makeText(getContext(), "Registration complete! Welcome to Service Request System!", Toast.LENGTH_LONG).show();
+                    Toast.makeText(getContext(), "Registration complete! Welcome to SRS!", Toast.LENGTH_LONG).show();
                 }
             }
             else if (selectedTab == 1 && checkUserInfo()) {
@@ -172,7 +172,7 @@ public class RegistrationFragment extends Fragment
                         //Vendor registration complete, head to home page with user ID
                         mainActivity.updateLoggedInUserInPrefSettings(userID.getText().toString().trim());
                         mainActivity.switchFragment(R.id.navigation_home, null);
-                        Toast.makeText(getContext(), "Registration complete! Welcome to Service Request System!", Toast.LENGTH_LONG).show();
+                        Toast.makeText(getContext(), "Registration complete! Welcome to SRS!", Toast.LENGTH_LONG).show();
                     }
                 }
             }
@@ -237,11 +237,11 @@ public class RegistrationFragment extends Fragment
             } else {
                 //Need to remove user from users table to avoid conflicts when trying again
                 boolean deleteSuccess = mainActivity.sqLiteHandler.deleteUser(userIDText, false, false);
-                Toast.makeText(getContext(), "Error completing registration. Please try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Error submitting. Please try again.", Toast.LENGTH_LONG).show();
                 return false;
             }
         } else {
-            Toast.makeText(getContext(), "Error completing registration. Please try again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Error submitting. Please try again.", Toast.LENGTH_LONG).show();
             return false;
         }
     }
@@ -313,11 +313,11 @@ public class RegistrationFragment extends Fragment
             } else {
                 //Need to remove user from users table to avoid conflicts when trying again
                 boolean deleteSuccess = mainActivity.sqLiteHandler.deleteUser(userIDText, false, false);
-                Toast.makeText(getContext(), "Error completing registration. Please try again.", Toast.LENGTH_LONG).show();
+                Toast.makeText(getContext(), "Error submitting. Please try again.", Toast.LENGTH_LONG).show();
                 return false;
             }
         } else {
-            Toast.makeText(getContext(), "Error completing registration. Please try again.", Toast.LENGTH_LONG).show();
+            Toast.makeText(getContext(), "Error submitting. Please try again.", Toast.LENGTH_LONG).show();
             return false;
         }
     }
