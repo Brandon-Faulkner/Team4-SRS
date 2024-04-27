@@ -153,11 +153,10 @@ public class OrderAdapter extends RecyclerView.Adapter<OrderAdapter.OrderViewHol
                             destinationAddress = mainActivity.sqLiteHandler.getVendorsAddress(data.get(position)[1]);
                         }
 
-                        mainActivity.passThroughArgs = new Bundle();
-                        mainActivity.passThroughArgs.putString("customerAddress", currentUserAddress);
-                        mainActivity.passThroughArgs.putString("vendorAddress", destinationAddress);
-                        mainActivity.passThroughArgs.putString("currentTab", String.valueOf(isCurrentVendorRequests));
-                        mainActivity.switchFragment(R.id.navigation_map, mainActivity.passThroughArgs);
+                        Bundle args = new Bundle();
+                        args.putString("customerAddress", currentUserAddress);
+                        args.putString("vendorAddress", destinationAddress);
+                        mainActivity.switchFragment(R.id.navigation_map, args);
                         break;
                     case "Cancel Request":
                         setupCancelDialog(holder, position);

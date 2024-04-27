@@ -45,14 +45,8 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
     MainActivity mainActivity;
 
     private final List<String[]> data;
-    private int service, rating, price;
-    private String date;
-    public SearchAdapter(List<String[]> list, int service, int rating, int price, String date) {
+    public SearchAdapter(List<String[]> list) {
         data = list;
-        this.service = service;
-        this.rating = rating;
-        this.price = price;
-        this.date = date;
     }
 
     @NonNull
@@ -89,14 +83,10 @@ public class SearchAdapter extends RecyclerView.Adapter<SearchAdapter.SearchView
             String currentUserAddress = null;
             if (currentUserID != null) currentUserAddress = mainActivity.sqLiteHandler.getUsersAddress(currentUserID);
 
-            mainActivity.passThroughArgs = new Bundle();
-            mainActivity.passThroughArgs.putString("customerAddress", currentUserAddress);
-            mainActivity.passThroughArgs.putString("vendorAddress", data.get(position)[3]);
-            mainActivity.passThroughArgs.putString("serviceFilter", String.valueOf(service));
-            mainActivity.passThroughArgs.putString("ratingFilter", String.valueOf(rating));
-            mainActivity.passThroughArgs.putString("priceFilter", String.valueOf(price));
-            mainActivity.passThroughArgs.putString("dateFilter", date);
-            mainActivity.switchFragment(R.id.navigation_map, mainActivity.passThroughArgs);
+            Bundle args = new Bundle();
+            args.putString("customerAddress", currentUserAddress);
+            args.putString("vendorAddress", data.get(position)[3]);
+            mainActivity.switchFragment(R.id.navigation_map, args);
         });
     }
 
